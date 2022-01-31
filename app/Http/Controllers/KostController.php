@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use App\Models\User; 
 use App\Models\Kost; 
@@ -18,8 +19,7 @@ class KostController extends Controller
     public function index()
     {
         try {         
-            $user = (Auth::user()->kostOwner->id);
-            return view('backend.kostOwner.manageKost.index', compact('user'));
+            return view('backend.kostOwner.manageKost.index');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', __('toast.index.failed.message'));
         }

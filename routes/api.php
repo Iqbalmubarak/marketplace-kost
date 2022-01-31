@@ -17,12 +17,9 @@ use App\Http\Controllers\KostController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-//Protected Routes
-Route::group(['middleware' => ['auth:sanctum']], function () {
-    Route::get('/kost',[KostController::class, 'getData']);
-});
 
 //Public Routes
+Route::get('/kost',[KostController::class, 'getData']);
 Route::get('/admin',[AdminController::class, 'getData']);
 Route::get('/kost-owner',[KostOwnerController::class, 'getData']);
 Route::get('/kost-seeker',[KostSeekerController::class, 'getData']);
