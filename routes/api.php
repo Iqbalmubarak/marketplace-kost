@@ -19,6 +19,7 @@ use App\Http\Controllers\KostController;
 */
 
 //Public Routes
+Route::get('/kost/get-location',[KostController::class, 'getLocation']);
 Route::get('/kost',[KostController::class, 'getData']);
 Route::get('/admin',[AdminController::class, 'getData']);
 Route::get('/kost-owner',[KostOwnerController::class, 'getData']);

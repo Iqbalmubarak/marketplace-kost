@@ -62,7 +62,8 @@
 <script type="text/javascript">
     // Proses membuat marker 
 
-        
+    let map2;
+    let markers = [];
     // When the window has finished loading google map
     google.maps.event.addDomListener(window, 'load', init);
     function init() {
@@ -83,11 +84,20 @@
         var map2 = new google.maps.Map(mapElement2, mapOptions1);
 
         google.maps.event.addListener(map2, 'click', function(e) {  
+            if(markers.length > 0){
+                for (let i = 0; i < markers.length; i++) {
+                    markers[i].setMap(null);
+                }
+            }
+
+            $('#latitude').val(e.latLng.lat);
+            $('#longitude').val(e.latLng.lng);
+            
             var marker = new google.maps.Marker({
                 position: e["latLng"],
                 title: "Hello world!"
             });       
-            
+            markers.push(marker);
             marker.setMap(map2);
         }); 
 
@@ -113,7 +123,8 @@
                 icon:'http://maps.google.com/mapfiles/ms/icons/green-dot.png',
                 draggable: true,
                 animation: google.maps.Animation.DROP
-            });               
+            });    
+
             marker.addListener('click', toggleBounce);   
             function toggleBounce() 
                 {
@@ -131,12 +142,117 @@
             }, function() {
                     handleLocationError(true, infoWindow, map.getCenter());
                 });
-            }
-            else {
-                // Jika browser tidak mendukung geolokasi pindah ke lokasi ketetapan diatas (center)
-                handleLocationError(false, infoWindow, map.getCenter());
-            }
+        }
+        else {
+            // Jika browser tidak mendukung geolokasi pindah ke lokasi ketetapan diatas (center)
+            handleLocationError(false, infoWindow, map.getCenter());
+        }
+
+        document
+        .getElementById("get-location")
+        .addEventListener("click", function() {
+            getLocation(map2);
+        });
+
+        $.ajax(
+            { url: "{{url('api/kost/get-location')}}?data=all&&user={{Auth::user()->kostOwner->id}}", 
+            dataType: 'json', 
+            cache: false, 
+            dataSrc: '',
+
+            success: function(data){  
+                var latitude = data.map(function(item) {
+                    return item.latitude;
+                }); 
+                var longitude = data.map(function(item) {
+                    return item.longitude;
+                }); 
+                console.log(latitude);
+                console.log(longitude);
+                for(i=0; i<data.length; i++){
+                    var pos = {
+                        lat: parseFloat(latitude[i]),
+                        lng: parseFloat(longitude[i])
+                    };
+                    var marker = new google.maps.Marker
+                    ({
+                        position: pos,
+                        map: map,
+                        title: 'Lokasi Anda',
+                        icon:'http://maps.google.com/mapfiles/ms/icons/green-dot.png',
+                        draggable: true,
+                        animation: google.maps.Animation.DROP
+                    });   
+                    marker.setMap(map);         
+                        // for(i=0; i<arrays.length; i++){
+                        //     var data = arrays
+                        //     console.log(data.properties.center['latitude']);
+                        // }                   
+                    }
+                }
+                
+        });
     }
+
+    function getLocation(map2){
+         // Geolokasi / lokasi sendiri
+        var infoWindow = new google.maps.InfoWindow({map: map2});
+
+        if (navigator.geolocation) 
+        {
+            navigator.geolocation.getCurrentPosition(function(position) {
+            var pos = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+            };
+
+            $('#latitude').val(position.coords.latitude);
+            $('#longitude').val(position.coords.longitude);
+
+            if(markers.length > 0){
+                for (let i = 0; i < markers.length; i++) {
+                    markers[i].setMap(null);
+                }
+            }
+            
+            
+            var marker = new google.maps.Marker
+            ({
+                position: pos,
+                map: map2,
+                title: 'Lokasi Anda',
+                icon:'http://maps.google.com/mapfiles/ms/icons/green-dot.png',
+                draggable: true,
+                animation: google.maps.Animation.DROP
+            });    
+            markers.push(marker);
+
+            marker.addListener('click', toggleBounce);   
+            function toggleBounce() 
+                {
+                if (marker.getAnimation() !== null) 
+                { 
+                    marker.setAnimation(null);
+                } 
+                else {
+                    marker.setAnimation(google.maps.Animation.BOUNCE);
+                }
+            }
+            infoWindow.setPosition(pos);
+            infoWindow.setContent('Anda Disini');
+            map.setCenter(pos);
+            }, function() {
+                    handleLocationError(true, infoWindow, map.getCenter());
+                });
+        }
+        else {
+            // Jika browser tidak mendukung geolokasi pindah ke lokasi ketetapan diatas (center)
+            handleLocationError(false, infoWindow, map.getCenter());
+        }
+
+    }
+
+    
 
     $(document).ready(function(){
         $('.dataTables-kost').DataTable({
@@ -214,7 +330,7 @@
                 swal("Cancelled", "Your imaginary file is safe :)", "error");
             }
         });
-    }
+    }    
 
     function edit(id){
         $('#edit_kost_seeker').attr('action', "{{route('admin.kost-seeker.index' )}}/"+id+"/edit");

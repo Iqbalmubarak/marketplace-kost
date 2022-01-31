@@ -20,6 +20,9 @@
 
     <!-- Toastr style -->
     <link href="{{ asset('templates/css/plugins/toastr/toastr.min.css') }}" rel="stylesheet">
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
 </head>
 
 <body>
@@ -100,6 +103,9 @@
 
     <!-- Toastr script -->
     <script src="{{ asset('templates/js/plugins/toastr/toastr.min.js') }}"></script>
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
 
     <!-- Create scripts -->
     @yield('script')

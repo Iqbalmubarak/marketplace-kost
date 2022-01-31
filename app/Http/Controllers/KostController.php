@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use App\Models\User; 
 use App\Models\Kost; 
+use App\Models\Type; 
 use App\Http\Resources\KostList;
 use Illuminate\Support\Facades\Auth;
 
@@ -19,7 +20,10 @@ class KostController extends Controller
     public function index()
     {
         try {         
-            return view('backend.kostOwner.manageKost.index');
+            $locations = Kost::select(['latitude', 'longitude'])
+                        ->where('kost_owner_id', Auth::user()->kostOwner->id)->get();
+            $type = Type::pluck('name','id');
+            return view('backend.kostOwner.manageKost.index', compact('type','locations'));
         } catch (\Exception $e) {
             return redirect()->back()->with('error', __('toast.index.failed.message'));
         }
@@ -43,7 +47,28 @@ class KostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+            $request->validate([
+                'name' => 'required|string',
+                'address' => 'required|string',
+                'latitude' => 'required|string',
+                'longitude' => 'required|string'
+            ]);
+
+            $kost = new Kost;
+            $kost->name = $request->name;
+            $kost->address = $request->address;
+            $kost->latitude = $request->latitude;
+            $kost->longitude = $request->longitude;
+            $kost->type_id = $request->type;
+            $kost->kost_owner_id = Auth::user()->kostOwner->id;
+            $kost->save();
+
+            return redirect()->route('owner.kost.index')->with('success', __('toast.create.success.message'));     
+        } catch (\Exception $e) {
+            dd($e);
+            return redirect()->back()->with('error', __('toast.create.failed.message'));
+        }
     }
 
     /**
@@ -89,6 +114,16 @@ class KostController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function getLocation(Request $request)
+    {
+        $data = [];
+        $data = Kost::select(['latitude', 'longitude'])
+        ->where('kost_owner_id', $request->user)
+        ->get();
+
+        return response()->json($data);
     }
 
     public function getData(Request $request)
