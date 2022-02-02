@@ -66,7 +66,6 @@ class KostController extends Controller
 
             return redirect()->route('owner.kost.index')->with('success', __('toast.create.success.message'));     
         } catch (\Exception $e) {
-            dd($e);
             return redirect()->back()->with('error', __('toast.create.failed.message'));
         }
     }
@@ -79,7 +78,7 @@ class KostController extends Controller
      */
     public function show($id)
     {
-        //
+        dd($id);
     }
 
     /**
@@ -102,7 +101,26 @@ class KostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        try {
+            $request->validate([
+                'name' => 'required|string',
+                'address' => 'required|string',
+                'latitude' => 'required|string',
+                'longitude' => 'required|string'
+            ]);
+
+            $kost = Kost::find($id);
+            $kost->name = $request->name;
+            $kost->address = $request->address;
+            $kost->latitude = $request->latitude;
+            $kost->longitude = $request->longitude;
+            $kost->type_id = $request->type;
+            $kost->save();
+
+            return redirect()->route('owner.kost.index')->with('success', __('toast.update.success.message'));     
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', __('toast.update.failed.message'));
+        }
     }
 
     /**
@@ -113,7 +131,14 @@ class KostController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+            $kost = Kost::find($id);
+            $kost->delete();
+            return redirect()->back()->with('success', __('toast.delete.success.message'));
+            
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', __('toast.delete.failed.message'));
+        }
     }
 
     public function getLocation(Request $request)

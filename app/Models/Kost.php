@@ -27,4 +27,9 @@ class Kost extends Model
     {
         return $this->hasOne(Type::class, 'id', 'type_id');
     }
+
+    public function room()
+    {
+        return $this->hasMany(room::class, 'kost_id', 'id');
+    }
 }

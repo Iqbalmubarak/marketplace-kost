@@ -30,6 +30,7 @@ class KostList extends JsonResource
             'address' => $this->address,
             'latitude' => $this->latitude,
             'longitude' => $this->longitude,
+            'type_id' => $this->type_id,
             'type' => $type,
             'kost_owner' => $kost_owner
         ];

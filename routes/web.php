@@ -5,6 +5,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\KostOwnerController;
 use App\Http\Controllers\KostSeekerController;
 use App\Http\Controllers\KostController;
+use App\Http\Controllers\RoomController;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,4 +38,5 @@ Route::prefix('admin')->middleware(['auth', 'auth.isAdmin'])->name('admin.')->gr
 
 Route::prefix('owner')->middleware(['auth', 'auth.isOwner'])->name('owner.')->group(function () {
     Route::resource('/kost', KostController::class);
+    Route::resource('/room', RoomController::class);
 });
