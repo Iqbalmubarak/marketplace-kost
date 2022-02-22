@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateRoomsTable extends Migration
+class CreateRuleDetailsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,18 +13,14 @@ class CreateRoomsTable extends Migration
      */
     public function up()
     {
-        Schema::create('rooms', function (Blueprint $table) {
+        Schema::create('rule_details', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
-            $table->integer('lenght');
-            $table->integer('wide');
-            $table->tinyInteger('status')->default(0);
             $table->integer('kost_id')->unsigned();
-            $table->integer('room_type_id')->unsigned()->default(1);
+            $table->integer('rule_id')->unsigned();
             $table->timestamps();
 
             $table->foreign('kost_id')->references('id')->on('kosts')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreign('room_type_id')->references('id')->on('room_types')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('rule_id')->references('id')->on('rules')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 
@@ -35,6 +31,6 @@ class CreateRoomsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('rooms');
+        Schema::dropIfExists('rule_details');
     }
 }

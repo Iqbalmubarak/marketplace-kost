@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateRoomFacilityDetailsTable extends Migration
+class CreateKostFacilityDetailsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,13 @@ class CreateRoomFacilityDetailsTable extends Migration
      */
     public function up()
     {
-        Schema::create('room_facility_details', function (Blueprint $table) {
+        Schema::create('kost_facility_details', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('room_id')->unsigned();
+            $table->integer('kost_id')->unsigned();
             $table->integer('facility_id')->unsigned();
             $table->timestamps();
 
-            $table->foreign('room_id')->references('id')->on('rooms')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('kost_id')->references('id')->on('kosts')->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('facility_id')->references('id')->on('facilities')->onUpdate('cascade')->onDelete('cascade');
         });
     }
@@ -31,6 +31,6 @@ class CreateRoomFacilityDetailsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('room_facility_details');
+        Schema::dropIfExists('kost_facility_details');
     }
 }

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateRoomFacilitiesTable extends Migration
+class CreatePriceListTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,12 @@ class CreateRoomFacilitiesTable extends Migration
      */
     public function up()
     {
-        Schema::create('room_facilities', function (Blueprint $table) {
+        Schema::create('price_list', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
-            $table->string('icon');
+            $table->integer('day')->nullable();
+            $table->integer('week')->nullable();
+            $table->integer('mount');
+            $table->integer('year')->nullable();
             $table->timestamps();
         });
     }
@@ -28,6 +30,6 @@ class CreateRoomFacilitiesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('room_facilities');
+        Schema::dropIfExists('price_list');
     }
 }

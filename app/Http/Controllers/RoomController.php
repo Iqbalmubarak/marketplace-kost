@@ -16,7 +16,11 @@ class RoomController extends Controller
      */
     public function index()
     {
-        
+        try {       
+            return view('backend.kostOwner.manageRoom.index');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', __('toast.index.failed.message'));
+        }
     }
 
     /**

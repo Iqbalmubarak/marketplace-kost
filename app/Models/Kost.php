@@ -32,4 +32,14 @@ class Kost extends Model
     {
         return $this->hasMany(room::class, 'kost_id', 'id');
     }
+
+    public function image()
+    {
+        return $this->hasMany(KostImage::class, 'kost_id', 'id');
+    }
+
+    public function facility()
+    {
+        return $this->hasMany(KostFacility::class, 'kost_id', 'id');
+    }
 }

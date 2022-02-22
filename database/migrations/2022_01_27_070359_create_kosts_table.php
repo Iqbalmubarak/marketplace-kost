@@ -19,12 +19,12 @@ class CreateKostsTable extends Migration
             $table->string('address');
             $table->float('latitude');
             $table->float('longitude');
-            $table->integer('type_id')->unsigned();
+            $table->integer('kost_type_id')->unsigned();
             $table->integer('kost_owner_id')->unsigned();
             $table->timestamps();
 
             $table->foreign('kost_owner_id')->references('id')->on('kost_owners')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreign('type_id')->references('id')->on('types')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('kost_type_id')->references('id')->on('kost_types')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 

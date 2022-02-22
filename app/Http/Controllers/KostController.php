@@ -6,7 +6,9 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use App\Models\User; 
 use App\Models\Kost; 
-use App\Models\Type; 
+use App\Models\Rule; 
+use App\Models\KostType; 
+use App\Models\KostFacility; 
 use App\Http\Resources\KostList;
 use Illuminate\Support\Facades\Auth;
 
@@ -19,10 +21,10 @@ class KostController extends Controller
      */
     public function index()
     {
-        try {         
+        try {       
             $locations = Kost::select(['latitude', 'longitude'])
                         ->where('kost_owner_id', Auth::user()->kostOwner->id)->get();
-            $type = Type::pluck('name','id');
+            $type = KostType::pluck('name','id');
             return view('backend.kostOwner.manageKost.index', compact('type','locations'));
         } catch (\Exception $e) {
             return redirect()->back()->with('error', __('toast.index.failed.message'));
@@ -36,7 +38,13 @@ class KostController extends Controller
      */
     public function create()
     {
-        //
+        try {       
+            $kost_type = KostType::pluck('name','id');
+            $rules = Rule::all();
+            return view('backend.kostOwner.manageKost.create', compact('kost_type','rules'));
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', __('toast.index.failed.message'));
+        }
     }
 
     /**
@@ -54,6 +62,7 @@ class KostController extends Controller
                 'latitude' => 'required|string',
                 'longitude' => 'required|string'
             ]);
+            
 
             $kost = new Kost;
             $kost->name = $request->name;
@@ -64,8 +73,17 @@ class KostController extends Controller
             $kost->kost_owner_id = Auth::user()->kostOwner->id;
             $kost->save();
 
+            if($kost->id){
+                for($i=0; $i < count($request->facility); $i++){
+                    $kostFacility = new KostFacility;
+                    $kostFacility->kost_id = $kost->id;
+                    $kostFacility->facility = $request->facility[$i];
+                    $kostFacility->save();
+                }
+            }
+
             return redirect()->route('owner.kost.index')->with('success', __('toast.create.success.message'));     
-        } catch (\Exception $e) {
+        } catch (\Exception $e) { 
             return redirect()->back()->with('error', __('toast.create.failed.message'));
         }
     }

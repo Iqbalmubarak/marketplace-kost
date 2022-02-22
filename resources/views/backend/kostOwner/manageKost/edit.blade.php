@@ -3,7 +3,7 @@
         <h5>Add Data Kost</h5>
     </div>
     <div class="ibox-content">
-      {{ Form::open(array('method'=>'PATCH', 'url' => '#', 'files' => true, 'id'=>'form-update')) }} 
+        {{ Form::open(array('method'=>'PATCH', 'url' => '#', 'files' => true, 'id'=>'form-update')) }} 
           <div class="form-group row"><label class="col-lg-2 col-form-label">Name</label>
               <div class="col-lg-10">
                 <input id="e_name" name="name" type="text" placeholder="Name" class="form-control @error('phone') is-invalid @enderror"> <span class="form-text m-b-none"></span>
@@ -27,13 +27,10 @@
           
           <div class="form-group row"><label class="col-lg-2 col-form-label">Address</label>
               <div class="col-lg-10">
-                <textarea id="e_address" name="address" type="textarea" placeholder="Address" class="form-control @error('address') is-invalid @enderror"> </textarea>
-                <span class="form-text m-b-none"></span>
-                  @error('address')
-                    <div class="invalid-feedback">
-                        {{$message}}
-                    </div>
-                  @enderror  
+                {!! Form::textarea('address', null, ['class' => 'form-control', 'placeholder'=>'', 'id'=>'e_address']) !!}
+                @error('address')
+                  <div class="form-text text-danger">{{$message}}</div>
+                @enderror
               </div>
           </div>
 
@@ -65,13 +62,40 @@
           <br>
           <div class="form-group row">
               <div class="col-lg-12 d-flex justify-content-center">
-                <button class="btn btn-lg btn-white" onclick="$('#create').toggle(500);" type="button">Back</button>
+                <button class="btn btn-lg btn-white" onclick="$('#edit').toggle(500);" type="button">Back</button>
                 &nbsp;&nbsp;
                 <button class="btn btn-lg btn-primary" type="submit">Save</button>
               </div>
           </div>
       
       {!! Form::close() !!}
+
+
+<!-- <form action="{{route('dropzone.store')}}" method="POST" enctype="multipart/form-data" class="dropzone dz-clickable" id="image-upload" >
+  @csrf
+  <div>
+    <h3 class="text-center">Upload Image</h3>
+  </div>
+    <div class="dz-message needsclick">
+    Drop files here or click to upload.<br>
+    <span class="note needsclick">(This is just a demo dropzone. Selected files are <strong>not</strong> actually uploaded.)</span>
+  </div>
+
+
+  <button id="submit-all">Submit all files</button>
+</form> -->
+
+<!-- {!!Form::open(['route'=>'dropzone.store', 'method'=>'POST','class'=>'dropzone','id'=>'my-dropzone','files'=>true])!!}
+
+    <div class="dz-message needsclick">
+    Drop files here or click to upload.<br>
+    <span class="note needsclick">(This is just a demo dropzone. Selected files are <strong>not</strong> actually uploaded.)</span>
+  </div>
+
+
+  <button id="submit-all">Submit all files</button>
+
+{!!Form::close()!!}  -->
 
     </div>
 </div>

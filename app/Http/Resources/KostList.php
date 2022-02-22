@@ -27,7 +27,7 @@ class KostList extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'address' => $this->address,
+            'address' =>  $this->address,
             'latitude' => $this->latitude,
             'longitude' => $this->longitude,
             'type_id' => $this->type_id,

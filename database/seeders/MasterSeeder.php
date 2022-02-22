@@ -14,7 +14,7 @@ class MasterSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('types')->insert([
+        DB::table('kost_types')->insert([
             [
                 'name' => 'Putra',
             ],
@@ -23,6 +23,21 @@ class MasterSeeder extends Seeder
             ],
             [
                 'name' => 'Campur',
+            ]
+        ]);
+
+        DB::table('rules')->insert([
+            [
+                'name' => 'Ada jam malam',
+            ],
+            [
+                'name' => 'Akses 24',
+            ],
+            [
+                'name' => 'Ada jam malam untuk tamu',
+            ],
+            [
+                'name' => 'Denda kerusakan barang kos',
             ]
         ]);
     }

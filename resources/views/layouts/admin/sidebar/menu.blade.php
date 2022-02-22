@@ -5,10 +5,10 @@
     <a href="{{ route('home.index') }}"><i class="fa fa-th-large"></i> <span class="nav-label">Dashboard</span></a>
 </li>
 <li>
-    <a href="index.html"><i class="fa fa-th-large"></i> <span class="nav-label">User</span> <span class="fa arrow"></span></a>
+    <a href="index.html"><i class="fa fa-th-large"></i> <span class="nav-label">Pengguna</span> <span class="fa arrow"></span></a>
     <ul class="nav nav-second-level collapse">
         <li><a href="{{ route('admin.admin.index') }}">Admin</a></li>
-        <li><a href="{{ route('admin.kost-owner.index') }}">Kost Owner</a></li>
-        <li><a href="{{ route('admin.kost-seeker.index') }}">Kost Seeker</a></li>
+        <li><a href="{{ route('admin.kost-owner.index') }}">Pemilik Kost</a></li>
+        <li><a href="{{ route('admin.kost-seeker.index') }}">Penyewa Kost</a></li>
     </ul>
 </li>

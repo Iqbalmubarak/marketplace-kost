@@ -9,6 +9,8 @@
 
     <link href="{{ asset('templates/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('templates/font-awesome/css/font-awesome.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/plugins/iCheck/custom.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/plugins/steps/jquery.steps.css') }}" rel="stylesheet">
 
     <link href="{{ asset('templates/css/animate.css') }}" rel="stylesheet">
     <link href="{{ asset('templates/css/style.css') }}" rel="stylesheet">
@@ -20,6 +22,9 @@
 
     <!-- Toastr style -->
     <link href="{{ asset('templates/css/plugins/toastr/toastr.min.css') }}" rel="stylesheet">
+
+    <!-- Create css -->
+    @yield('css')
 </head>
 
 <body>

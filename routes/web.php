@@ -28,6 +28,7 @@ Route::get('/admin', function () {
 
 
 Route::get('home', 'App\Http\Controllers\HomeController@index')->name('home.index');
+Route::post('/dropzone-store', 'App\Http\Controllers\DropzoneController@kostStore')->name('dropzone.store');
 
 //Nama route : admin.user.{{nama_function_controller}} ex: admin.user.index
 Route::prefix('admin')->middleware(['auth', 'auth.isAdmin'])->name('admin.')->group(function () {
