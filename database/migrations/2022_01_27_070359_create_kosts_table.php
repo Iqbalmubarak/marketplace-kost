@@ -17,8 +17,13 @@ class CreateKostsTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('address');
-            $table->float('latitude');
-            $table->float('longitude');
+            $table->string('exist')->nullable();
+            $table->string('manager_name')->nullable();
+            $table->string('manager_handphone')->nullable();
+            $table->text('note')->nullable();
+            $table->float('latitude', 10,9);
+            $table->float('longitude', 200,9);
+            $table->tinyInteger('status')->default(0);
             $table->integer('kost_type_id')->unsigned();
             $table->integer('kost_owner_id')->unsigned();
             $table->timestamps();

@@ -5,81 +5,86 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use App\Models\Room; 
+use App\Models\Kost; 
 use App\Http\Resources\RoomList;
 
 class RoomController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        try {       
-            return view('backend.kostOwner.manageRoom.index');
-        } catch (\Exception $e) {
-            return redirect()->back()->with('error', __('toast.index.failed.message'));
-        }
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function roomStore(Request $request, $id)
     {
-        //
-    }
+        try {
+            if(!Room::where('kost_id', $id)->whereRaw("UPPER(name) = '".strtoupper($request->room_name)."'")->first()){
+                $room = new Room;
+                $room->name = $request->room_name;
+                $room->room_type_id = $request->room_type;
+                $room->kost_id = $id;
+                if($request->availability){
+                    $room->status = 1;
+                }
+                $room->save();
+            }else{
+                return redirect()->back()->with('error', __('toast.create.unique.message'));
+            }
+            
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        try {       
-            return view('backend.kostOwner.manageRoom.index', compact('id'));
+            $kost = Kost::find($id);    
+            $rooms = Room::groupBy('rooms.room_type_id')
+            ->join('room_types', 'room_types.id', '=', 'rooms.room_type_id')
+            ->select('rooms.room_type_id', \DB::raw('count(*) as total'))
+            ->where('rooms.kost_id', $id)
+            ->get();
+            $room_type = Room::groupBy('rooms.room_type_id')->groupBy('room_types.name')
+            ->join('room_types', 'room_types.id', '=', 'rooms.room_type_id')
+            ->select('rooms.room_type_id', \DB::raw('count(*) as total'), 'room_types.name')
+            ->where('rooms.kost_id', $id)
+            ->pluck('room_types.name','rooms.room_type_id');
+
+            return redirect()->route('owner.kost.show', compact('kost','rooms','room_type'))->with('success', __('toast.create.success.message'));
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', __('toast.index.failed.message'));
+            return redirect()->back()->with('error', __('toast.create.failed.message'));
         }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+    public function roomUpdate(Request $request, $id)
     {
-        //
-    }
+        try {
+            $room = Room::find($id);
+            if(!Room::where('kost_id', $room->kost_id)->whereRaw("UPPER(name) = '".strtoupper($request->room_name)."'")->first()){
+                $room->name = $request->room_name;
+                $room->room_type_id = $request->room_type;
+                if($request->availability){
+                    $room->status = 1;
+                }else{
+                    $room->status = 0;
+                }
+                $room->save();
+            }else{
+                return redirect()->back()->with('error', __('toast.create.unique.message'));
+            }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
+            $kost = Kost::find($room->kost_id);    
+            $rooms = Room::groupBy('rooms.room_type_id')
+            ->join('room_types', 'room_types.id', '=', 'rooms.room_type_id')
+            ->select('rooms.room_type_id', \DB::raw('count(*) as total'))
+            ->where('rooms.kost_id', $id)
+            ->get();
+            $room_type = Room::groupBy('rooms.room_type_id')->groupBy('room_types.name')
+            ->join('room_types', 'room_types.id', '=', 'rooms.room_type_id')
+            ->select('rooms.room_type_id', \DB::raw('count(*) as total'), 'room_types.name')
+            ->where('rooms.kost_id', $id)
+            ->pluck('room_types.name','rooms.room_type_id');
+
+            return redirect()->route('owner.kost.show', compact('kost','rooms','room_type'))->with('success', __('toast.update.success.message'));
+        } catch (\Exception $e) {
+            dd($e);
+            return redirect()->back()->with('error', __('toast.update.failed.message'));
+        }
     }
 
     /**

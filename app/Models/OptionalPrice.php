@@ -5,18 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class RoomImages extends Model
+class OptionalPrice extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'id',
-        'src',
-        'room_id'
+        'name',
+        'price',
+        'price_list_id'
     ];
 
-    public function room()
+    public function priceList()
     {
-        return $this->hasOne(Room::class, 'id', 'room_id');
+        return $this->hasOne(PriceList::class, 'id', 'price_list_id');
     }
 }

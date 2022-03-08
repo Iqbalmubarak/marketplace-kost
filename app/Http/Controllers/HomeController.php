@@ -21,7 +21,8 @@ class HomeController extends Controller
             return view('backend.kostOwner.dashboard');
         }
         if (Gate::allows('isCustomer')) {
-            return redirect('/');
+            $kosts = Kost::where('status', 2)->get();
+            return view('backend.kostSeeker.dashboard', compact('kosts'));
         }
 
     }

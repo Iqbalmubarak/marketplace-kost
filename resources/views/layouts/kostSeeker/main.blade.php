@@ -33,7 +33,7 @@
 
             <!--</div>-->
             <div class="navbar-collapse collapse" id="navbar">
-                @include('layouts.kostOwner.navbar')
+                @include('layouts.kostSeeker.navbar')
             </div>
         </nav>
         </div>

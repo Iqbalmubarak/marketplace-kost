@@ -139,7 +139,6 @@
 
             <!-- Jquery Validate -->
             <script src="{{ asset('templates/js/plugins/validate/jquery.validate.min.js') }}"></script>
-            <script src="{{ asset('templates/js/dropzone.js') }}"></script>
             <!-- <script src="{{ asset('templates/js/dropzone.js') }}"></script> -->
             <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.2/dropzone.min.js" integrity="sha512-8l10HpXwk93V4i9Sm38Y1F3H4KJlarwdLndY9S5v+hSAODWMx3QcAVECA23NTMKPtDOi53VFfhIuSsBjjfNGnA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
 

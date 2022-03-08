@@ -16,7 +16,12 @@ class CreateRoomTypesTable extends Migration
         Schema::create('room_types', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
+            $table->integer('lenght');
+            $table->integer('wide');
+            $table->integer('kost_id')->unsigned();
             $table->timestamps();
+            
+            $table->foreign('kost_id')->references('id')->on('kosts')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 

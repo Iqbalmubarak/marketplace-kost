@@ -17,15 +17,16 @@ class KostList extends JsonResource
 
         $kost_owner = $this->kostOwner->first_name." ".$this->kostOwner->last_name;
         if($this->type->id == 1){
-            $type = '<p><span class="badge badge-info">Putra</span></p>';
+            $type = '<p><span class="badge badge-success">Putra</span></p>';
         }elseif($this->type->id == 2){
-            $type = '<p><span class="badge badge-primary">Putri</span></p>';
+            $type = '<p><span class="badge badge-danger">Putri</span></p>';
         }else{
             $type = '<p><span class="badge badge-warning">Campur</span></p>';
         }
-        
+        $no = $request;
         return [
             'id' => $this->id,
+            'no' => $no,
             'name' => $this->name,
             'address' =>  $this->address,
             'latitude' => $this->latitude,

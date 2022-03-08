@@ -5,18 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class KostImages extends Model
+class Section extends Model
 {
     use HasFactory;
-
+        
     protected $fillable = [
         'id',
-        'img',
-        'kost_id'
+        'name'
     ];
-
-    public function kost()
-    {
-        return $this->hasOne(Room::class, 'id', 'kost');
-    }
 }

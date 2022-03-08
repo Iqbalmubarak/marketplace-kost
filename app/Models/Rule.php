@@ -12,4 +12,5 @@ class Rule extends Model
     protected $fillable = [
         'name'
     ];
+
 }

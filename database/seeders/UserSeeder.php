@@ -29,6 +29,12 @@ class UserSeeder extends Seeder
                 'email_verified_at' => now(),
                 'remember_token' => Str::random(10),
                 'password' => Hash::make('password'),
+            ],
+            [
+                'email' => 'customer@customer.com',
+                'email_verified_at' => now(),
+                'remember_token' => Str::random(10),
+                'password' => Hash::make('password'),
             ]
         ]);
 
@@ -46,6 +52,14 @@ class UserSeeder extends Seeder
             'handphone' => $faker->phoneNumber(),
             'address' => $faker->address(),
             'user_id' => 2,
+        ]);
+
+        DB::table('kost_seekers')->insert([
+            'first_name' => 'Kost',
+            'last_name' => 'Seeker',
+            'handphone' => $faker->phoneNumber(),
+            'address' => $faker->address(),
+            'user_id' => 3,
         ]);
     }
 }

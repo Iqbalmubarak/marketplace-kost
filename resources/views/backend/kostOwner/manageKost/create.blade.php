@@ -11,7 +11,7 @@
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCdGrzi3vv43yyxfcFiBRoGVqvtZcJ2lIM"></script>
 <div class="row wrapper border-bottom white-bg page-heading">
     <div class="col-lg-9">
-        <h2>Manage Kost</h2>
+        <h2>Kelola Kost</h2>
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
                 <a href="{{ route('home.index') }}">Home</a>
@@ -41,18 +41,18 @@
             <div class="ibox-content">
                 {{ Form::open(array('method'=>'POST', 'url' => route('owner.kost.store'),'class' => 'wizard-big', 'files' => true, 'id'=>'form', 'enctype' => 'multipart/form-data')) }}
 
-                <h1>Foto Kos</h1>
+                <!-- <h1>Foto Kamar</h1>
                 <fieldset>
                     <div class="form-group row ">
                         <div class="col-lg-12">
-                            <h4><b>Foto bangunan dari depan</b></h4>
-                            <a href="javascript:;" onclick="cloneImageKost1()" class="btn btn-outline-secondary btn-sm">
+                            <h4><b>Foto bagian depan kamar</b></h4>
+                            <a href="javascript:;" onclick="cloneImageRoom1()" class="btn btn-outline-secondary btn-sm">
                                 <i class="fa fa-plus-square"></i> Tambah gambar
                             </a>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <div class="col-lg-3 clone-1" id="clone-1">
+                        <div class="col-lg-3 clone-4" id="clone-4">
                             <div class="fileinput fileinput-new" data-provides="fileinput">
                                 <div class="fileinput-new img-thumbnail" style="width: 200px; height: 150px;">
                                     <img src="{{ asset('templates/img/input_image.png') }} "
@@ -63,10 +63,10 @@
                                 <div>
                                     <span class="btn btn-outline-secondary btn-file"><span class="fileinput-new">Select
                                             image</span><span class="fileinput-exists">Change</span><input type="file"
-                                            name="image_kost2[]"></span>
+                                            name="image_room1[]"></span>
                                     <a href="#" class="btn btn-outline-secondary fileinput-exists"
                                         data-dismiss="fileinput">Remove</a>
-                                    <a href="javascript:;" onclick="delCloneKost1(this)" class="btn btn-outline-secondary">
+                                    <a href="javascript:;" onclick="delCloneRoom1(this)" class="btn btn-outline-secondary">
                                         Delete
                                     </a>
                                 </div>
@@ -75,14 +75,14 @@
                     </div>
                     <div class="form-group row ">
                         <div class="col-lg-12">
-                            <h4><b>Foto bagian dalam bangunan</b></h4>
-                            <a href="javascript:;" onclick="cloneImageKost2()" class="btn btn-outline-secondary btn-sm">
+                            <h4><b>Foto bagian dalam kamar</b></h4>
+                            <a href="javascript:;" onclick="cloneImageRoom2()" class="btn btn-outline-secondary btn-sm">
                                 <i class="fa fa-plus-square"></i> Tambah gambar
                             </a>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <div class="col-lg-3 clone-2" id="clone-2">
+                        <div class="col-lg-3 clone-5" id="clone-5">
                             <div class="fileinput fileinput-new" data-provides="fileinput">
                                 <div class="fileinput-new img-thumbnail" style="width: 200px; height: 150px;">
                                     <img src="{{ asset('templates/img/input_image.png') }} "
@@ -93,10 +93,10 @@
                                 <div>
                                     <span class="btn btn-outline-secondary btn-file"><span class="fileinput-new">Select
                                             image</span><span class="fileinput-exists">Change</span><input type="file"
-                                            name="image_kost2[]"></span>
+                                            name="image_room2[]"></span>
                                     <a href="#" class="btn btn-outline-secondary fileinput-exists"
                                         data-dismiss="fileinput">Remove</a>
-                                    <a href="javascript:;" onclick="delCloneKost2(this)" class="btn btn-outline-secondary">
+                                    <a href="javascript:;" onclick="delCloneRoom2(this)" class="btn btn-outline-secondary">
                                         Delete
                                     </a>
                                 </div>
@@ -105,14 +105,14 @@
                     </div>
                     <div class="form-group row ">
                         <div class="col-lg-12">
-                            <h4><b>Foto bangunan dari jalan</b></h4>
-                            <a href="javascript:;" onclick="cloneImageKost3()" class="btn btn-outline-secondary btn-sm">
+                            <h4><b>Foto kamar mandi</b></h4>
+                            <a href="javascript:;" onclick="cloneImageRoom3()" class="btn btn-outline-secondary btn-sm">
                                 <i class="fa fa-plus-square"></i> Tambah gambar
                             </a>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <div class="col-lg-3 clone-3" id="clone-3">
+                        <div class="col-lg-3 clone-6" id="clone-6">
                             <div class="fileinput fileinput-new" data-provides="fileinput">
                                 <div class="fileinput-new img-thumbnail" style="width: 200px; height: 150px;">
                                     <img src="{{ asset('templates/img/input_image.png') }} "
@@ -123,17 +123,47 @@
                                 <div>
                                     <span class="btn btn-outline-secondary btn-file"><span class="fileinput-new">Select
                                             image</span><span class="fileinput-exists">Change</span><input type="file"
-                                            name="image_kost3[]"></span>
+                                            name="image_room3[]"></span>
                                     <a href="#" class="btn btn-outline-secondary fileinput-exists"
                                         data-dismiss="fileinput">Remove</a>
-                                    <a href="javascript:;" onclick="delCloneKost3(this)" class="btn btn-outline-secondary">
+                                    <a href="javascript:;" onclick="delCloneRoom3(this)" class="btn btn-outline-secondary">
                                         Delete
                                     </a>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </fieldset>
+                    <div class="form-group row ">
+                        <div class="col-lg-12">
+                            <h4><b>Foto tambahan</b></h4>
+                            <a href="javascript:;" onclick="cloneImageRoom4()" class="btn btn-outline-secondary btn-sm">
+                                <i class="fa fa-plus-square"></i> Tambah gambar
+                            </a>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-lg-4 clone-7" id="clone-7">
+                            <div class="fileinput fileinput-new" data-provides="fileinput">
+                                <div class="fileinput-new img-thumbnail" style="width: 200px; height: 150px;">
+                                    <img src="{{ asset('templates/img/input_image.png') }} "
+                                        style="width: 200px; height: 150px;" alt="...">
+                                </div>
+                                <div class="fileinput-preview fileinput-exists img-thumbnail"
+                                    style="max-width: 200px; max-height: 150px;"></div>
+                                <div>
+                                    <span class="btn btn-outline-secondary btn-file"><span class="fileinput-new">Select
+                                            image</span><span class="fileinput-exists">Change</span><input type="file"
+                                            name="image_room4[]"></span>
+                                    <a href="#" class="btn btn-outline-secondary fileinput-exists"
+                                        data-dismiss="fileinput">Remove</a>
+                                    <a href="javascript:;" onclick="delCloneRoom4(this)" class="btn btn-outline-secondary">
+                                        Delete
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset> -->
 
                 <h1>Informasi Kost</h1>
                 <fieldset>
@@ -172,7 +202,7 @@
                             <div class="fileinput fileinput-new" data-provides="fileinput">
                                 <span class="btn btn-block btn-outline btn-primary btn-file"><span
                                         class="fileinput-new">Upload Peraturan</span>
-                                    <span class="fileinput-exists">Change</span><input type="file" id="file"
+                                    <span class="fileinput-exists">Change</span><input type="file" id="rule_upload"
                                         name="rule_upload" onchange="return fileValidation()" /></span>
                                 <span class="fileinput-filename"></span>
                                 <a href="#" class="close fileinput-exists" data-dismiss="fileinput" style="float: none"
@@ -207,7 +237,7 @@
                             pengelola</label>
                         <div class="col-lg-9">
                             <input id="c_manager" name="manager" type="text" placeholder="Nama Pengelola"
-                                class="form-control @error('manager') is-invalid @enderror required"> <span
+                                class="form-control @error('manager') is-invalid @enderror"> <span
                                 class="form-text m-b-none"></span>
                             @error('manager')
                             <div class="invalid-feedback">
@@ -222,7 +252,7 @@
                         <div class="col-lg-9">
                             <input id="c_handphone" name="handphone" type="phone"
                                 placeholder="Nomor Handphone Pengelola"
-                                class="form-control @error('handphone') is-invalid @enderror required"> <span
+                                class="form-control @error('handphone') is-invalid @enderror"> <span
                                 class="form-text m-b-none"></span>
                             @error('handphone')
                             <div class="invalid-feedback">
@@ -291,37 +321,431 @@
                     <div class="google-map" id="map-create" style="height:400px" style="display:none"></div>
                 </fieldset>
 
-                <h1>Fasilitas</h1>
+                <h1>Fasilitas Kos</h1>
                 <fieldset>
-                    <div class="form-group row repet" id="repet">
-                        <div data-repeater-list="" class="col-lg-12">
-                            <div data-repeater-item class="form-group row align-items-center">
-                                <label class="col-lg-3 col-form-label">Fasilitas :</label>
-                                <div class="col-lg-8">
-                                    <input id="c_facility" name="facility[]" type="text" placeholder="Fasilitas"
-                                        class="form-control @error('facility') is-invalid @enderror required"> <span
-                                        class="form-text m-b-none"></span>
-                                    @error('facility')
-                                    <div class="invalid-feedback">
-                                        {{$message}}
-                                    </div>
-                                    @enderror
+                    @foreach ($facility_types1 as $facility_type)
+                    <div class="form-group row"><label class="col-lg-3 col-form-label">{{$facility_type->name}}</label>
+                        <div class="col-lg-9">
+                            @foreach ($facility_type->facility as $facility)
+                            <div class="checkbox checkbox-primary">
+                                <input id="facility[{{$facility->id}}]" name="facility[]" type="checkbox"
+                                    value="{{$facility->id}}">
+                                <label for="facility[{{$facility->id}}]">
+                                    {{$facility->name}}
+                                </label>
+                            </div>
+                            @endforeach
+                        </div>
+                    </div>
+                    @endforeach
+                </fieldset>
+
+                <h1>Foto Kos</h1>
+                <fieldset>
+                    <div class="form-group row ">
+                        <div class="col-lg-12">
+                            <h4><b>Foto bangunan dari depan</b></h4>
+                            <a href="javascript:;" onclick="cloneImageKost1()" class="btn btn-outline-secondary btn-sm">
+                                <i class="fa fa-plus-square"></i> Tambah gambar
+                            </a>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-lg-3 clone-1" id="clone-1">
+                            <div class="fileinput fileinput-new" data-provides="fileinput">
+                                <div class="fileinput-new img-thumbnail" style="width: 200px; height: 150px;">
+                                    <img src="{{ asset('templates/img/input_image.png') }} "
+                                        style="width: 200px; height: 140px;" alt="...">
                                 </div>
-                                <div class="col-lg-3">
-                                    <a href="javascript:;" onclick="delmyclone(this)" class="btn btn-white btn-sm">
-                                        <i class="fa fa-trash"></i>
+                                <div class="fileinput-preview fileinput-exists img-thumbnail"
+                                    style="max-width: 200px; max-height: 150px;"></div>
+                                <div>
+                                    <span class="btn btn-outline-secondary btn-file"><span class="fileinput-new">Select
+                                            image</span><span class="fileinput-exists">Change</span><input type="file"
+                                            name="kost_image1[]"></span>
+                                    <a href="#" class="btn btn-outline-secondary fileinput-exists"
+                                        data-dismiss="fileinput">Remove</a>
+                                    <a href="javascript:;" onclick="delCloneKost1(this)"
+                                        class="btn btn-outline-secondary">
                                         Delete
                                     </a>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="form-group form-group-last row">
-                        <!-- <label class="col-lg-3 col-form-label"></label> -->
-                        <div class="col-lg-3">
-                            <a href="javascript:;" onclick="myclone()" class="btn btn-white btn-sm">
-                                <i class="fa fa-plus-square"></i> Add
+                    <div class="form-group row ">
+                        <div class="col-lg-12">
+                            <h4><b>Foto bagian dalam bangunan</b></h4>
+                            <a href="javascript:;" onclick="cloneImageKost2()" class="btn btn-outline-secondary btn-sm">
+                                <i class="fa fa-plus-square"></i> Tambah gambar
                             </a>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-lg-3 clone-2" id="clone-2">
+                            <div class="fileinput fileinput-new" data-provides="fileinput">
+                                <div class="fileinput-new img-thumbnail" style="width: 200px; height: 150px;">
+                                    <img src="{{ asset('templates/img/input_image.png') }} "
+                                        style="width: 200px; height: 140px;" alt="...">
+                                </div>
+                                <div class="fileinput-preview fileinput-exists img-thumbnail"
+                                    style="max-width: 200px; max-height: 150px;"></div>
+                                <div>
+                                    <span class="btn btn-outline-secondary btn-file"><span class="fileinput-new">Select
+                                            image</span><span class="fileinput-exists">Change</span><input type="file"
+                                            name="kost_image2[]"></span>
+                                    <a href="#" class="btn btn-outline-secondary fileinput-exists"
+                                        data-dismiss="fileinput">Remove</a>
+                                    <a href="javascript:;" onclick="delCloneKost2(this)"
+                                        class="btn btn-outline-secondary">
+                                        Delete
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row ">
+                        <div class="col-lg-12">
+                            <h4><b>Foto bangunan dari jalan</b></h4>
+                            <a href="javascript:;" onclick="cloneImageKost3()" class="btn btn-outline-secondary btn-sm">
+                                <i class="fa fa-plus-square"></i> Tambah gambar
+                            </a>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-lg-3 clone-3" id="clone-3">
+                            <div class="fileinput fileinput-new" data-provides="fileinput">
+                                <div class="fileinput-new img-thumbnail" style="width: 200px; height: 150px;">
+                                    <img src="{{ asset('templates/img/input_image.png') }} "
+                                        style="width: 200px; height: 140px;" alt="...">
+                                </div>
+                                <div class="fileinput-preview fileinput-exists img-thumbnail"
+                                    style="max-width: 200px; max-height: 150px;"></div>
+                                <div>
+                                    <span class="btn btn-outline-secondary btn-file"><span class="fileinput-new">Select
+                                            image</span><span class="fileinput-exists">Change</span><input type="file"
+                                            name="kost_image3[]"></span>
+                                    <a href="#" class="btn btn-outline-secondary fileinput-exists"
+                                        data-dismiss="fileinput">Remove</a>
+                                    <a href="javascript:;" onclick="delCloneKost3(this)"
+                                        class="btn btn-outline-secondary">
+                                        Delete
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <h1>Informasi kamar</h1>
+                <fieldset>
+                    <div class="form-group row"><label class="col-lg-2 col-form-label">Tipe Kamar</label>
+                        <div class="col-lg-10">
+                            <input id="room_type" name="room_type" type="text" placeholder="Tipe kamar"
+                                class="form-control @error('room_type') is-invalid @enderror required"> <span
+                                class="form-text m-b-none"></span>
+                            @error('room_type')
+                            <div class="invalid-feedback">
+                                {{$message}}
+                            </div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="form-group row"><label class="col-lg-2 col-form-label">Luas kamar ( /m )</label>
+                        <div class="col-lg-5">
+                            <input id="lenght" name="lenght" type="number" placeholder="Panjang"
+                                class="form-control @error('lenght') is-invalid @enderror required"> <span
+                                class="form-text m-b-none"></span>
+                            @error('lenght')
+                            <div class="invalid-feedback">
+                                {{$message}}
+                            </div>
+                            @enderror
+                        </div>
+                        <div class="col-lg-5">
+                            <input id="wide" name="wide" type="number" placeholder="Lebar"
+                                class="form-control @error('wide') is-invalid @enderror required"> <span
+                                class="form-text m-b-none"></span>
+                            @error('wide')
+                            <div class="invalid-feedback">
+                                {{$message}}
+                            </div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="form-group row"><label class="col-lg-2 col-form-label">Total kamar</label>
+                        <div class="col-lg-10">
+                            <input id="room_total" name="room_total" type="number" min="1" max="500"
+                                placeholder="Total kamar"
+                                class="form-control @error('room_total') is-invalid @enderror required"> <span
+                                class="form-text m-b-none"></span>
+                            @error('room_total')
+                            <div class="invalid-feedback">
+                                {{$message}}
+                            </div>
+                            @enderror
+                        </div>
+                    </div>
+                </fieldset>
+
+                <h1>Fasilitas Kamar</h1>
+                <fieldset>
+                    @foreach ($facility_types2 as $facility_type)
+                    <div class="form-group row"><label class="col-lg-3 col-form-label">{{$facility_type->name}}</label>
+                        <div class="col-lg-9">
+                            @foreach ($facility_type->facility as $facility)
+                            <div class="checkbox checkbox-primary">
+                                <input id="room_facility[{{$facility->id}}]" name="room_facility[]" type="checkbox"
+                                    value="{{$facility->id}}">
+                                <label for="room_facility[{{$facility->id}}]">
+                                    {{$facility->name}}
+                                </label>
+                            </div>
+                            @endforeach
+                        </div>
+                    </div>
+                    @endforeach
+                </fieldset>
+
+                <h1>Foto Kamar</h1>
+                <fieldset>
+                    <div class="form-group row ">
+                        <div class="col-lg-12">
+                            <h4><b>Foto bagian depan kamar</b></h4>
+                            <a href="javascript:;" onclick="cloneImageRoom1()" class="btn btn-outline-secondary btn-sm">
+                                <i class="fa fa-plus-square"></i> Tambah gambar
+                            </a>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-lg-3 clone-4" id="clone-4">
+                            <div class="fileinput fileinput-new" data-provides="fileinput">
+                                <div class="fileinput-new img-thumbnail" style="width: 200px; height: 150px;">
+                                    <img src="{{ asset('templates/img/input_image.png') }} "
+                                        style="width: 200px; height: 150px;" alt="...">
+                                </div>
+                                <div class="fileinput-preview fileinput-exists img-thumbnail"
+                                    style="max-width: 200px; max-height: 150px;"></div>
+                                <div>
+                                    <span class="btn btn-outline-secondary btn-file"><span class="fileinput-new">Select
+                                            image</span><span class="fileinput-exists">Change</span><input type="file"
+                                            name="image_room1[]"></span>
+                                    <a href="#" class="btn btn-outline-secondary fileinput-exists"
+                                        data-dismiss="fileinput">Remove</a>
+                                    <a href="javascript:;" onclick="delCloneRoom1(this)"
+                                        class="btn btn-outline-secondary">
+                                        Delete
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row ">
+                        <div class="col-lg-12">
+                            <h4><b>Foto bagian dalam kamar</b></h4>
+                            <a href="javascript:;" onclick="cloneImageRoom2()" class="btn btn-outline-secondary btn-sm">
+                                <i class="fa fa-plus-square"></i> Tambah gambar
+                            </a>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-lg-3 clone-5" id="clone-5">
+                            <div class="fileinput fileinput-new" data-provides="fileinput">
+                                <div class="fileinput-new img-thumbnail" style="width: 200px; height: 150px;">
+                                    <img src="{{ asset('templates/img/input_image.png') }} "
+                                        style="width: 200px; height: 150px;" alt="...">
+                                </div>
+                                <div class="fileinput-preview fileinput-exists img-thumbnail"
+                                    style="max-width: 200px; max-height: 150px;"></div>
+                                <div>
+                                    <span class="btn btn-outline-secondary btn-file"><span class="fileinput-new">Select
+                                            image</span><span class="fileinput-exists">Change</span><input type="file"
+                                            name="image_room2[]"></span>
+                                    <a href="#" class="btn btn-outline-secondary fileinput-exists"
+                                        data-dismiss="fileinput">Remove</a>
+                                    <a href="javascript:;" onclick="delCloneRoom2(this)"
+                                        class="btn btn-outline-secondary">
+                                        Delete
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row ">
+                        <div class="col-lg-12">
+                            <h4><b>Foto kamar mandi</b></h4>
+                            <a href="javascript:;" onclick="cloneImageRoom3()" class="btn btn-outline-secondary btn-sm">
+                                <i class="fa fa-plus-square"></i> Tambah gambar
+                            </a>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-lg-3 clone-6" id="clone-6">
+                            <div class="fileinput fileinput-new" data-provides="fileinput">
+                                <div class="fileinput-new img-thumbnail" style="width: 200px; height: 150px;">
+                                    <img src="{{ asset('templates/img/input_image.png') }} "
+                                        style="width: 200px; height: 150px;" alt="...">
+                                </div>
+                                <div class="fileinput-preview fileinput-exists img-thumbnail"
+                                    style="max-width: 200px; max-height: 150px;"></div>
+                                <div>
+                                    <span class="btn btn-outline-secondary btn-file"><span class="fileinput-new">Select
+                                            image</span><span class="fileinput-exists">Change</span><input type="file"
+                                            name="image_room3[]"></span>
+                                    <a href="#" class="btn btn-outline-secondary fileinput-exists"
+                                        data-dismiss="fileinput">Remove</a>
+                                    <a href="javascript:;" onclick="delCloneRoom3(this)"
+                                        class="btn btn-outline-secondary">
+                                        Delete
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row ">
+                        <div class="col-lg-12">
+                            <h4><b>Foto tambahan</b></h4>
+                            <a href="javascript:;" onclick="cloneImageRoom4()" class="btn btn-outline-secondary btn-sm">
+                                <i class="fa fa-plus-square"></i> Tambah gambar
+                            </a>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-lg-4 clone-7" id="clone-7">
+                            <div class="fileinput fileinput-new" data-provides="fileinput">
+                                <div class="fileinput-new img-thumbnail" style="width: 200px; height: 150px;">
+                                    <img src="{{ asset('templates/img/input_image.png') }} "
+                                        style="width: 200px; height: 150px;" alt="...">
+                                </div>
+                                <div class="fileinput-preview fileinput-exists img-thumbnail"
+                                    style="max-width: 200px; max-height: 150px;"></div>
+                                <div>
+                                    <span class="btn btn-outline-secondary btn-file"><span class="fileinput-new">Select
+                                            image</span><span class="fileinput-exists">Change</span><input type="file"
+                                            name="image_room4[]"></span>
+                                    <a href="#" class="btn btn-outline-secondary fileinput-exists"
+                                        data-dismiss="fileinput">Remove</a>
+                                    <a href="javascript:;" onclick="delCloneRoom4(this)"
+                                        class="btn btn-outline-secondary">
+                                        Delete
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <h1>Harga Kamar</h1>
+                <fieldset>
+                    <div class="form-group row"><label class="col-lg-2 col-form-label">Harga bulanan</label>
+                        <div class="col-lg-10">
+                            <input id="price_month" onchange="convertMonth(this)" name="price_month" type="text"
+                                placeholder="Harga bulanan"
+                                class="form-control @error('price_month') is-invalid @enderror required"> <span
+                                class="form-text m-b-none"></span>
+                            @error('price_month')
+                            <div class="invalid-feedback">
+                                {{$message}}
+                            </div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="form-group row"><label class="col-lg-2 col-form-label">Harga sewa selain bulanan</label>
+                        <div class="col-lg-10">
+                            <div class="checkbox checkbox-success">
+                                <input id="check-price" type="checkbox" onclick="check()">
+                                <label for="check-price">
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row" style="display:none" id="row-day"><label
+                            class="col-lg-2 col-form-label">Harga harian</label>
+                        <div class="col-lg-10 col-form-label">
+                            <input id="price_day" onchange="convertDay(this)" name="price_day" type="text"
+                                placeholder="Harga harian"
+                                class="form-control @error('price_day') is-invalid @enderror "> <span
+                                class="form-text m-b-none"></span>
+                        </div>
+                        @error('price_day')
+                        <div class="invalid-feedback">
+                            {{$message}}
+                        </div>
+                        @enderror
+                    </div>
+
+                    <div class="form-group row" style="display:none" id="row-week"><label
+                            class="col-lg-2 col-form-label">Harga mingguan</label>
+                        <div class="col-lg-10 col-form-label">
+                            <input id="price_week" onchange="convertWeek(this)" name="price_week" type="text"
+                                placeholder="Harga mingguan"
+                                class="form-control @error('price_week') is-invalid @enderror "> <span
+                                class="form-text m-b-none"></span>
+                        </div>
+                        @error('price_week')
+                        <div class="invalid-feedback">
+                            {{$message}}
+                        </div>
+                        @enderror
+                    </div>
+
+                    <div class="form-group row" style="display:none" id="row-year"><label
+                            class="col-lg-2 col-form-label">Harga tahunan</label>
+                        <div class="col-lg-10 col-form-label">
+                            <input id="price_year" onchange="convertYear(this)" name="price_year" type="text"
+                                placeholder="Harga tahunan"
+                                class="form-control @error('price_year') is-invalid @enderror "> <span
+                                class="form-text m-b-none"></span>
+                        </div>
+                        @error('price_year')
+                        <div class="invalid-feedback">
+                            {{$message}}
+                        </div>
+                        @enderror
+                    </div>
+
+                    <div class="form-group row"><label class="col-lg-2 col-form-label">Biaya tambahan lainnya</label>
+                        <div class="col-lg-10">
+                            <div class="checkbox checkbox-success">
+                                <input id="check-optional" type="checkbox" onclick="checkOptional()">
+                                <label for="check-optional">
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row row-optional" style="display:none" id="row-optional">
+                        <div class="col-lg-5 col-form-label">
+                            <input id="price_name[]" name="price_name[]" type="text" placeholder="Nama biaya"
+                                class="form-control @error('price_name[]') is-invalid @enderror "> <span
+                                class="form-text m-b-none"></span>
+                            @error('price_name[]')
+                            <div class="invalid-feedback">
+                                {{$message}}
+                            </div>
+                            @enderror
+                        </div>
+                        <div class="col-lg-5 col-form-label">
+                            <input id="price[]" name="price[]" type="text" placeholder="Total biaya"
+                                onchange="convertPrice(this)"
+                                class="form-control @error('price[]') is-invalid @enderror "> <span
+                                class="form-text m-b-none"></span>
+                            @error('price[]')
+                            <div class="invalid-feedback">
+                                {{$message}}
+                            </div>
+                            @enderror
+                        </div>
+                        <div class="col-lg-2 col-form-label">
+                            <a href="javascript:0" class="btn btn-outline-danger"
+                                onclick="delPriceClone(this)">Hapus</a>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-lg-6 col-form-label">
+                            <a href="javascript:0" class="btn btn-outline-success" onclick="priceClone()">Tambah</a>
                         </div>
                     </div>
                 </fieldset>
@@ -362,7 +786,7 @@
     }
 
     function fileValidation() {
-        var fileInput = document.getElementById('file');
+        var fileInput = document.getElementById('rule_upload');
         var filePath = fileInput.value;
         var allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
         if (!allowedExtensions.exec(filePath)) {
@@ -444,9 +868,9 @@
 
     function delCloneKost1(data) {
         console.log(data.closest('.clone-1'));
-        if ($('.clone-1').length > 1){
+        if ($('.clone-1').length > 1) {
             data.closest('.clone-1').remove()
-        }else{
+        } else {
             swal({
                 title: "Warning!",
                 text: "Select at least one image",
@@ -469,8 +893,19 @@
     }
 
     function delCloneKost2(data) {
-        console.log(data.closest('.clone-2'));
-        if ($('.clone-2').length > 1) data.closest('.clone-2').remove();
+        if ($('.clone-2').length > 1) {
+            data.closest('.clone-2').remove()
+        } else {
+            swal({
+                title: "Warning!",
+                text: "Select at least one image",
+                type: "warning",
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "OK",
+                closeOnConfirm: false,
+                closeOnCancel: false
+            });
+        };
     }
 
     function cloneImageKost3() {
@@ -483,8 +918,119 @@
     }
 
     function delCloneKost3(data) {
-        console.log(data.closest('.clone-3'));
-        if ($('.clone-3').length > 1) data.closest('.clone-3').remove();
+        if ($('.clone-3').length > 1) {
+            data.closest('.clone-3').remove()
+        } else {
+            swal({
+                title: "Warning!",
+                text: "Select at least one image",
+                type: "warning",
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "OK",
+                closeOnConfirm: false,
+                closeOnCancel: false
+            });
+        };
+    }
+
+    function cloneImageRoom1() {
+        $("#clone-4")
+            .eq(0)
+            .clone()
+            .find("input").val("").end() // ***
+            .show()
+            .insertAfter(".clone-4:last");
+    }
+
+    function delCloneRoom1(data) {
+        if ($('.clone-4').length > 1) {
+            data.closest('.clone-4').remove()
+        } else {
+            swal({
+                title: "Warning!",
+                text: "Select at least one image",
+                type: "warning",
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "OK",
+                closeOnConfirm: false,
+                closeOnCancel: false
+            });
+        };
+    }
+
+    function cloneImageRoom2() {
+        $("#clone-5")
+            .eq(0)
+            .clone()
+            .find("input").val("").end() // ***
+            .show()
+            .insertAfter(".clone-5:last");
+    }
+
+    function delCloneRoom2(data) {
+        if ($('.clone-5').length > 1) {
+            data.closest('.clone-5').remove()
+        } else {
+            swal({
+                title: "Warning!",
+                text: "Select at least one image",
+                type: "warning",
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "OK",
+                closeOnConfirm: false,
+                closeOnCancel: false
+            });
+        };
+    }
+
+    function cloneImageRoom3() {
+        $("#clone-6")
+            .eq(0)
+            .clone()
+            .find("input").val("").end() // ***
+            .show()
+            .insertAfter(".clone-6:last");
+    }
+
+    function delCloneRoom3(data) {
+        if ($('.clone-6').length > 1) {
+            data.closest('.clone-6').remove()
+        } else {
+            swal({
+                title: "Warning!",
+                text: "Select at least one image",
+                type: "warning",
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "OK",
+                closeOnConfirm: false,
+                closeOnCancel: false
+            });
+        };
+    }
+
+    function cloneImageRoom4() {
+        $("#clone-7")
+            .eq(0)
+            .clone()
+            .find("input").val("").end() // ***
+            .show()
+            .insertAfter(".clone-6:last");
+    }
+
+    function delCloneRoom4(data) {
+        if ($('.clone-7').length > 1) {
+            data.closest('.clone-7').remove()
+        } else {
+            swal({
+                title: "Warning!",
+                text: "Select at least one image",
+                type: "warning",
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "OK",
+                closeOnConfirm: false,
+                closeOnCancel: false
+            });
+        };
     }
 
     function delmyclone(data) {

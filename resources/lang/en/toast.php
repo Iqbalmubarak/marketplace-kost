@@ -20,6 +20,10 @@ return [
       'message' => 'Gagal Menambahkan Data',
       'label' => 'Gagal',
     ],
+    'unique' => [
+      'message' => 'Data dengan nama yang sama telah ada',
+      'label' => 'Gagal',
+    ],
   ],
   'update' => [
     'success' => [
@@ -38,6 +42,32 @@ return [
     ],
     'failed' => [
       'message' => 'Gagal Menghapus Data',
+      'label' => 'Gagal',
+    ],
+  ],
+  'confirm' => [
+    'success' => [
+      'message' => 'Berhasil Mengkonfirmasi Kos',
+      'label' => 'Berhasil',
+    ],
+    'failed' => [
+      'message' => 'Gagal Mengkonfirmasi Kos',
+      'label' => 'Gagal',
+    ],
+  ],
+  'reject' => [
+    'success' => [
+      'message' => 'Berhasil Menolak Kos',
+      'label' => 'Berhasil',
+    ],
+    'failed' => [
+      'message' => 'Gagal Menolak Kos',
+      'label' => 'Gagal',
+    ],
+  ],
+  'access' => [
+    'failed' => [
+      'message' => 'Kos belum dikonfirmasi oleh admin',
       'label' => 'Gagal',
     ],
   ]

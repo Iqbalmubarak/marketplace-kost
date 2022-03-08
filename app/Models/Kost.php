@@ -25,7 +25,7 @@ class Kost extends Model
 
     public function type()
     {
-        return $this->hasOne(Type::class, 'id', 'type_id');
+        return $this->hasOne(KostType::class, 'id', 'kost_type_id');
     }
 
     public function room()
@@ -33,13 +33,23 @@ class Kost extends Model
         return $this->hasMany(room::class, 'kost_id', 'id');
     }
 
-    public function image()
+    public function kostImage()
     {
         return $this->hasMany(KostImage::class, 'kost_id', 'id');
     }
 
-    public function facility()
+    public function kostFacilityDetail()
     {
-        return $this->hasMany(KostFacility::class, 'kost_id', 'id');
+        return $this->hasMany(KostFacilityDetail::class, 'kost_id', 'id');
+    }
+
+    public function rule_detail()
+    {
+        return $this->hasMany(RuleDetail::class, 'kost_id', 'id');
+    }
+
+    public function rule_upload()
+    {
+        return $this->hasOne(RuleUpload::class, 'kost_id', 'id');
     }
 }

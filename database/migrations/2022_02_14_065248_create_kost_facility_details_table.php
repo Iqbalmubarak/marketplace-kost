@@ -17,6 +17,7 @@ class CreateKostFacilityDetailsTable extends Migration
             $table->increments('id');
             $table->integer('kost_id')->unsigned();
             $table->integer('facility_id')->unsigned();
+            $table->tinyInteger('status')->default(1);
             $table->timestamps();
 
             $table->foreign('kost_id')->references('id')->on('kosts')->onUpdate('cascade')->onDelete('cascade');
