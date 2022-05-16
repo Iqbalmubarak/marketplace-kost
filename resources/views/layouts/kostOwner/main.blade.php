@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>INSPINIA | Dashboard v.2</title>
-    @notifyCss
 
     <link href="{{ asset('templates/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('templates/font-awesome/css/font-awesome.css') }}" rel="stylesheet">
@@ -15,6 +14,9 @@
 
     <link href="{{ asset('templates/css/animate.css') }}" rel="stylesheet">
     <link href="{{ asset('templates/css/style.css') }}" rel="stylesheet">
+
+    
+    <link href="{{ asset('templates/css/plugins/chosen/bootstrap-chosen.css') }}" rel="stylesheet">
 
     <link href="{{ asset('templates/css/plugins/dataTables/datatables.min.css') }}" rel="stylesheet">
 
@@ -66,6 +68,8 @@
             <div class="wrapper wrapper-content">
                 @yield('content')
             </div>
+        </div>
+    </div>
 
 
             <script type="text/javascript">
@@ -139,6 +143,8 @@
 
             <!-- Jquery Validate -->
             <script src="{{ asset('templates/js/plugins/validate/jquery.validate.min.js') }}"></script>
+
+            <script src="{{ asset('templates/js/plugins/chosen/chosen.jquery.js') }}"></script>
             <!-- <script src="{{ asset('templates/js/dropzone.js') }}"></script> -->
             <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.2/dropzone.min.js" integrity="sha512-8l10HpXwk93V4i9Sm38Y1F3H4KJlarwdLndY9S5v+hSAODWMx3QcAVECA23NTMKPtDOi53VFfhIuSsBjjfNGnA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
 

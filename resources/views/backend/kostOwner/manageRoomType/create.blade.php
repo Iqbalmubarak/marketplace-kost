@@ -224,72 +224,14 @@
 
                 <h1>Harga Kamar</h1>
                 <fieldset>
-                    <div class="form-group row"><label class="col-lg-2 col-form-label">Harga bulanan</label>
-                        <div class="col-lg-10">
-                            <input id="price_month" onchange="convertMonth(this)" name="price_month" type="text"
-                                placeholder="Harga bulanan"
-                                class="form-control @error('price_month') is-invalid @enderror required"> <span
-                                class="form-text m-b-none"></span>
-                            @error('price_month')
-                            <div class="invalid-feedback">
-                                {{$message}}
-                            </div>
-                            @enderror
-                        </div>
-                    </div>
-                    <div class="form-group row"><label class="col-lg-2 col-form-label">Harga sewa selain bulanan</label>
-                        <div class="col-lg-10">
-                            <div class="checkbox checkbox-success">
-                                <input id="check-price" type="checkbox" onclick="check()">
-                                <label for="check-price">
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group row" style="display:none" id="row-day"><label
-                            class="col-lg-2 col-form-label">Harga harian</label>
+                    <div class="form-group row">
+                        @foreach ($rent_durations as $duration)
+                        <label class="col-lg-2 col-form-label">Harga {{$duration->name}}</label>
                         <div class="col-lg-10 col-form-label">
-                            <input id="price_day" onchange="convertDay(this)" name="price_day" type="text"
-                                placeholder="Harga harian"
-                                class="form-control @error('price_day') is-invalid @enderror "> <span
-                                class="form-text m-b-none"></span>
+                            <input id="duration_price{{$duration->id}}" onchange="convert(this, {{$duration->id}})" name="duration_price[{{$duration->id}}]" type="text"
+                                placeholder="Harga {{$duration->name}}" class="form-control" @if($duration->id == 1) required @endif>
                         </div>
-                        @error('price_day')
-                        <div class="invalid-feedback">
-                            {{$message}}
-                        </div>
-                        @enderror
-                    </div>
-
-                    <div class="form-group row" style="display:none" id="row-week"><label
-                            class="col-lg-2 col-form-label">Harga mingguan</label>
-                        <div class="col-lg-10 col-form-label">
-                            <input id="price_week" onchange="convertWeek(this)" name="price_week" type="text"
-                                placeholder="Harga mingguan"
-                                class="form-control @error('price_week') is-invalid @enderror "> <span
-                                class="form-text m-b-none"></span>
-                        </div>
-                        @error('price_week')
-                        <div class="invalid-feedback">
-                            {{$message}}
-                        </div>
-                        @enderror
-                    </div>
-
-                    <div class="form-group row" style="display:none" id="row-year"><label
-                            class="col-lg-2 col-form-label">Harga tahunan</label>
-                        <div class="col-lg-10 col-form-label">
-                            <input id="price_year" onchange="convertYear(this)" name="price_year" type="text"
-                                placeholder="Harga tahunan"
-                                class="form-control @error('price_year') is-invalid @enderror "> <span
-                                class="form-text m-b-none"></span>
-                        </div>
-                        @error('price_year')
-                        <div class="invalid-feedback">
-                            {{$message}}
-                        </div>
-                        @enderror
+                        @endforeach
                     </div>
 
                     <div class="form-group row"><label class="col-lg-2 col-form-label">Biaya tambahan lainnya</label>
@@ -353,24 +295,9 @@
 
 
 <script>
-    function convertMonth(data) {
+    function convert(data, id) {
         var convert = convertRupiah(data.value, "Rp. ");
-        $('#price_month').val(convert)
-    }
-
-    function convertWeek(data) {
-        var convert = convertRupiah(data.value, "Rp. ");
-        $('#price_week').val(convert)
-    }
-
-    function convertDay(data) {
-        var convert = convertRupiah(data.value, "Rp. ");
-        $('#price_day').val(convert)
-    }
-
-    function convertYear(data) {
-        var convert = convertRupiah(data.value, "Rp. ");
-        $('#price_year').val(convert)
+        $('#duration_price'+id).val(convert)
     }
 
     function convertPrice(data) {

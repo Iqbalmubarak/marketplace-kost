@@ -173,6 +173,8 @@
                                         class="fa fa-envelope"></i> Ajukan permohonan pada admin
                                 </a>
                                 @endif
+
+                                
                             </div>
                         </div>
                     </div>
@@ -183,10 +185,8 @@
                     Dibuat pada tanggal - <i class="fa fa-clock-o"></i> {{$kost->created_at}}
                 </span>
                 @if ($kost->status == 0)
-                <span class="badge badge-plain">Melengkapi data kos</span>
-                @elseif ($kost->status == 1)
                 <span class="badge badge-warning">Menunggu konfirmasi admin</span>
-                @elseif ($kost->status == 2)
+                @elseif ($kost->status == 1)
                 <span class="badge badge-primary">Aktif</span>
                 @else
                 <span class="badge badge-danger">Ditolak</span>
@@ -204,7 +204,7 @@
             <div>
                 <div class="ibox-content">
                     <h5>{{$kostImage->section->name}}</h5>
-                    <img src="{{ asset('storage/images/kost/'.$kostImage->image) }}" alt="">
+                    <img class="d-block w-100" src="{{ asset('storage/images/kost/'.$kostImage->image) }}" alt="">
                 </div>
             </div>
             @endforeach

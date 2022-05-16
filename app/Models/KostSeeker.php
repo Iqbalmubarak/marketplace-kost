@@ -21,4 +21,9 @@ class KostSeeker extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function booking()
+    {
+        return $this->hasMany(Booking::class, 'kost_seeker_id', 'id');
+    }
 }

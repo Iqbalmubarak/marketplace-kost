@@ -17,10 +17,10 @@ class CreateOptionalPricesTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->bigInteger('price');
-            $table->integer('price_list_id')->unsigned();
+            $table->integer('room_type_id')->unsigned();
             $table->timestamps();
 
-            $table->foreign('price_list_id')->references('id')->on('price_lists')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('room_type_id')->references('id')->on('room_types')->onUpdate('cascade')->onDelete('cascade');
 
         });
     }

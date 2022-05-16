@@ -18,6 +18,7 @@ use App\Models\RoomType;
 use App\Models\RoomImage;
 use App\Models\PriceList;
 use App\Models\OptionalPrice;
+use App\Models\RentDuration;
 use App\Http\Resources\KostList;
 use App\Http\Resources\RoomList;
 use App\Http\Resources\RoomTypeList;
@@ -33,7 +34,8 @@ class RoomTypeController extends Controller
     {
         try {   
             $kost = Kost::find($id);    
-            return view('backend.kostOwner.manageRoomType.create', compact('kost'));
+            $rent_durations = RentDuration::all();
+            return view('backend.kostOwner.manageRoomType.create', compact('kost','rent_durations'));
         } catch (\Exception $e) {
             return redirect()->back()->with('error', __('toast.index.failed.message'));
         }
@@ -62,25 +64,19 @@ class RoomTypeController extends Controller
                 }
 
                 //Create Price List
-                $price_month = preg_replace("/[^0-9]/", "", $request->price_month);
-                $price_month = (int) $price_month;
-
-                $price_week = preg_replace("/[^0-9]/", "", $request->price_week);
-                $price_week = (int) $price_week;
-
-                $price_day = preg_replace("/[^0-9]/", "", $request->price_day);
-                $price_day = (int) $price_day;
-
-                $price_year = preg_replace("/[^0-9]/", "", $request->price_year);
-                $price_year = (int) $price_year;
-
-                $price_list = new PriceList;
-                $price_list->day = $price_day; 
-                $price_list->week = $price_week; 
-                $price_list->month = $price_month; 
-                $price_list->year = $price_year; 
-                $price_list->room_type_id = $room_type->id;
-                $price_list->save();
+                for ($i=1; $i <= count($request->duration_price); $i++) {
+                    if($request->duration_price[$i]){
+                        $price = preg_replace("/[^0-9]/", "", $request->duration_price[$i]);
+                        $price = (int) $price;
+                        $dp = 30 / 100 * $price;
+                        $price_list = new PriceList;
+                        $price_list->price = $price;
+                        $price_list->dp = $dp;
+                        $price_list->room_type_id = $room_type->id;
+                        $price_list->rent_duration_id = $i;
+                        $price_list->save();
+                    }
+                }
                 
                 //Create Optional Price
                 if(count($request->price_name) > 0){
@@ -193,8 +189,10 @@ class RoomTypeController extends Controller
             $room_images4 = RoomImage::where('room_type_id', $room_type->id)
             ->where('section_id', 7)->get();
             $kost_id = $room_type->room[0]->kost_id;
+            $rent_durations = RentDuration::all();
+            $price_lists = PriceList::where('room_type_id', $room_type->id)->get();
             
-            return view('backend.kostOwner.manageRoomType.edit', compact('room_type','kost_id','room_images1','room_images2','room_images3','room_images4'));
+            return view('backend.kostOwner.manageRoomType.edit', compact('price_lists','rent_durations','room_type','kost_id','room_images1','room_images2','room_images3','room_images4'));
         } catch (\Exception $e) {
             return redirect()->back()->with('error', __('toast.index.failed.message'));
         }
@@ -205,52 +203,58 @@ class RoomTypeController extends Controller
         try {  
             //Create Room Type
             $room_type = RoomType::find($id);
-            if(!RoomType::where('id', $id)->whereRaw("UPPER(name) = '".strtoupper($request->room_type)."'")->first()){
+            if(!RoomType::whereNotIn('id', [$id])->whereRaw("UPPER(name) = '".strtoupper($request->room_type)."'")->first()){
                 $room_type->name = $request->room_type;
                 $room_type->lenght = $request->lenght;
                 $room_type->wide = $request->wide;
                 $room_type->save();
 
                 //Create Price List
-                $price_month = preg_replace("/[^0-9]/", "", $request->price_month);
-                $price_month = (int) $price_month;
-
-                $price_week = preg_replace("/[^0-9]/", "", $request->price_week);
-                $price_week = (int) $price_week;
-
-                $price_day = preg_replace("/[^0-9]/", "", $request->price_day);
-                $price_day = (int) $price_day;
-
-                $price_year = preg_replace("/[^0-9]/", "", $request->price_year);
-                $price_year = (int) $price_year;
-
-                $price_list = PriceList::where('room_type_id', $id)->first();
-                $price_list->day = $price_day; 
-                $price_list->week = $price_week; 
-                $price_list->month = $price_month; 
-                $price_list->year = $price_year; 
-                $price_list->room_type_id = $room_type->id;
-                $price_list->save();
-                
-                //Create Optional Price
-                $optional_prices = OptionalPrice::where('price_list_id', $price_list->id)->get();
-                foreach ($optional_prices as $optional_price) {
-                    $optional_price->delete();
-                }
-
-                
-
-                if(count($request->price_name) > 0){
-                    for ($i=0; $i < count($request->price_name); $i++) {
-                        $price = preg_replace("/[^0-9]/", "", $request->price[$i]);
+                for ($i=1; $i <= count($request->duration_price); $i++) {
+                    if($request->duration_price[$i]){
+                        $price_list = PriceList::where('room_type_id', $id)->where('rent_duration_id', $i)->first();
+                        $price = preg_replace("/[^0-9]/", "", $request->duration_price[$i]);
                         $price = (int) $price;
-                        $optional_price = new OptionalPrice;
-                        $optional_price->name = $request->price_name[$i];
-                        $optional_price->price = $price;
-                        $optional_price->price_list_id = $price_list->id;
-                        $optional_price->save();
+                        $dp = 30 / 100 * $price;
+                        if($price_list){
+                            $price_list->price = $price;
+                            $price_list->dp = $dp;
+                            $price_list->save();
+                        }else{
+                            $price_list = new PriceList;
+                            $price_list->price = $price;
+                            $price_list->dp = $dp;
+                            $price_list->room_type_id = $room_type->id;
+                            $price_list->rent_duration_id = $i;
+                            $price_list->save();
+                        }
+                    }else{
+                        $price_list = PriceList::where('room_type_id', $id)->where('rent_duration_id', $i)->first();
+                        if($price_list){
+                            $price_list->delete();
+                        }
                     }
                 }
+                
+                //Create Optional Price
+                $optional_prices = OptionalPrice::where('room_type_id', $room_type->id)->get();
+                    foreach ($optional_prices as $optional_price) {
+                        $optional_price->delete();
+                    }
+
+                    if(count($request->price_name) > 0){
+                        for ($i=0; $i < count($request->price_name); $i++) {
+                            if($request->price_name[$i] && $request->price[$i]){
+                                $price = preg_replace("/[^0-9]/", "", $request->price[$i]);
+                            $price = (int) $price;
+                                $optional_price = new OptionalPrice;
+                                $optional_price->name = $request->price_name[$i];
+                                $optional_price->price = $price;
+                                $optional_price->room_type_id = $room_type->id;
+                                $optional_price->save();
+                            }
+                        }
+                    }
 
                 //Foto bagian depan kamar
                 $dir = storage_path().'/app/public/images/room';
@@ -334,7 +338,7 @@ class RoomTypeController extends Controller
 
             return redirect()->route('owner.kost.show', compact('kost','rooms','room_type'))->with('success', __('toast.update.success.message'));
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', __('toast.update.success.message'));
+            return redirect()->back()->with('error', __('toast.update.failed.message'));
         }
     }
 

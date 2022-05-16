@@ -15,14 +15,17 @@ class CreateRentDetailsTable extends Migration
     {
         Schema::create('rent_details', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('total_price');
+            $table->bigInteger('total_price');
             $table->tinyInteger('status');
             $table->date('started_at');
             $table->date('ended_at');
+            $table->string('payment');
             $table->integer('rent_id')->unsigned();
+            $table->integer('price_list_id')->unsigned();
             $table->timestamps();
 
             $table->foreign('rent_id')->references('id')->on('rents')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('price_list_id')->references('id')->on('price_lists')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 

@@ -16,10 +16,7 @@ class Room extends Model
         'kost_id'
     ];
 
-    public function detail()
-    {
-        return $this->hasMany(RoomFacilityDetail::class, 'room_id', 'id');
-    }
+    
 
     public function image()
     {
@@ -35,4 +32,7 @@ class Room extends Model
     {
         return $this->hasOne(RoomType::class, 'id', 'room_type_id');
     }
+
+
+    
 }

@@ -183,10 +183,8 @@
                     Dibuat pada tanggal - <i class="fa fa-clock-o"></i> {{$kost->created_at}}
                 </span>
                 @if ($kost->status == 0)
-                <span class="badge badge-plain">Melengkapi data kos</span>
-                @elseif ($kost->status == 1)
                 <span class="badge badge-warning">Menunggu konfirmasi admin</span>
-                @elseif ($kost->status == 2)
+                @elseif ($kost->status == 1)
                 <span class="badge badge-primary">Aktif</span>
                 @else
                 <span class="badge badge-danger">Ditolak</span>

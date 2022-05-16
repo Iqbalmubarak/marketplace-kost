@@ -18,6 +18,7 @@ class CreateRoomTypesTable extends Migration
             $table->string('name');
             $table->integer('lenght');
             $table->integer('wide');
+            $table->tinyInteger('capacity')->default(1);
             $table->integer('kost_id')->unsigned();
             $table->timestamps();
             

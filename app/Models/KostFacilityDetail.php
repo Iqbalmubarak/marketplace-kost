@@ -24,4 +24,5 @@ class KostFacilityDetail extends Model
     {
         return $this->hasOne(Facility::class, 'id', 'facility_id');
     }
+
 }

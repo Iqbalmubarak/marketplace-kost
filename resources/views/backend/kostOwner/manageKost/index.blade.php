@@ -51,7 +51,7 @@
                             @else
                                 {{$kost->kostOwner->first_name}} {{$kost->kostOwner->last_name}}
                             @endif
-                            </strong> <br>
+                            </strong> <br>  
                             <abbr title="Alamat"><i class="fa fa-map-marker"></i></abbr> {{$kost->address}} <br>
                             <abbr title="Berdiri pada tahun"><i class="fa fa-calendar"></i></abbr> {{$kost->exist}} <br>
                             <abbr title="Nomor pengelola"><i class="fa fa-phone"></i></abbr> @if ($kost->manager_handphone != NULL)
@@ -235,7 +235,7 @@
                 if (isConfirm) {
                     swal("Lengkapi data!", "Kamu akan dipindahkan ke halaman untuk melengkapi data kos.",
                         "success");
-                    location.href = "{{route('owner.kost.index')}}/" + id + "/request";
+                    location.href = "{{route('owner.kost.index')}}/" + id + "/edit?data=request";
                 } else {
                     swal("Dibatalkan", "Kamu batal melengkapi data kos", "error");
                 }

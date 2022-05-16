@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use App\Models\Kost; 
+use App\Models\RoomType; 
 
 class HomeController extends Controller
 {
@@ -21,8 +23,11 @@ class HomeController extends Controller
             return view('backend.kostOwner.dashboard');
         }
         if (Gate::allows('isCustomer')) {
-            $kosts = Kost::where('status', 2)->get();
-            return view('backend.kostSeeker.dashboard', compact('kosts'));
+            try {    
+            return redirect()->route('landingPage.home'); 
+            } catch (\Exception $e) {
+                return redirect()->back()->with('error', __('toast.index.failed.message'));
+            }
         }
 
     }

@@ -18,8 +18,15 @@ class CreateKostSeekersTable extends Migration
             $table->string('first_name', 40);
             $table->string('last_name', 40);
             $table->string('handphone', 40);
+            $table->tinyInteger('gender')->nullable();
+            $table->string('birth_place')->nullable();
+            $table->string('birth_day')->nullable();
+            $table->string('emergency', 40)->nullable();
+            $table->tinyInteger('job')->nullable();
             $table->string('address')->nullable();
             $table->string('avatar')->nullable();
+            $table->string('job_name')->nullable();
+            $table->string('job_description')->nullable();
             $table->integer('user_id')->unsigned();
             $table->timestamps();
 

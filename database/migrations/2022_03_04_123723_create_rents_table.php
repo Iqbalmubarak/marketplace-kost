@@ -17,11 +17,9 @@ class CreateRentsTable extends Migration
             $table->increments('id');
             $table->tinyInteger('status')->default(1);
             $table->integer('dp')->nullable();
-            $table->integer('kost_seeker_id')->unsigned();
             $table->integer('room_id')->unsigned();
             $table->timestamps();
 
-            $table->foreign('kost_seeker_id')->references('id')->on('kost_seekers')->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('room_id')->references('id')->on('rooms')->onUpdate('cascade')->onDelete('cascade');
         });
     }

@@ -19,9 +19,11 @@ class PriceList extends Model
         return $this->hasOne(RoomType::class, 'id', 'room_type_id');
     }
 
-    
-    public function optionalPrice()
+    public function rentDuration()
     {
-        return $this->hasMany(optionalPrice::class, 'price_list_id', 'id');
+        return $this->hasOne(RentDuration::class, 'id', 'rent_duration_id');
     }
+
+    
+    
 }

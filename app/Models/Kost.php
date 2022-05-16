@@ -30,7 +30,23 @@ class Kost extends Model
 
     public function room()
     {
-        return $this->hasMany(room::class, 'kost_id', 'id');
+        return $this->hasMany(Room::class, 'kost_id', 'id');
+    }
+
+    public function tenant()
+    {
+        return $this->hasMany(Tenant::class, 'kost_id', 'id');
+    }
+
+    public function roomType()
+    {
+        return $this->hasMany(RoomType::class, 'kost_id', 'id');
+    }
+
+    public function firtsRoomType()
+    {
+        $roomType = RoomType::where('kost_id', $this->id)->first();
+        return $roomType;
     }
 
     public function kostImage()

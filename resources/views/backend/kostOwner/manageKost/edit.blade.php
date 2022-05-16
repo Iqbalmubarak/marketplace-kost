@@ -97,7 +97,7 @@
                             <!-- Image preview -->
                             <div id="imagePreview">
                                 @if ($rule_upload)
-                                <img id="image" src="{{ asset('storage/images/rule/'.$rule_upload->image) }}" alt="">
+                                <img id="image" src="{{ asset('storage/images/rule/'.$rule_upload->image) }}" alt="" style="width: 200px; height: 150px;">
                                 @endif
                             </div>
                         </div>
@@ -218,7 +218,7 @@
                     <div class="google-map" id="map-create" style="height:400px" style="display:none"></div>
                 </fieldset>
 
-                <h1>Fasilitas</h1>
+                <h1>Fasilitas Kos</h1>
                 <fieldset>
                     <?php $i = 1; ?>
                     @foreach ($kost_facility_details as $detail)
@@ -229,7 +229,7 @@
                             @endif</label>
                         <div class="col-lg-9">
                             <div class="checkbox checkbox-primary">
-                                <input id="detail[{{$detail->facility_id}}]" name="detail[]" type="checkbox"
+                                <input id="detail[{{$detail->id}}]" name="detail[]" type="checkbox"
                                     value="{{$detail->facility_id}}" @if ($detail->status == 2)
                                 checked
                                 @endif>
@@ -263,10 +263,12 @@
                                 </div>
                                 <div class="fileinput-preview fileinput-exists img-thumbnail"
                                     style="max-width: 200px; max-height: 150px;">@if ($kost_image1)
-                                    <img src="{{ asset('storage/images/kost/'.$kost_image1->image) }}">
+                                    <img src="{{ asset('storage/images/kost/'.$kost_image1->image) }}"
+                                        style="width: 200px; height: 150px;">
                                     @endif</div>
+                                <br>
                                 <div class="d-flex justify-content-center">
-                                    <a href="javascript:void(0)" onclick="delImage1(this,{{$kost_image1->id}})"
+                                    <a href="javascript:void(0)" onclick="delKostImage1(this,{{$kost_image1->id}})"
                                         class="btn btn-outline-secondary delete">Delete</a>
                                 </div>
                             </div>
@@ -280,6 +282,7 @@
                                 </div>
                                 <div class="fileinput-preview fileinput-exists img-thumbnail"
                                     style="max-width: 200px; max-height: 150px;"></div>
+                                <br>
                                 <div>
                                     <span class="btn btn-outline-secondary btn-file"><span class="fileinput-new">Select
                                             image</span><span class="fileinput-exists">Change</span><input type="file"
@@ -313,10 +316,12 @@
                                 </div>
                                 <div class="fileinput-preview fileinput-exists img-thumbnail"
                                     style="max-width: 200px; max-height: 150px;">@if ($kost_image2)
-                                    <img src="{{ asset('storage/images/kost/'.$kost_image2->image) }}">
+                                    <img src="{{ asset('storage/images/kost/'.$kost_image2->image) }}"
+                                        style="width: 200px; height: 150px;">
                                     @endif</div>
+                                <br>
                                 <div class="d-flex justify-content-center">
-                                    <a href="javascript:void(0)" onclick="delImage2(this,{{$kost_image2->id}})"
+                                    <a href="javascript:void(0)" onclick="delKostImage2(this,{{$kost_image2->id}})"
                                         class="btn btn-outline-secondary delete">Delete</a>
                                 </div>
                             </div>
@@ -330,6 +335,7 @@
                                 </div>
                                 <div class="fileinput-preview fileinput-exists img-thumbnail"
                                     style="max-width: 200px; max-height: 150px;"></div>
+                                <br>
                                 <div>
                                     <span class="btn btn-outline-secondary btn-file"><span class="fileinput-new">Select
                                             image</span><span class="fileinput-exists">Change</span><input type="file"
@@ -363,10 +369,12 @@
                                 </div>
                                 <div class="fileinput-preview fileinput-exists img-thumbnail"
                                     style="max-width: 200px; max-height: 150px;">@if ($kost_image3)
-                                    <img src="{{ asset('storage/images/kost/'.$kost_image3->image) }}">
+                                    <img src="{{ asset('storage/images/kost/'.$kost_image3->image) }}"
+                                        style="width: 200px; height: 150px;">
                                     @endif</div>
+                                <br>
                                 <div class="d-flex justify-content-center">
-                                    <a href="javascript:void(0)" onclick="delImage3(this,{{$kost_image3->id}})"
+                                    <a href="javascript:void(0)" onclick="delKostImage3(this,{{$kost_image3->id}})"
                                         class="btn btn-outline-secondary delete">Delete</a>
                                 </div>
                             </div>
@@ -380,6 +388,7 @@
                                 </div>
                                 <div class="fileinput-preview fileinput-exists img-thumbnail"
                                     style="max-width: 200px; max-height: 150px;"></div>
+                                <br>
                                 <div>
                                     <span class="btn btn-outline-secondary btn-file"><span class="fileinput-new">Select
                                             image</span><span class="fileinput-exists">Change</span><input type="file"
@@ -396,7 +405,397 @@
                     </div>
                 </fieldset>
 
+                @if ($data == 'request')
+                <h1>Informasi kamar</h1>
+                <fieldset>
+                    <div class="form-group row"><label class="col-lg-2 col-form-label">Tipe Kamar</label>
+                        <div class="col-lg-10">
+                            <input id="room_type" name="room_type" type="text" placeholder="Tipe kamar"
+                                value="{{$room_type->name}}"
+                                class="form-control @error('room_type') is-invalid @enderror required"> <span
+                                class="form-text m-b-none"></span>
+                            @error('room_type')
+                            <div class="invalid-feedback">
+                                {{$message}}
+                            </div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="form-group row"><label class="col-lg-2 col-form-label">Luas kamar ( /m )</label>
+                        <div class="col-lg-5">
+                            <input id="lenght" name="lenght" type="number" placeholder="Panjang"
+                                value="{{$room_type->lenght}}"
+                                class="form-control @error('lenght') is-invalid @enderror required"> <span
+                                class="form-text m-b-none"></span>
+                            @error('lenght')
+                            <div class="invalid-feedback">
+                                {{$message}}
+                            </div>
+                            @enderror
+                        </div>
+                        <div class="col-lg-5">
+                            <input id="wide" name="wide" type="number" placeholder="Lebar" value="{{$room_type->wide}}"
+                                class="form-control @error('wide') is-invalid @enderror required"> <span
+                                class="form-text m-b-none"></span>
+                            @error('wide')
+                            <div class="invalid-feedback">
+                                {{$message}}
+                            </div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="form-group row"><label class="col-lg-2 col-form-label">Total kamar</label>
+                        <div class="col-lg-10">
+                            <input id="room_total" name="room_total" value="{{$room_total}}" type="number" min="1"
+                                max="500" placeholder="Total kamar"
+                                class="form-control @error('room_total') is-invalid @enderror required"> <span
+                                class="form-text m-b-none"></span>
+                            @error('room_total')
+                            <div class="invalid-feedback">
+                                {{$message}}
+                            </div>
+                            @enderror
+                        </div>
+                    </div>
+                </fieldset>
 
+                <h1>Fasilitas Kos</h1>
+                <fieldset>
+                    <?php $i = 3; ?>
+                    @foreach ($room_facility_details as $detail)
+                    <div class="form-group row"><label class="col-lg-3 col-form-label">
+                            @if ($detail->facility->facility_type_id == $i)
+                            {{$detail->facility->type->name}}
+                            <?php $i++ ; ?>
+                            @endif</label>
+                        <div class="col-lg-9">
+                            <div class="checkbox checkbox-primary">
+                                <input id="room_facility[{{$detail->id}}]" name="room_facility[]" type="checkbox"
+                                    value="{{$detail->facility_id}}" @if ($detail->status == 2)
+                                checked
+                                @endif>
+                                <label for="room_facility[{{$detail->id}}]">
+                                    {{$detail->facility->name}}
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    @endforeach
+                </fieldset>
+
+                <h1>Foto Kamar</h1>
+                <fieldset>
+                    <div class="form-group row ">
+                        <div class="col-lg-12">
+                            <h4><b>Foto bagian depan kamar</b></h4>
+                            <a href="javascript:;" onclick="cloneImageRoom1()" class="btn btn-outline-secondary btn-sm">
+                                <i class="fa fa-plus-square"></i> Tambah gambar
+                            </a>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        @foreach ($room_images1 as $room_image1)
+                        <div class="col-lg-3 clone-4" id="clone-4">
+                            <div @if ($room_image1) class="fileinput fileinput-exists" @else
+                                class="fileinput fileinput-new" @endif data-provides="fileinput">
+                                <div class="fileinput-new img-thumbnail" style="width: 200px; height: 150px;">
+                                    <img src="{{ asset('templates/img/input_image.png') }} "
+                                        style="width: 200px; height: 150px;" alt="...">
+                                </div>
+                                <div class="fileinput-preview fileinput-exists img-thumbnail"
+                                    style="max-width: 200px; max-height: 150px;">@if ($room_image1)
+                                    <img src="{{ asset('storage/images/room/'.$room_image1->image) }}"
+                                        style="width: 200px; height: 150px;">
+                                    @endif</div>
+                                <br>
+                                <div class="d-flex justify-content-center">
+                                    <a href="javascript:void(0)" onclick="delImage1(this,{{$room_image1->id}})"
+                                        class="btn btn-outline-secondary delete">Delete</a>
+                                </div>
+                            </div>
+                        </div>
+                        @endforeach
+                        <div class="col-lg-3 clone-4" id="clone-4">
+                            <div class="fileinput fileinput-new" data-provides="fileinput">
+                                <div class="fileinput-new img-thumbnail" style="width: 200px; height: 150px;">
+                                    <img src="{{ asset('templates/img/input_image.png') }} "
+                                        style="width: 200px; height: 150px;" alt="...">
+                                </div>
+                                <div class="fileinput-preview fileinput-exists img-thumbnail"
+                                    style="max-width: 200px; max-height: 150px;"></div>
+                                <br>
+                                <div>
+                                    <span class="btn btn-outline-secondary btn-file"><span class="fileinput-new">Select
+                                            image</span><span class="fileinput-exists">Change</span><input type="file"
+                                            name="image_room1[]"></span>
+                                    <a href="#" class="btn btn-outline-secondary fileinput-exists"
+                                        data-dismiss="fileinput">Remove</a>
+                                    <a href="javascript:;" onclick="delCloneRoom1(this)"
+                                        class="btn btn-outline-secondary">
+                                        Delete
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row ">
+                        <div class="col-lg-12">
+                            <h4><b>Foto bagian dalam kamar</b></h4>
+                            <a href="javascript:;" onclick="cloneImageRoom2()" class="btn btn-outline-secondary btn-sm">
+                                <i class="fa fa-plus-square"></i> Tambah gambar
+                            </a>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        @foreach ($room_images2 as $room_image2)
+                        <div class="col-lg-3 clone-5" id="clone-5">
+                            <div @if ($room_image2) class="fileinput fileinput-exists" @else
+                                class="fileinput fileinput-new" @endif data-provides="fileinput">
+                                <div class="fileinput-new img-thumbnail" style="width: 200px; height: 150px;">
+                                    <img src="{{ asset('templates/img/input_image.png') }} "
+                                        style="width: 200px; height: 150px;" alt="...">
+                                </div>
+                                <div class="fileinput-preview fileinput-exists img-thumbnail"
+                                    style="max-width: 200px; max-height: 150px;">@if ($room_image2)
+                                    <img src="{{ asset('storage/images/room/'.$room_image2->image) }}"
+                                        style="width: 200px; height: 150px;">
+                                    @endif</div>
+                                <br>
+                                <div class="d-flex justify-content-center">
+                                    <a href="javascript:void(0)" onclick="delImage2(this,{{$room_image2->id}})"
+                                        class="btn btn-outline-secondary delete">Delete</a>
+                                </div>
+                            </div>
+                        </div>
+                        @endforeach
+                        <div class="col-lg-3 clone-5" id="clone-5">
+                            <div class="fileinput fileinput-new" data-provides="fileinput">
+                                <div class="fileinput-new img-thumbnail" style="width: 200px; height: 150px;">
+                                    <img src="{{ asset('templates/img/input_image.png') }} "
+                                        style="width: 200px; height: 150px;" alt="...">
+                                </div>
+                                <div class="fileinput-preview fileinput-exists img-thumbnail"
+                                    style="max-width: 200px; max-height: 150px;"></div>
+                                <br>
+                                <div>
+                                    <span class="btn btn-outline-secondary btn-file"><span class="fileinput-new">Select
+                                            image</span><span class="fileinput-exists">Change</span><input type="file"
+                                            name="image_room2[]"></span>
+                                    <a href="#" class="btn btn-outline-secondary fileinput-exists"
+                                        data-dismiss="fileinput">Remove</a>
+                                    <a href="javascript:;" onclick="delCloneRoom2(this)"
+                                        class="btn btn-outline-secondary">
+                                        Delete
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row ">
+                        <div class="col-lg-12">
+                            <h4><b>Foto kamar mandi</b></h4>
+                            <a href="javascript:;" onclick="cloneImageRoom3()" class="btn btn-outline-secondary btn-sm">
+                                <i class="fa fa-plus-square"></i> Tambah gambar
+                            </a>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        @foreach ($room_images3 as $room_image3)
+                        <div class="col-lg-3 clone-6" id="clone-6">
+                            <div @if ($room_image3) class="fileinput fileinput-exists" @else
+                                class="fileinput fileinput-new" @endif data-provides="fileinput">
+                                <div class="fileinput-new img-thumbnail" style="width: 200px; height: 150px;">
+                                    <img src="{{ asset('templates/img/input_image.png') }} "
+                                        style="width: 200px; height: 150px;" alt="...">
+                                </div>
+                                <div class="fileinput-preview fileinput-exists img-thumbnail"
+                                    style="max-width: 200px; max-height: 150px;">@if ($room_image3)
+                                    <img src="{{ asset('storage/images/room/'.$room_image3->image) }}"
+                                        style="width: 200px; height: 150px;">
+                                    @endif</div>
+                                <br>
+                                <div class="d-flex justify-content-center">
+                                    <a href="javascript:void(0)" onclick="delImage3(this,{{$room_image3->id}})"
+                                        class="btn btn-outline-secondary delete">Delete</a>
+                                </div>
+                            </div>
+                        </div>
+                        @endforeach
+                        <div class="col-lg-3 clone-6" id="clone-6">
+                            <div class="fileinput fileinput-new" data-provides="fileinput">
+                                <div class="fileinput-new img-thumbnail" style="width: 200px; height: 150px;">
+                                    <img src="{{ asset('templates/img/input_image.png') }} "
+                                        style="width: 200px; height: 150px;" alt="...">
+                                </div>
+                                <div class="fileinput-preview fileinput-exists img-thumbnail"
+                                    style="max-width: 200px; max-height: 150px;"></div>
+                                <br>
+                                <div>
+                                    <span class="btn btn-outline-secondary btn-file"><span class="fileinput-new">Select
+                                            image</span><span class="fileinput-exists">Change</span><input type="file"
+                                            name="image_room3[]"></span>
+                                    <a href="#" class="btn btn-outline-secondary fileinput-exists"
+                                        data-dismiss="fileinput">Remove</a>
+                                    <a href="javascript:;" onclick="delCloneRoom3(this)"
+                                        class="btn btn-outline-secondary">
+                                        Delete
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row ">
+                        <div class="col-lg-12">
+                            <h4><b>Foto tambahan</b></h4>
+                            <a href="javascript:;" onclick="cloneImageRoom4()" class="btn btn-outline-secondary btn-sm">
+                                <i class="fa fa-plus-square"></i> Tambah gambar
+                            </a>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        @foreach ($room_images4 as $room_image4)
+                        <div class="col-lg-3 clone-7" id="clone-7">
+                            <div @if ($room_image4) class="fileinput fileinput-exists" @else
+                                class="fileinput fileinput-new" @endif data-provides="fileinput">
+                                <div class="fileinput-new img-thumbnail" style="width: 200px; height: 150px;">
+                                    <img src="{{ asset('templates/img/input_image.png') }} "
+                                        style="width: 200px; height: 150px;" alt="...">
+                                </div>
+                                <div class="fileinput-preview fileinput-exists img-thumbnail"
+                                    style="max-width: 200px; max-height: 150px;">@if ($room_image4)
+                                    <img src="{{ asset('storage/images/room/'.$room_image4->image) }}"
+                                        style="width: 200px; height: 150px;">
+                                    @endif</div>
+                                <br>
+                                <div class="d-flex justify-content-center">
+                                    <a href="javascript:void(0)" onclick="delImage4(this,{{$room_image4->id}})"
+                                        class="btn btn-outline-secondary delete">Delete</a>
+                                </div>
+                            </div>
+                        </div>
+                        @endforeach
+                        <div class="col-lg-4 clone-7" id="clone-7">
+                            <div class="fileinput fileinput-new" data-provides="fileinput">
+                                <div class="fileinput-new img-thumbnail" style="width: 200px; height: 150px;">
+                                    <img src="{{ asset('templates/img/input_image.png') }} "
+                                        style="width: 200px; height: 150px;" alt="...">
+                                </div>
+                                <div class="fileinput-preview fileinput-exists img-thumbnail"
+                                    style="max-width: 200px; max-height: 150px;"></div>
+                                <br>
+                                <div>
+                                    <span class="btn btn-outline-secondary btn-file"><span class="fileinput-new">Select
+                                            image</span><span class="fileinput-exists">Change</span><input type="file"
+                                            name="image_room4[]"></span>
+                                    <a href="#" class="btn btn-outline-secondary fileinput-exists"
+                                        data-dismiss="fileinput">Remove</a>
+                                    <a href="javascript:;" onclick="delCloneRoom4(this)"
+                                        class="btn btn-outline-secondary">
+                                        Delete
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <h1>Harga Kamar</h1>
+                <fieldset>
+                    <div class="form-group row">
+                        @foreach ($rent_durations as $duration)
+                        <label class="col-lg-2 col-form-label">Harga {{$duration->name}}</label>
+                        <div class="col-lg-10 col-form-label">
+                            <input id="duration_price{{$duration->id}}" onchange="convert(this, {{$duration->id}})"
+                                name="duration_price[{{$duration->id}}]" type="text"
+                                placeholder="Harga {{$duration->name}}" class="form-control" @if($duration->id == 1)
+                            required @endif
+                            @foreach ($price_lists as $price_list)
+                            @if($price_list->rent_duration_id == $duration->id)
+                            value = "{{Helper::rupiah($price_list->price)}}"
+                            @endif
+                            @endforeach
+                            >
+                        </div>
+                        @endforeach
+                    </div>
+
+                    <div class="form-group row"><label class="col-lg-2 col-form-label">Biaya tambahan lainnya</label>
+                        <div class="col-lg-10">
+                            <div class="checkbox checkbox-success">
+                                <input id="check-optional" type="checkbox" onclick="checkOptional()">
+                                <label for="check-optional">
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    @foreach ($room_type->optionalPrice as $optionalPrice)
+                    <div class="form-group row row-optional" style="display:none" id="row-optional">
+                        <div class="col-lg-5 col-form-label">
+                            <input id="price_name[]" name="price_name[]" type="text" placeholder="Nama biaya"
+                                value="{{$optionalPrice->name}}"
+                                class="form-control @error('price_name[]') is-invalid @enderror"> <span
+                                class="form-text m-b-none"></span>
+                            @error('price_name[]')
+                            <div class="invalid-feedback">
+                                {{$message}}
+                            </div>
+                            @enderror
+                        </div>
+                        <div class="col-lg-5 col-form-label">
+                            <input id="price[]" name="price[]" type="text" placeholder="Total biaya"
+                                onchange="convertPrice(this)" value="{{Helper::rupiah($optionalPrice->price)}}"
+                                class="form-control @error('price[]') is-invalid @enderror"> <span
+                                class="form-text m-b-none"></span>
+                            @error('price[]')
+                            <div class="invalid-feedback">
+                                {{$message}}
+                            </div>
+                            @enderror
+                        </div>
+                        <div class="col-lg-2 col-form-label">
+                            <a href="javascript:0" class="btn btn-outline-danger"
+                                onclick="delPriceClone(this)">Hapus</a>
+                        </div>
+                    </div>
+                    @endforeach
+                    <div class="form-group row row-optional" style="display:none" id="row-optional">
+                        <div class="col-lg-5 col-form-label">
+                            <input id="price_name[]" name="price_name[]" type="text" placeholder="Nama biaya"
+                                class="form-control @error('price_name[]') is-invalid @enderror"> <span
+                                class="form-text m-b-none"></span>
+                            @error('price_name[]')
+                            <div class="invalid-feedback">
+                                {{$message}}
+                            </div>
+                            @enderror
+                        </div>
+                        <div class="col-lg-5 col-form-label">
+                            <input id="price[]" name="price[]" type="text" placeholder="Total biaya"
+                                onchange="convertPrice(this)"
+                                class="form-control @error('price[]') is-invalid @enderror"> <span
+                                class="form-text m-b-none"></span>
+                            @error('price[]')
+                            <div class="invalid-feedback">
+                                {{$message}}
+                            </div>
+                            @enderror
+                        </div>
+                        <div class="col-lg-2 col-form-label">
+                            <a href="javascript:0" class="btn btn-outline-danger"
+                                onclick="delPriceClone(this)">Hapus</a>
+                        </div>
+                    </div>
+
+                    <div class="form-group row" id="button-optional" style="display:none">
+                        <div class="col-lg-6 col-form-label">
+                            <a href="javascript:0" class="btn btn-outline-success" onclick="priceClone()">Tambah</a>
+                        </div>
+                    </div>
+                </fieldset>
+                @endif
+
+                <input hidden value="{{$data}}" name="data">
                 <div hidden id="kost_exist">{{$kost->exist}}</div>
                 {!! Form::close() !!}
             </div>
@@ -414,7 +813,6 @@
 <script src="{{ asset('templates/js/plugins/jasny/jasny-bootstrap.min.js') }}"></script>
 
 <script>
-
     $('#e_exist').each(function () {
         var exist = document.querySelector('div[id=kost_exist]').textContent
         var year = (new Date()).getFullYear();
@@ -428,7 +826,7 @@
         }
     });
 
-    function delImage1(data, id) {
+    function delKostImage1(data, id) {
         //var $ele = data.parent().parent();
         //var id= $(this).val();
         //var id= 20;
@@ -451,7 +849,7 @@
         });
     }
 
-    function delImage2(data, id) {
+    function delKostImage2(data, id) {
         //var $ele = data.parent().parent();
         //var id= $(this).val();
         //var id= 20;
@@ -474,7 +872,7 @@
         });
     }
 
-    function delImage3(data, id) {
+    function delKostImage3(data, id) {
         //var $ele = data.parent().parent();
         //var id= $(this).val();
         //var id= 20;
@@ -497,31 +895,166 @@
         });
     }
 
-    // $(document).on("click", ".delete", function() { 
-    //     var $ele = $(this).parent().parent();
-    //     //var id= $(this).val();
-    //     var id= 20;
-    //     var url = "{{URL('owner/kost')}}";
-    //     var dltUrl = url+"/"+id+"/destroy-image";
-    // 	$.ajax({
-    // 		url: dltUrl,
-    // 		type: "DELETE",
-    // 		cache: false,
-    // 		data:{
-    // 			_token:'{{ csrf_token() }}'
-    // 		},
-    // 		success: function(dataResult){
-    // 			var dataResult = JSON.parse(dataResult);
-    // 			if(dataResult.statusCode==200){
-    // 				$ele.fadeOut().remove();
-    // 			}
-    // 		}
-    // 	});
-    // });
+    function delRoomImage1(data, id) {
+        //var $ele = data.parent().parent();
+        //var id= $(this).val();
+        //var id= 20;
+        var url = "{{URL('api/kost')}}";
+        var dltUrl = url + "/" + id + "/destroy-roomTypeImage";
+        $.ajax({
+            url: dltUrl,
+            type: "DELETE",
+            cache: false,
+            data: {
+                _token: '{{ csrf_token() }}'
+            },
+            success: function (dataResult) {
+                var dataResult = JSON.parse(dataResult);
+                if (dataResult.statusCode == 200) {
+                    //$ele.fadeOut().remove();
+                    data.closest('.clone-4').remove();
+                }
+            }
+        });
+    }
+
+    function delRoomImage2(data, id) {
+        //var $ele = data.parent().parent();
+        //var id= $(this).val();
+        //var id= 20;
+        var url = "{{URL('api/kost')}}";
+        var dltUrl = url + "/" + id + "/destroy-roomTypeImage";
+        $.ajax({
+            url: dltUrl,
+            type: "DELETE",
+            cache: false,
+            data: {
+                _token: '{{ csrf_token() }}'
+            },
+            success: function (dataResult) {
+                var dataResult = JSON.parse(dataResult);
+                if (dataResult.statusCode == 200) {
+                    //$ele.fadeOut().remove();
+                    data.closest('.clone-5').remove();
+                }
+            }
+        });
+    }
+
+    function delRoomImage3(data, id) {
+        //var $ele = data.parent().parent();
+        //var id= $(this).val();
+        //var id= 20;
+        var url = "{{URL('api/kost')}}";
+        var dltUrl = url + "/" + id + "/destroy-roomTypeImage";
+        $.ajax({
+            url: dltUrl,
+            type: "DELETE",
+            cache: false,
+            data: {
+                _token: '{{ csrf_token() }}'
+            },
+            success: function (dataResult) {
+                var dataResult = JSON.parse(dataResult);
+                if (dataResult.statusCode == 200) {
+                    //$ele.fadeOut().remove();
+                    data.closest('.clone-6').remove();
+                }
+            }
+        });
+    }
+
+    function delRoomImage4(data, id) {
+        //var $ele = data.parent().parent();
+        //var id= $(this).val();
+        //var id= 20;
+        var url = "{{URL('api/kost')}}";
+        var dltUrl = url + "/" + id + "/destroy-roomTypeImage";
+        $.ajax({
+            url: dltUrl,
+            type: "DELETE",
+            cache: false,
+            data: {
+                _token: '{{ csrf_token() }}'
+            },
+            success: function (dataResult) {
+                var dataResult = JSON.parse(dataResult);
+                if (dataResult.statusCode == 200) {
+                    //$ele.fadeOut().remove();
+                    data.closest('.clone-7').remove();
+                }
+            }
+        });
+    }
+
+    function convert(data, id) {
+        var convert = convertRupiah(data.value, "Rp. ");
+        $('#duration_price' + id).val(convert)
+    }
+
+    function convertPrice(data) {
+        var convert = convertRupiah(data.value, "Rp. ");
+        $(data).val(convert)
+    }
+
+    function convertRupiah(angka, prefix) {
+        var number_string = angka.replace(/[^,\d]/g, "").toString(),
+            split = number_string.split(","),
+            sisa = split[0].length % 3,
+            rupiah = split[0].substr(0, sisa),
+            ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+
+        if (ribuan) {
+            separator = sisa ? "." : "";
+            rupiah += separator + ribuan.join(".");
+        }
+
+        rupiah = split[1] != undefined ? rupiah + "," + split[1] : rupiah;
+        return prefix == undefined ? rupiah : rupiah ? prefix + rupiah : "";
+    }
+
+    function isNumberKey(evt) {
+        key = evt.which || evt.keyCode;
+        if (key != 188 // Comma
+            &&
+            key != 8 // Backspace
+            &&
+            key != 17 && key != 86 & key != 67 // Ctrl c, ctrl v
+            &&
+            (key < 48 || key > 57) // Non digit
+        ) {
+            evt.preventDefault();
+            return;
+        }
+    }
 
     function check() {
         $("#row-manager").toggle(this.checked);
         $("#row-handphone").toggle(this.checked);
+    }
+
+    function checkPrice() {
+        $("#row-day").toggle(this.checked);
+        $("#row-week").toggle(this.checked);
+        $("#row-year").toggle(this.checked);
+    }
+
+    function checkOptional() {
+        $(".row-optional").toggle(this.checked);
+        $("#button-optional").toggle();
+    }
+
+    function priceClone() {
+        $("#row-optional")
+            .eq(0)
+            .clone()
+            .find("input").val("").end() // ***
+            .show()
+            .insertAfter(".row-optional:last");
+    }
+
+    function delPriceClone(data) {
+        if ($('.row-optional').length > 1) data.closest('.row-optional').remove();
     }
 
     function fileValidation() {
@@ -538,7 +1071,7 @@
                 var reader = new FileReader();
                 reader.onload = function (e) {
                     document.getElementById('imagePreview').innerHTML = '<img id="image" src="' + e.target.result +
-                        '"/>';
+                        '" style="width: 200px; height: 150px;"/>';
                 };
                 reader.readAsDataURL(fileInput.files[0]);
             }
@@ -753,7 +1286,7 @@
             .clone()
             .find("input").val("").end() // ***
             .show()
-            .insertAfter(".clone-6:last");
+            .insertAfter(".clone-7:last");
     }
 
     function delCloneRoom4(data) {

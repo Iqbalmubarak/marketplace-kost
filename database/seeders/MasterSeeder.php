@@ -26,6 +26,29 @@ class MasterSeeder extends Seeder
             ]
         ]);
 
+        DB::table('rent_durations')->insert([
+            [
+                'name' => 'Per bulan',
+                'day' => 30,
+            ],
+            [
+                'name' => 'Per minggu',
+                'day' => 7,
+            ],
+            [
+                'name' => 'Per 3 bulan',
+                'day' => 90,
+            ],
+            [
+                'name' => 'Per 6 bulan',
+                'day' => 180,
+            ],
+            [
+                'name' => 'Per tahun',
+                'day' => 360,
+            ]
+        ]);
+
         DB::table('sections')->insert([
             [
                 'name' => 'Foto bangunan dari depan',

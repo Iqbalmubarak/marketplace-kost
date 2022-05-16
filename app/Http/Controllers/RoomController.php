@@ -65,7 +65,18 @@ class RoomController extends Controller
                 }
                 $room->save();
             }else{
-                return redirect()->back()->with('error', __('toast.create.unique.message'));
+                if($room->room_type_id != $request->room_type){
+                    $room->name = $request->room_name;
+                    $room->room_type_id = $request->room_type;
+                    if($request->availability){
+                        $room->status = 1;
+                    }else{
+                        $room->status = 0;
+                    }
+                    $room->save();
+                }else{
+                    return redirect()->back()->with('error', __('toast.create.unique.message'));
+                }
             }
 
             $kost = Kost::find($room->kost_id);    

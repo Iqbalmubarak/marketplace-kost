@@ -104,8 +104,10 @@
                                 </div>
                                 <div class="fileinput-preview fileinput-exists img-thumbnail"
                                     style="max-width: 200px; max-height: 150px;">@if ($room_image1)
-                                    <img src="{{ asset('storage/images/room/'.$room_image1->image) }}">
+                                    <img src="{{ asset('storage/images/room/'.$room_image1->image) }}"
+                                        style="width: 200px; height: 150px;">
                                     @endif</div>
+                                <br>
                                 <div class="d-flex justify-content-center">
                                     <a href="javascript:void(0)" onclick="delImage1(this,{{$room_image1->id}})"
                                         class="btn btn-outline-secondary delete">Delete</a>
@@ -121,6 +123,7 @@
                                 </div>
                                 <div class="fileinput-preview fileinput-exists img-thumbnail"
                                     style="max-width: 200px; max-height: 150px;"></div>
+                                <br>
                                 <div>
                                     <span class="btn btn-outline-secondary btn-file"><span class="fileinput-new">Select
                                             image</span><span class="fileinput-exists">Change</span><input type="file"
@@ -154,8 +157,10 @@
                                 </div>
                                 <div class="fileinput-preview fileinput-exists img-thumbnail"
                                     style="max-width: 200px; max-height: 150px;">@if ($room_image2)
-                                    <img src="{{ asset('storage/images/room/'.$room_image2->image) }}">
+                                    <img src="{{ asset('storage/images/room/'.$room_image2->image) }}"
+                                        style="width: 200px; height: 150px;">
                                     @endif</div>
+                                <br>
                                 <div class="d-flex justify-content-center">
                                     <a href="javascript:void(0)" onclick="delImage2(this,{{$room_image2->id}})"
                                         class="btn btn-outline-secondary delete">Delete</a>
@@ -171,6 +176,7 @@
                                 </div>
                                 <div class="fileinput-preview fileinput-exists img-thumbnail"
                                     style="max-width: 200px; max-height: 150px;"></div>
+                                <br>
                                 <div>
                                     <span class="btn btn-outline-secondary btn-file"><span class="fileinput-new">Select
                                             image</span><span class="fileinput-exists">Change</span><input type="file"
@@ -204,8 +210,10 @@
                                 </div>
                                 <div class="fileinput-preview fileinput-exists img-thumbnail"
                                     style="max-width: 200px; max-height: 150px;">@if ($room_image3)
-                                    <img src="{{ asset('storage/images/room/'.$room_image3->image) }}">
+                                    <img src="{{ asset('storage/images/room/'.$room_image3->image) }}"
+                                        style="width: 200px; height: 150px;">
                                     @endif</div>
+                                <br>
                                 <div class="d-flex justify-content-center">
                                     <a href="javascript:void(0)" onclick="delImage3(this,{{$room_image3->id}})"
                                         class="btn btn-outline-secondary delete">Delete</a>
@@ -221,6 +229,7 @@
                                 </div>
                                 <div class="fileinput-preview fileinput-exists img-thumbnail"
                                     style="max-width: 200px; max-height: 150px;"></div>
+                                <br>
                                 <div>
                                     <span class="btn btn-outline-secondary btn-file"><span class="fileinput-new">Select
                                             image</span><span class="fileinput-exists">Change</span><input type="file"
@@ -254,8 +263,10 @@
                                 </div>
                                 <div class="fileinput-preview fileinput-exists img-thumbnail"
                                     style="max-width: 200px; max-height: 150px;">@if ($room_image4)
-                                    <img src="{{ asset('storage/images/room/'.$room_image4->image) }}">
+                                    <img src="{{ asset('storage/images/room/'.$room_image4->image) }}"
+                                        style="width: 200px; height: 150px;">
                                     @endif</div>
+                                <br>
                                 <div class="d-flex justify-content-center">
                                     <a href="javascript:void(0)" onclick="delImage4(this,{{$room_image4->id}})"
                                         class="btn btn-outline-secondary delete">Delete</a>
@@ -271,6 +282,7 @@
                                 </div>
                                 <div class="fileinput-preview fileinput-exists img-thumbnail"
                                     style="max-width: 200px; max-height: 150px;"></div>
+                                <br>
                                 <div>
                                     <span class="btn btn-outline-secondary btn-file"><span class="fileinput-new">Select
                                             image</span><span class="fileinput-exists">Change</span><input type="file"
@@ -289,72 +301,22 @@
 
                 <h1>Harga Kamar</h1>
                 <fieldset>
-                    <div class="form-group row"><label class="col-lg-2 col-form-label">Harga bulanan</label>
-                        <div class="col-lg-10">
-                            <input id="price_month" onchange="convertMonth(this)" name="price_month" type="text"
-                                placeholder="Harga bulanan" value="{{Helper::rupiah($room_type->priceList->month)}}"
-                                class="form-control @error('price_month') is-invalid @enderror required"> <span
-                                class="form-text m-b-none"></span>
-                            @error('price_month')
-                            <div class="invalid-feedback">
-                                {{$message}}
-                            </div>
-                            @enderror
-                        </div>
-                    </div>
-                    <div class="form-group row"><label class="col-lg-2 col-form-label">Harga sewa selain bulanan</label>
-                        <div class="col-lg-10">
-                            <div class="checkbox checkbox-success">
-                                <input id="check-price" type="checkbox" onclick="check()">
-                                <label for="check-price">
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group row" style="display:none" id="row-day"><label
-                            class="col-lg-2 col-form-label">Harga harian</label>
+                    <div class="form-group row">
+                        @foreach ($rent_durations as $duration)
+                        <label class="col-lg-2 col-form-label">Harga {{$duration->name}}</label>
                         <div class="col-lg-10 col-form-label">
-                            <input id="price_day" onchange="convertDay(this)" name="price_day" type="text"
-                                placeholder="Harga harian" value="{{Helper::rupiah($room_type->priceList->day)}}"
-                                class="form-control @error('price_day') is-invalid @enderror"> <span
-                                class="form-text m-b-none"></span>
+                            <input id="duration_price{{$duration->id}}" onchange="convert(this, {{$duration->id}})"
+                                name="duration_price[{{$duration->id}}]" type="text"
+                                placeholder="Harga {{$duration->name}}" class="form-control" @if($duration->id == 1)
+                            required @endif
+                            @foreach ($price_lists as $price_list)
+                            @if($price_list->rent_duration_id == $duration->id)
+                            value = "{{Helper::rupiah($price_list->price)}}"
+                            @endif
+                            @endforeach
+                            >
                         </div>
-                        @error('price_day')
-                        <div class="invalid-feedback">
-                            {{$message}}
-                        </div>
-                        @enderror
-                    </div>
-
-                    <div class="form-group row" style="display:none" id="row-week"><label
-                            class="col-lg-2 col-form-label">Harga mingguan</label>
-                        <div class="col-lg-10 col-form-label">
-                            <input id="price_week" onchange="convertWeek(this)" name="price_week" type="text"
-                                placeholder="Harga mingguan" value="{{Helper::rupiah($room_type->priceList->week)}}"
-                                class="form-control @error('price_week') is-invalid @enderror"> <span
-                                class="form-text m-b-none"></span>
-                        </div>
-                        @error('price_week')
-                        <div class="invalid-feedback">
-                            {{$message}}
-                        </div>
-                        @enderror
-                    </div>
-
-                    <div class="form-group row" style="display:none" id="row-year"><label
-                            class="col-lg-2 col-form-label">Harga tahunan</label>
-                        <div class="col-lg-10 col-form-label">
-                            <input id="price_year" onchange="convertYear(this)" name="price_year" type="text"
-                                placeholder="Harga tahunan" value="{{Helper::rupiah($room_type->priceList->year)}}"
-                                class="form-control @error('price_year') is-invalid @enderror"> <span
-                                class="form-text m-b-none"></span>
-                        </div>
-                        @error('price_year')
-                        <div class="invalid-feedback">
-                            {{$message}}
-                        </div>
-                        @enderror
+                        @endforeach
                     </div>
 
                     <div class="form-group row"><label class="col-lg-2 col-form-label">Biaya tambahan lainnya</label>
@@ -367,8 +329,7 @@
                         </div>
                     </div>
 
-                    @if ($room_type->priceList->optionalPrice->count() > 0)
-                    @foreach ($room_type->priceList->optionalPrice as $optionalPrice)
+                    @foreach ($room_type->optionalPrice as $optionalPrice)
                     <div class="form-group row row-optional" style="display:none" id="row-optional">
                         <div class="col-lg-5 col-form-label">
                             <input id="price_name[]" name="price_name[]" type="text" placeholder="Nama biaya"
@@ -398,7 +359,6 @@
                         </div>
                     </div>
                     @endforeach
-                    @else
                     <div class="form-group row row-optional" style="display:none" id="row-optional">
                         <div class="col-lg-5 col-form-label">
                             <input id="price_name[]" name="price_name[]" type="text" placeholder="Nama biaya"
@@ -426,7 +386,6 @@
                                 onclick="delPriceClone(this)">Hapus</a>
                         </div>
                     </div>
-                    @endif
 
                     <div class="form-group row" id="button-optional" style="display:none">
                         <div class="col-lg-6 col-form-label">
@@ -544,24 +503,9 @@
         });
     }
 
-    function convertMonth(data) {
+    function convert(data, id) {
         var convert = convertRupiah(data.value, "Rp. ");
-        $('#price_month').val(convert)
-    }
-
-    function convertWeek(data) {
-        var convert = convertRupiah(data.value, "Rp. ");
-        $('#price_week').val(convert)
-    }
-
-    function convertDay(data) {
-        var convert = convertRupiah(data.value, "Rp. ");
-        $('#price_day').val(convert)
-    }
-
-    function convertYear(data) {
-        var convert = convertRupiah(data.value, "Rp. ");
-        $('#price_year').val(convert)
+        $('#duration_price' + id).val(convert)
     }
 
     function convertPrice(data) {

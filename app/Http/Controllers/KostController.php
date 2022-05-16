@@ -12,11 +12,13 @@ use App\Models\RuleUpload;
 use App\Models\KostType; 
 use App\Models\KostImage; 
 use App\Models\KostFacilityDetail; 
+use App\Models\RoomFacilityDetail; 
 use App\Models\FacilityType; 
 use App\Models\Facility;
 use App\Models\Room;
 use App\Models\RoomType;
 use App\Models\RoomImage;
+use App\Models\RentDuration;
 use App\Models\PriceList;
 use App\Models\OptionalPrice;
 use App\Http\Resources\KostList;
@@ -47,7 +49,6 @@ class KostController extends Controller
         try {       
             return view('backend.admin.manageKost.index');
         } catch (\Exception $e) {
-            dd($e);
             return redirect()->back()->with('error', __('toast.index.failed.message'));
         }
     }
@@ -59,8 +60,9 @@ class KostController extends Controller
             $rules = Rule::all();
             $facility_types1 = FacilityType::whereIn('id', [1, 2])->get();
             $facility_types2 = FacilityType::whereIn('id', [3, 4])->get();
+            $rent_durations = RentDuration::all();
 
-            return view('backend.kostOwner.manageKost.create', compact('kost_type','rules','facility_types1','facility_types2'));
+            return view('backend.kostOwner.manageKost.create', compact('kost_type','rules','facility_types1','facility_types2','rent_durations'));
         } catch (\Exception $e) {
             return redirect()->back()->with('error', __('toast.index.failed.message'));
         }
@@ -199,25 +201,19 @@ class KostController extends Controller
                 }
 
                 //Create Price List
-                $price_month = preg_replace("/[^0-9]/", "", $request->price_month);
-                $price_month = (int) $price_month;
-
-                $price_week = preg_replace("/[^0-9]/", "", $request->price_week);
-                $price_week = (int) $price_week;
-
-                $price_day = preg_replace("/[^0-9]/", "", $request->price_day);
-                $price_day = (int) $price_day;
-
-                $price_year = preg_replace("/[^0-9]/", "", $request->price_year);
-                $price_year = (int) $price_year;
-
-                $price_list = new PriceList;
-                $price_list->day = $price_day; 
-                $price_list->week = $price_week; 
-                $price_list->month = $price_month; 
-                $price_list->year = $price_year; 
-                $price_list->room_type_id = $room_type->id;
-                $price_list->save();
+                for ($i=1; $i <= count($request->duration_price); $i++) {
+                    if($request->duration_price[$i]){
+                        $price = preg_replace("/[^0-9]/", "", $request->duration_price[$i]);
+                        $price = (int) $price;
+                        $dp = 30 / 100 * $price;
+                        $price_list = new PriceList;
+                        $price_list->price = $price;
+                        $price_list->dp = $dp;
+                        $price_list->room_type_id = $room_type->id;
+                        $price_list->rent_duration_id = $i;
+                        $price_list->save();
+                    }
+                }
                 
                 //Create Optional Price
                 if(count($request->price_name) > 0){
@@ -313,7 +309,7 @@ class KostController extends Controller
             }
 
             return redirect()->route('owner.kost.index')->with('success', __('toast.create.success.message'));     
-        } catch (\Exception $e) { 
+        } catch (\Exception $e) {
             return redirect()->back()->with('error', __('toast.create.failed.message'));
         }
     }
@@ -334,7 +330,7 @@ class KostController extends Controller
                 ->select('rooms.room_type_id', \DB::raw('count(*) as total'), 'room_types.name')
                 ->where('rooms.kost_id', $id)
                 ->pluck('room_types.name','rooms.room_type_id');
-
+                
                 return view('backend.kostOwner.manageKost.show', compact('kost', 'rooms', 'room_type'));
             }else{
                 return redirect()->back()->with('error', __('toast.access.failed.message'));
@@ -363,15 +359,19 @@ class KostController extends Controller
             $kost = Kost::find($id);
             return view('backend.admin.manageKost.show', compact('kost', 'rooms', 'room_type'));
         } catch (\Exception $e) {
-            dd($e);
             return redirect()->back()->with('error', __('toast.index.failed.message'));
         }
     }
 
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
         try {
             $kost = Kost::find($id);
+            if($request->data){
+                $data = 'request';
+            }else{
+                $data = 'none';
+            }
             $kost_type = KostType::pluck('name','id');
             $rule_details = RuleDetail::where('kost_id', $kost->id)->get();
             $rule_upload = RuleUpload::where('kost_id', $kost->id)->first();            
@@ -379,7 +379,23 @@ class KostController extends Controller
             $kost_images1 = KostImage::where('kost_id', $kost->id)->where('section_id', 1)->get();
             $kost_images2 = KostImage::where('kost_id', $kost->id)->where('section_id', 2)->get();
             $kost_images3 = KostImage::where('kost_id', $kost->id)->where('section_id', 3)->get();
-            return view('backend.kostOwner.manageKost.edit', compact('kost','kost_type','rule_details','kost_facility_details','rule_upload','kost_images1','kost_images2','kost_images3'));
+
+            $rent_durations = RentDuration::all();
+            $room_type = RoomType::where('kost_id',$id)->first();
+            $room_total = Room::where('kost_id', $id)->count();
+            $room_facility_details = RoomFacilityDetail::where('room_type_id', $room_type->id)->get();
+            $price_lists = PriceList::where('room_type_id', $room_type->id)->get();
+            $room_images1 = RoomImage::where('room_type_id', $room_type->id)
+            ->where('section_id', 4)->get();
+            $room_images2 = RoomImage::where('room_type_id', $room_type->id)
+            ->where('section_id', 5)->get();
+            $room_images3 = RoomImage::where('room_type_id', $room_type->id)
+            ->where('section_id', 6)->get();
+            $room_images4 = RoomImage::where('room_type_id', $room_type->id)
+            ->where('section_id', 7)->get();
+            $kost_id = $room_type->room[0]->kost_id;
+
+            return view('backend.kostOwner.manageKost.edit', compact('kost','kost_type','rule_details','kost_facility_details','rule_upload','kost_images1','kost_images2','kost_images3','data','room_type','kost_id','room_images1','room_images2','room_images3','room_images4','room_total','room_facility_details','price_lists','rent_durations'));
         } catch (\Exception $e) {
             return redirect()->back()->with('error', __('toast.index.failed.message'));
         }
@@ -413,6 +429,7 @@ class KostController extends Controller
     public function update(Request $request, $id)
     {
         try {
+
             $kost = Kost::find($id);
             $kost->name = $request->name;
             $kost->address = $request->address;
@@ -423,11 +440,22 @@ class KostController extends Controller
             $kost->latitude = $request->latitude;
             $kost->longitude = $request->longitude;
             $kost->kost_type_id = $request->kost_type;
+            if($request->data == 'request'){
+                $kost->status = 0;
+            }
             $kost->save();
 
             if($kost->id){
                 
                 //Rule detail
+                $ruleDetails = RuleDetail::where('kost_id', $kost->id)
+                ->whereNotIn('rule_id', $request->rule_detail)->get();
+
+                foreach($ruleDetails as $ruleDetail){
+                    $ruleDetail->status = 1;
+                    $ruleDetail->save();
+                }
+
                 for($i=0; $i < count($request->rule_detail); $i++){
                     $ruleDetail = RuleDetail::where('kost_id', $kost->id)
                     ->where('rule_id', $request->rule_detail[$i])
@@ -473,6 +501,14 @@ class KostController extends Controller
                 
 
                 //Kost facility
+                $kostFacilityDetails = KostFacilityDetail::where('kost_id', $kost->id)
+                ->whereNotIn('facility_id', $request->detail)->get();
+
+                foreach($kostFacilityDetails as $kostFacilityDetail){
+                    $kostFacilityDetail->status = 1;
+                    $kostFacilityDetail->save();
+                }
+
                 for($i=0; $i < count($request->detail); $i++){
                     $kostFacilityDetail = KostFacilityDetail::where('kost_id', $kost->id)
                     ->where('facility_id', $request->detail[$i])
@@ -532,9 +568,131 @@ class KostController extends Controller
                         $kostImage->save();
                     }
                 }
+
+                if($request->data == 'request'){
+                    //Room
+                    $room_type = RoomType::where('kost_id', $kost->id)->first();
+
+                    $room_type->name = $request->room_type;
+                    $room_type->lenght = $request->lenght;
+                    $room_type->wide = $request->wide;
+                    $room_type->save();
+
+                    //Create Price List
+                    for ($i=1; $i <= count($request->duration_price); $i++) {
+                        if($request->duration_price[$i]){
+                            $price_list = PriceList::where('room_type_id', $id)->where('rent_duration_id', $i)->first();
+                            $price = preg_replace("/[^0-9]/", "", $request->duration_price[$i]);
+                            $price = (int) $price;
+                            $dp = 30 / 100 * $price;
+                            if($price_list){
+                                $price_list->price = $price;
+                                $price_list->dp = $dp;
+                                $price_list->save();
+                            }else{
+                                $price_list = new PriceList;
+                                $price_list->price = $price;
+                                $price_list->dp = $dp;
+                                $price_list->room_type_id = $room_type->id;
+                                $price_list->rent_duration_id = $i;
+                                $price_list->save();
+                            }
+                        }else{
+                            $price_list = PriceList::where('room_type_id', $id)->where('rent_duration_id', $i)->first();
+                            if($price_list){
+                                $price_list->delete();
+                            }
+                        }
+                    }
+
+                    //Create Optional Price
+                    $optional_prices = OptionalPrice::where('room_type_id', $room_type->id)->get();
+                    foreach ($optional_prices as $optional_price) {
+                        $optional_price->delete();
+                    }
+
+                    if(count($request->price_name) > 0){
+                        for ($i=0; $i < count($request->price_name); $i++) {
+                            if($request->price_name[$i] && $request->price[$i]){
+                                $price = preg_replace("/[^0-9]/", "", $request->price[$i]);
+                            $price = (int) $price;
+                                $optional_price = new OptionalPrice;
+                                $optional_price->name = $request->price_name[$i];
+                                $optional_price->price = $price;
+                                $optional_price->room_type_id = $room_type->id;
+                                $optional_price->save();
+                            }
+                        }
+                    }
+
+                    //Foto bagian depan kamar
+                    $dir = storage_path().'/app/public/images/room';
+                    $image_room1 = $request->file('image_room1');
+                    if($image_room1){
+                        foreach ($image_room1 as $file) {
+                            $fileName = Time().".".$file->getClientOriginalName();
+                            $file->move($dir, $fileName);
+
+                            $image_room1 = new RoomImage;
+                            $image_room1->image = $fileName;
+                            $image_room1->room_type_id = $room_type->id;
+                            $image_room1->section_id = 4;
+                            $image_room1->save();
+                        }
+                    }
+
+                    //Foto bagian dalam kamar
+                    $dir = storage_path().'/app/public/images/room';
+                    $image_room2 = $request->file('image_room2');
+                    if($image_room2){
+                        foreach ($image_room2 as $file) {
+                            $fileName = Time().".".$file->getClientOriginalName();
+                            $file->move($dir, $fileName);
+
+                            $image_room2 = new RoomImage;
+                            $image_room2->image = $fileName;
+                            $image_room2->room_type_id = $room_type->id;
+                            $image_room2->section_id = 5;
+                            $image_room2->save();
+                        }
+                    }
+
+                    //Foto kamar mandi
+                    $dir = storage_path().'/app/public/images/room';
+                    $image_room3 = $request->file('image_room3');
+                    if($image_room3){
+                        foreach ($image_room3 as $file) {
+                            $fileName = Time().".".$file->getClientOriginalName();
+                            $file->move($dir, $fileName);
+
+                            $image_room3 = new RoomImage;
+                            $image_room3->image = $fileName;
+                            $image_room3->room_type_id = $room_type->id;
+                            $image_room3->section_id = 6;
+                            $image_room3->save();
+                        }
+                    }
+
+                    //Foto tambahan
+                    $dir = storage_path().'/app/public/images/room';
+                    $image_room4 = $request->file('image_room4');
+                    if($image_room4){
+                        foreach ($image_room4 as $file) {
+                            $fileName = Time().".".$file->getClientOriginalName();
+                            $file->move($dir, $fileName);
+
+                            $image_room4 = new RoomImage;
+                            $image_room4->image = $fileName;
+                            $image_room4->room_type_id = $room_type->id;
+                            $image_room4->section_id = 7;
+                            $image_room4->save();
+                        }
+                    }
+                    return redirect()->route('owner.kost.index')->with('success', __('toast.update.success.message'));  
+                }
             }
 
-            return redirect()->route('owner.kost.index')->with('success', __('toast.update.success.message'));     
+            return redirect()->route('owner.kost.show', $id)->with('success', __('toast.update.success.message'));     
         } catch (\Exception $e) {
             return redirect()->back()->with('error', __('toast.update.failed.message'));
         }
@@ -547,7 +705,7 @@ class KostController extends Controller
             $kost->status = 1;
             $kost->save();
 
-            return redirect()->route('admin.kost.index-admin')->with('success', __('toast.confirm.success.message'));     
+            return redirect()->route('admin.kost.admin-index')->with('success', __('toast.confirm.success.message'));     
         } catch (\Exception $e) {
             return redirect()->back()->with('error', __('toast.confirm.failed.message'));
         }
@@ -560,7 +718,7 @@ class KostController extends Controller
             $kost->status = 2;
             $kost->save();
 
-            return redirect()->route('admin.kost.index-admin')->with('success', __('toast.reject.success.message'));     
+            return redirect()->route('admin.kost.admin-index')->with('success', __('toast.reject.success.message'));     
         } catch (\Exception $e) {
             return redirect()->back()->with('error', __('toast.reject.failed.message'));
         }

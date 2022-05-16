@@ -15,13 +15,13 @@ class RoomFacilityDetail extends Model
         'room_facility_id'
     ];
 
-    public function room()
+    public function roomType()
     {
-        return $this->hasOne(Room::class, 'id', 'room_id');
+        return $this->hasOne(RoomType::class, 'id', 'room_type_id');
     }
 
     public function facility()
     {
-        return $this->hasOne(RoomFacility::class, 'id', 'room_facility_id');
+        return $this->hasOne(Facility::class, 'id', 'facility_id');
     }
 }

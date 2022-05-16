@@ -18,7 +18,7 @@ class helper {
     }
 
     public static function rupiah($val) {
-        return "Rp " .number_format($val, 0, ',', '.');
+        return "Rp. " .number_format($val, 0, ',', '.'). ",00";
     }
 
     public static function sekianwaktu($time) {
