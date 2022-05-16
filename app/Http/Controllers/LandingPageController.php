@@ -24,8 +24,7 @@ class LandingPageController extends Controller
 
     public function info(){
         try {
-            $kosts = Kost::where('status', 1)->paginate(8);
-            dd($kosts->links());
+            $kosts = Kost::where('status', 1)->paginate(1);
             return view('backend.landingPage.info', compact('kosts'));
         } catch (\Exception $e) {
             return redirect()->back();

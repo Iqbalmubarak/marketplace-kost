@@ -1,5 +1,10 @@
 @extends('layouts.landingPage.main')
 
+@section('css')
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
+<link href="{{ asset('templates/css/plugins/jasny/jasny-bootstrap.min.css') }}" rel="stylesheet">
+@endsection
+
 @section('content')
 <?php 
     $today = new DateTime("today");
@@ -17,192 +22,200 @@
 <div class="breadcrumb">
     <div class="container">
         <div class="breadcrumb-inner">
-            
+
         </div><!-- /.breadcrumb-inner -->
     </div><!-- /.container -->
 </div><!-- /.breadcrumb -->
 <div class="body-content">
     <div class="container">
-      <div class="my-wishlist-page">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="wrapper wrapper-content animated fadeInUp">
-                    <div class="ibox">
-                        <div class="ibox-content">
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <div class="m-b-md">
-                                        <a href="javascript:void(0)"
-                                            onclick="$('#detail-create').toggle(500);$('#detail-edit').hide(500);"
-                                            class="btn-upper btn btn-primary float-right" >Perpanjang sewa</a>
-                                        <a href="javascript:void(0)" onclick="stopRent({{$rent->id}})"
-                                            class="btn-upper btn btn-primary float-right">Berhenti sewa</a>
-                                        <h2>{{$rent->room->name}} - {{$rent->room->kost->name}}</h2>
+        @include('backend.kostSeeker.manageHistory.createDetail')
+        <div class="my-wishlist-page">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="wrapper wrapper-content animated fadeInUp">
+                        <div class="ibox">
+                            <div class="ibox-content">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="m-b-md">
+                                            <a href="javascript:void(0)"
+                                                onclick="$('#detail-create').toggle(500);$('#detail-edit').hide(500);"
+                                                class="btn-upper btn btn-primary float-right">Perpanjang sewa</a>
+                                            <a href="javascript:void(0)" onclick="stopRent({{$rent->id}})"
+                                                class="btn-upper btn btn-primary float-right">Berhenti sewa</a>
+                                            <h2>{{$rent->room->name}} - {{$rent->room->kost->name}}</h2>
+                                        </div>
+
                                     </div>
-
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <dl class="row mb-0">
-                                        <div class="col-sm-4 text-sm-right">
-                                            <dt>Status:</dt>
-                                        </div>
-                                        <div class="col-sm-8 text-sm-left">
-                                            @if ($rent->status == 1)
-                                            <dd class="mb-1"><span class="label label-primary">Aktif</span></dd>
-                                            @else
-                                            <dd class="mb-1"><span class="label label-danger">Tidak aktif</span></dd>
-                                            @endif
-                                        </div>
-                                    </dl>
-                                    <dl class="row mb-0">
-                                        <div class="col-sm-4 text-sm-right">
-                                            <dt>Total transaksi:</dt>
-                                        </div>
-                                        <div class="col-sm-8 text-sm-left">
-                                            <dd class="mb-1"> {{$rent->rentDetail->count()}}</dd>
-                                        </div>
-                                    </dl>
-                                    <dl class="row mb-0">
-                                        <div class="col-sm-4 text-sm-right">
-                                            <dt>Total biaya transaksi:</dt>
-                                        </div>
-                                        <div class="col-sm-8 text-sm-left">
-                                            <dd class="mb-1">
-                                                <p class="text-navy" style="color:#3EB489;font-weight: bold;">
-                                                    {{Helper::rupiah($rent->rentDetail->sum('total_price'))}}</p>
-                                            </dd>
-                                        </div>
-                                    </dl>
-
-                                </div>
-                                <div class="col-lg-6" id="cluster_info">
-
-                                    <dl class="row mb-0">
-                                        <div class="col-sm-4 text-sm-right">
-                                            <dt>Terakhir diperbaharui:</dt>
-                                        </div>
-                                        <div class="col-sm-8 text-sm-left">
-                                            <dd class="mb-1">{{$rent->updated_at}}</dd>
-                                        </div>
-                                    </dl>
-                                    <dl class="row mb-0">
-                                        <div class="col-sm-4 text-sm-right">
-                                            <dt>Dibuat:</dt>
-                                        </div>
-                                        <div class="col-sm-8 text-sm-left">
-                                            <dd class="mb-1">{{$rent->created_at}}</dd>
-                                        </div>
-                                    </dl>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <dl class="row mb-0">
-                                        <div class="col-sm-2 text-sm-right">
-                                            <dt>Completed:</dt>
-                                        </div>
-                                        <div class="col-sm-10 text-sm-left">
-                                            <dd>
-                                                <div class="progress m-b-1">
-                                                    @if ($rent->status == 1)
-                                                      @if ($percent > 70)
-                                                      <div style="width: {{$percent}}%;"
-                                                          class="progress-bar progress-bar-warning progress-bar-striped progress-bar-animated">
-                                                      </div>
-                                                      @elseif ($percent >=100)
-                                                      <div style="width: {{$percent}}%;"
-                                                          class="progress-bar progress-bar-danger progress-bar-striped progress-bar-animated">
-                                                      </div>
-                                                      @else
-                                                      <div style="width: {{$percent}}%;"
-                                                          class="progress-bar progress-bar-striped progress-bar-animated">
-                                                      </div>
-                                                      @endif
-                                                    @else
-                                                    <div style="width: {{$percent}}%;"
-                                                        class="progress-bar progress-bar-danger progress-bar-striped">
-                                                    </div>
-                                                    @endif
-
-                                                </div>
-                                                <small>Penyewaan kamar yang telah dilalui
-                                                    <strong><?php echo round($percent,2) ; ?>%</strong>. Tersisa {{$d}}
-                                                    hari dari total {{$day}} hari sebelum batas waktu penyewaan
-                                                    habis.</small>
-                                            </dd>
-                                        </div>
-                                    </dl>
-                                </div>
-                            </div>
-                            <div class="row m-t-sm">
-                                <div class="col-lg-12">
-                                    <div class="panel blank-panel">
-                                        <div class="panel-heading">
-                                            <div class="panel-options">
-                                                <ul class="nav nav-tabs">
-                                                    <li><a class="nav-link active" href="#tab-1"
-                                                            data-toggle="tab">Aktifitas
-                                                            penyewaan</a></li>
-                                                </ul>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <dl class="row mb-0">
+                                            <div class="col-sm-4 text-sm-right">
+                                                <dt>Status:</dt>
                                             </div>
-                                        </div>
+                                            <div class="col-sm-8 text-sm-left">
+                                                @if ($rent->status == 1)
+                                                <dd class="mb-1"><span class="label label-primary">Aktif</span></dd>
+                                                @else
+                                                <dd class="mb-1"><span class="label label-danger">Tidak aktif</span>
+                                                </dd>
+                                                @endif
+                                            </div>
+                                        </dl>
+                                        <dl class="row mb-0">
+                                            <div class="col-sm-4 text-sm-right">
+                                                <dt>Total transaksi:</dt>
+                                            </div>
+                                            <div class="col-sm-8 text-sm-left">
+                                                <dd class="mb-1"> {{$rent->rentDetail->count()}}</dd>
+                                            </div>
+                                        </dl>
+                                        <dl class="row mb-0">
+                                            <div class="col-sm-4 text-sm-right">
+                                                <dt>Total biaya transaksi:</dt>
+                                            </div>
+                                            <div class="col-sm-8 text-sm-left">
+                                                <dd class="mb-1">
+                                                    <p class="text-navy" style="color:#3EB489;font-weight: bold;">
+                                                        {{Helper::rupiah($rent->rentDetail->sum('total_price'))}}</p>
+                                                </dd>
+                                            </div>
+                                        </dl>
 
-                                        <div class="panel-body">
+                                    </div>
+                                    <div class="col-lg-6" id="cluster_info">
 
-                                            <div class="tab-content">
-                                                <div class="tab-pane active" id="tab-1">
-                                                    <table class="table table-striped">
-                                                        <thead>
-                                                            <tr>
-                                                                <th>Status</th>
-                                                                <th>Dimulai</th>
-                                                                <th>Berakhir</th>
-                                                                <th>Total biaya</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            @foreach ($rent->rentDetail as $rentDetail)
-                                                            <?php 
+                                        <dl class="row mb-0">
+                                            <div class="col-sm-4 text-sm-right">
+                                                <dt>Terakhir diperbaharui:</dt>
+                                            </div>
+                                            <div class="col-sm-8 text-sm-left">
+                                                <dd class="mb-1">{{$rent->updated_at}}</dd>
+                                            </div>
+                                        </dl>
+                                        <dl class="row mb-0">
+                                            <div class="col-sm-4 text-sm-right">
+                                                <dt>Dibuat:</dt>
+                                            </div>
+                                            <div class="col-sm-8 text-sm-left">
+                                                <dd class="mb-1">{{$rent->created_at}}</dd>
+                                            </div>
+                                        </dl>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <dl class="row mb-0">
+                                            <div class="col-sm-2 text-sm-right">
+                                                <dt>Completed:</dt>
+                                            </div>
+                                            <div class="col-sm-10 text-sm-left">
+                                                <dd>
+                                                    <div class="progress m-b-1">
+                                                        @if ($rent->status == 1)
+                                                        @if ($percent > 70)
+                                                        <div style="width: {{$percent}}%;"
+                                                            class="progress-bar progress-bar-warning progress-bar-striped progress-bar-animated">
+                                                        </div>
+                                                        @elseif ($percent >=100)
+                                                        <div style="width: {{$percent}}%;"
+                                                            class="progress-bar progress-bar-danger progress-bar-striped progress-bar-animated">
+                                                        </div>
+                                                        @else
+                                                        <div style="width: {{$percent}}%;"
+                                                            class="progress-bar progress-bar-striped progress-bar-animated">
+                                                        </div>
+                                                        @endif
+                                                        @else
+                                                        <div style="width: {{$percent}}%;"
+                                                            class="progress-bar progress-bar-danger progress-bar-striped">
+                                                        </div>
+                                                        @endif
+
+                                                    </div>
+                                                    <small>Penyewaan kamar yang telah dilalui
+                                                        <strong><?php echo round($percent,2) ; ?>%</strong>. Tersisa
+                                                        {{$d}}
+                                                        hari dari total {{$day}} hari sebelum batas waktu penyewaan
+                                                        habis.</small>
+                                                </dd>
+                                            </div>
+                                        </dl>
+                                    </div>
+                                </div>
+                                <div class="row m-t-sm">
+                                    <div class="col-lg-12">
+                                        <div class="panel blank-panel">
+                                            <div class="panel-heading">
+                                                <div class="panel-options">
+                                                    <ul class="nav nav-tabs">
+                                                        <li><a class="nav-link active" href="#tab-1"
+                                                                data-toggle="tab">Aktifitas
+                                                                penyewaan</a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+
+                                            <div class="panel-body">
+
+                                                <div class="tab-content">
+                                                    <div class="tab-pane active" id="tab-1">
+                                                        <table class="table table-striped">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Status</th>
+                                                                    <th>Dimulai</th>
+                                                                    <th>Berakhir</th>
+                                                                    <th>Total biaya</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                @foreach ($rent->rentDetail as $rentDetail)
+                                                                <?php 
                                                               $ended_at = new DateTime($rentDetail->ended_at);
                                                           ?>
-                                                            <tr>
-                                                                <td>
-                                                                    @if ($rentDetail->status == 1)
-                                                                    @if ($today < $ended_at) <span
-                                                                        class="label label-primary"><i
-                                                                            class="fa fa-check"></i> Berjalan</span>
-                                                                        @else
-                                                                        <span class="label label-danger"><i
-                                                                                class="fa fa-check"></i> Selesai</span>
-                                                                        @endif
-                                                                        @else
-                                                                        <span class="label label-warning"><i
-                                                                                class="fa fa-check"></i> Diajukan</span>
-                                                                        @endif
-                                                                </td>
-                                                                <td>
-                                                                    {{$rentDetail->started_at}}
-                                                                </td>
-                                                                <td>
-                                                                    {{$rentDetail->ended_at}}
-                                                                </td>
-                                                                <td>
-                                                                    <p class="text-navy" style="color:#3EB489;font-weight: bold;">
-                                                                        {{Helper::rupiah($rentDetail->total_price)}}</p>
-                                                                </td>
-                                                            </tr>
-                                                            @endforeach
-                                                        </tbody>
-                                                    </table>
+                                                                <tr>
+                                                                    <td>
+                                                                        @if ($rentDetail->status == 1)
+                                                                        @if ($today < $ended_at) <span
+                                                                            class="label label-primary"><i
+                                                                                class="fa fa-check"></i> Berjalan</span>
+                                                                            @else
+                                                                            <span class="label label-danger"><i
+                                                                                    class="fa fa-check"></i>
+                                                                                Selesai</span>
+                                                                            @endif
+                                                                            @else
+                                                                            <span class="label label-warning"><i
+                                                                                    class="fa fa-check"></i>
+                                                                                Diajukan</span>
+                                                                            @endif
+                                                                    </td>
+                                                                    <td>
+                                                                        {{$rentDetail->started_at}}
+                                                                    </td>
+                                                                    <td>
+                                                                        {{$rentDetail->ended_at}}
+                                                                    </td>
+                                                                    <td>
+                                                                        <p class="text-navy"
+                                                                            style="color:#3EB489;font-weight: bold;">
+                                                                            {{Helper::rupiah($rentDetail->total_price)}}
+                                                                        </p>
+                                                                    </td>
+                                                                </tr>
+                                                                @endforeach
+                                                            </tbody>
+                                                        </table>
 
 
+                                                    </div>
                                                 </div>
+
                                             </div>
 
                                         </div>
-
                                     </div>
                                 </div>
                             </div>
@@ -211,7 +224,6 @@
                 </div>
             </div>
         </div>
-      </div>
     </div><!-- /.container -->
 </div><!-- /.body-content -->
 
@@ -222,7 +234,7 @@
 @endsection
 
 @section('script')
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js">
 <script src="{{ asset('templates/js/plugins/jasny/jasny-bootstrap.min.js') }}"></script>
 <script>
     function fileValidation() {
@@ -345,10 +357,7 @@
         rupiah = split[1] != undefined ? rupiah + "," + split[1] : rupiah;
         return prefix == undefined ? rupiah : rupiah ? prefix + rupiah : "";
     }
-    
-    $('.chosen-select').chosen({
-        width: "100%"
-    });
+
     $(document).ready(function () {
 
         var readURL = function (input) {
@@ -371,22 +380,6 @@
             $(".file-upload").click();
         });
     });
-
-    function tenantClone() {
-        $("#row-tenant")
-            .eq(0)
-            .clone()
-            .find("input").val("").end() // ***
-            .show()
-            .insertAfter(".row-tenant:last");
-
-        $(".c_tenant:last").attr("data-select2-id", "dsada");
-        $(".label-tenant:last").html("");
-    }
-
-    function delTenantClone(data) {
-        if ($('.row-tenant').length > 1) data.closest('.row-tenant').remove();
-    }
 
 </script>
 <script>
@@ -428,12 +421,13 @@
             function (isConfirm) {
                 if (isConfirm) {
                     swal("Berhasil!", "Penyewaan kamar telah dihentikan.", "success");
-                    $('#stop_rent').attr('action', "{{route('customer.rent.index')}}/" + id +"/stop-rent");
+                    $('#stop_rent').attr('action', "{{route('customer.rent.index')}}/" + id + "/stop-rent");
                     $('#stop_rent').submit();
                 } else {
                     swal("Dibatalkan", "Data kamu aman :)", "error");
                 }
             });
     }
+
 </script>
 @endsection

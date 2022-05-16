@@ -1,9 +1,10 @@
 
-<div class="col-lg-12" id="detail-create" style="display:none">
+<div class="col-lg-12 my-wishlist-page" id="detail-create" style="display:none">
     <div class="ibox">
         <div class="ibox-title">
-            <h5>Menambah penyewaan kamar</h5>
+            <h3>Menambah penyewaan kamar</h3>
         </div>
+        <br>
         <div class="ibox-content">
             {{ Form::open(array('method'=>'POST', 'url' => route('customer.history.detailStore', $rent->id), 'files' => true, 'enctype' => 'multipart/form-data')) }}
             <div class="form-group row">
@@ -73,7 +74,7 @@
             </div>
             <div class="form-group row">
                 <div class="col-lg-6 col-form-label">
-                    <button type="submit" class="btn btn-outline-primary">Simpan</button>
+                    <button type="submit" class="btn-upper btn btn-primary">Simpan</button>
                 </div>
             </div>
             {!! Form::close() !!}
@@ -81,4 +82,4 @@
         </div>
     </div>
 </div>
-
+<br>

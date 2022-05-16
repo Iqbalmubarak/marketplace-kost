@@ -396,17 +396,13 @@
                         </div>
                         <!-- /.col -->
                         <div class="col col-sm-6 col-md-4 col-xs-6 col-lg-4 text-right">
-                            <div class="pagination-container">
+                            {{$kosts->links()}}
+                            <!-- <div class="pagination-container">
+                              
                                 <ul class="list-inline list-unstyled">
-                                    <li class="prev"><a href="#"><i class="fa fa-angle-left"></i></a></li>
                                     <li><a href="#">{{ $kosts->links() }}</a></li>
-                                    <li class="active"><a href="#">2</a></li>
-                                    <li><a href="#">3</a></li>
-                                    <li><a href="#">4</a></li>
-                                    <li class="next"><a href="#"><i class="fa fa-angle-right"></i></a></li>
                                 </ul>
-                                <!-- /.list-inline -->
-                            </div>
+                            </div> -->
                             <!-- /.pagination-container -->
                         </div>
                         <!-- /.col -->
@@ -654,17 +650,14 @@
                     <!-- /.tab-content -->
                     <div class="clearfix filters-container bottom-row">
                         <div class="text-right">
-                            <div class="pagination-container">
+                            {{$kosts->links()}}
+                            <!-- <div class="pagination-container">
                                 <ul class="list-inline list-unstyled">
                                     <li class="prev"><a href="#"><i class="fa fa-angle-left"></i></a></li>
-                                    <li><a href="#">1</a></li>
-                                    <li class="active"><a href="#">2</a></li>
-                                    <li><a href="#">3</a></li>
-                                    <li><a href="#">4</a></li>
+                                    <li><a href="#">{{$kosts->links()}}</a></li>
                                     <li class="next"><a href="#"><i class="fa fa-angle-right"></i></a></li>
                                 </ul>
-                                <!-- /.list-inline -->
-                            </div>
+                            </div> -->
                             <!-- /.pagination-container -->
                         </div>
                         <!-- /.text-right -->

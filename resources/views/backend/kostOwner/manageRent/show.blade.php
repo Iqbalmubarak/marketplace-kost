@@ -215,13 +215,20 @@
                                                           ?>
                                                         <tr>
                                                             <td>
-                                                                @if ($today < $ended_at) <span
-                                                                    class="label label-primary"><i
-                                                                        class="fa fa-check"></i> Berjalan</span>
-                                                                    @else
-                                                                    <span class="label label-primary"><i
-                                                                            class="fa fa-check"></i> Selesai</span>
-                                                                    @endif
+                                                                @if ($rentDetail->status == 1)
+                                                                        @if ($today < $ended_at) <span
+                                                                            class="label label-primary"><i
+                                                                                class="fa fa-check"></i> Berjalan</span>
+                                                                            @else
+                                                                            <span class="label label-danger"><i
+                                                                                    class="fa fa-check"></i>
+                                                                                Selesai</span>
+                                                                            @endif
+                                                                            @else
+                                                                            <span class="label label-warning"><i
+                                                                                    class="fa fa-check"></i>
+                                                                                Diajukan</span>
+                                                                            @endif
                                                             </td>
                                                             <td>
                                                                 {{$rentDetail->started_at}}

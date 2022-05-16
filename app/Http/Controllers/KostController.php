@@ -82,8 +82,12 @@ class KostController extends Controller
             $kost->longitude = $request->longitude;
             $kost->kost_type_id = $request->kost_type;
             $kost->kost_owner_id = Auth::user()->kostOwner->id;
+            $kost->no_rek = "248919371";
             $kost->save();
+            if($request->file('image_room3')){
 
+                dd($request->file('image_room3'));
+            }
             if($kost->id){
                 $rules = Rule::all();
                 foreach($rules as $rule){
@@ -94,22 +98,25 @@ class KostController extends Controller
                 }
 
                 //Rule detail
-                for($i=0; $i < count($request->rule); $i++){
-                    $ruleDetail = RuleDetail::where('kost_id', $kost->id)
-                    ->where('rule_id', $request->rule[$i])
-                    ->first();
-                    $ruleDetail->status = 2;
-                    $ruleDetail->save();
+                if($request->rule){
+                    for($i=0; $i < count($request->rule); $i++){
+                        $ruleDetail = RuleDetail::where('kost_id', $kost->id)
+                        ->where('rule_id', $request->rule[$i])
+                        ->first();
+                        $ruleDetail->status = 2;
+                        $ruleDetail->save();
+                    }
                 }
+                
 
                 //Rule upload
                 $dir = storage_path().'/app/public/images/rule';
                 $fileRuleUpload = $request->file('rule_upload');                
 
-                $fileName = Time().".".$fileRuleUpload->getClientOriginalName();
-                $fileRuleUpload->move($dir, $fileName);
-
                 if($fileRuleUpload){
+                    $fileName = Time().".".$fileRuleUpload->getClientOriginalName();
+                    $fileRuleUpload->move($dir, $fileName);
+
                     $ruleUplaod = new RuleUpload;
                     $ruleUplaod->image = $fileName;
                     $ruleUplaod->kost_id = $kost->id;
@@ -124,12 +131,14 @@ class KostController extends Controller
                     $kostFacilityDetail->save();
                 }
                 //Kost facility
-                for($i=0; $i < count($request->facility); $i++){
-                    $kostFacilityDetail = KostFacilityDetail::where('kost_id', $kost->id)
-                    ->where('facility_id', $request->facility[$i])
-                    ->first();
-                    $kostFacilityDetail->status = 2;
-                    $kostFacilityDetail->save();
+                if($request->facility){
+                    for($i=0; $i < count($request->facility); $i++){
+                        $kostFacilityDetail = KostFacilityDetail::where('kost_id', $kost->id)
+                        ->where('facility_id', $request->facility[$i])
+                        ->first();
+                        $kostFacilityDetail->status = 2;
+                        $kostFacilityDetail->save();
+                    }
                 }
 
                 //Foto bangunan dari depan
@@ -201,29 +210,35 @@ class KostController extends Controller
                 }
 
                 //Create Price List
-                for ($i=1; $i <= count($request->duration_price); $i++) {
-                    if($request->duration_price[$i]){
-                        $price = preg_replace("/[^0-9]/", "", $request->duration_price[$i]);
-                        $price = (int) $price;
-                        $dp = 30 / 100 * $price;
-                        $price_list = new PriceList;
-                        $price_list->price = $price;
-                        $price_list->dp = $dp;
-                        $price_list->room_type_id = $room_type->id;
-                        $price_list->rent_duration_id = $i;
-                        $price_list->save();
+                if($request->duration_price)
+                {
+                    for ($i=1; $i <= count($request->duration_price); $i++) {
+                        if($request->duration_price[$i]){
+                            $price = preg_replace("/[^0-9]/", "", $request->duration_price[$i]);
+                            $price = (int) $price;
+                            $dp = 30 / 100 * $price;
+                            $price_list = new PriceList;
+                            $price_list->price = $price;
+                            $price_list->dp = $dp;
+                            $price_list->room_type_id = $room_type->id;
+                            $price_list->rent_duration_id = $i;
+                            $price_list->save();
+                        }
                     }
                 }
                 
                 //Create Optional Price
-                if(count($request->price_name) > 0){
-                    for ($i=0; $i < count($request->price_name); $i++) {
-                        $price = preg_replace("/[^0-9]/", "", $request->price[$i]);
-                        $price = (int) $price;
-                        $optional_price = new OptionalPrice;
-                        $optional_price->name = $request->price_name[$i];
-                        $optional_price->price = $price;
-                        $optional_price->price_list_id = $price_list->id;
+                if($request->price_name)
+                {
+                    if(count($request->price_name) > 0){
+                        for ($i=0; $i < count($request->price_name); $i++) {
+                            $price = preg_replace("/[^0-9]/", "", $request->price[$i]);
+                            $price = (int) $price;
+                            $optional_price = new OptionalPrice;
+                            $optional_price->name = $request->price_name[$i];
+                            $optional_price->price = $price;
+                            $optional_price->price_list_id = $price_list->id;
+                        }
                     }
                 }
 
@@ -235,13 +250,16 @@ class KostController extends Controller
                     $kostFacilityDetail->save();
                 }
                 //Room facility
-                for($i=0; $i < count($request->room_facility); $i++){
-                    $kostFacilityDetail = KostFacilityDetail::where('kost_id', $kost->id)
-                    ->where('facility_id', $request->room_facility[$i])
-                    ->first();
-                    $kostFacilityDetail->status = 2;
-                    $kostFacilityDetail->save();
+                if($request->room_facility){
+                    for($i=0; $i < count($request->room_facility); $i++){
+                        $kostFacilityDetail = KostFacilityDetail::where('kost_id', $kost->id)
+                        ->where('facility_id', $request->room_facility[$i])
+                        ->first();
+                        $kostFacilityDetail->status = 2;
+                        $kostFacilityDetail->save();
+                    }
                 }
+                
 
                 //Foto bagian depan kamar
                 $dir = storage_path().'/app/public/images/room';
@@ -307,9 +325,10 @@ class KostController extends Controller
                     }
                 }
             }
-
+            
             return redirect()->route('owner.kost.index')->with('success', __('toast.create.success.message'));     
         } catch (\Exception $e) {
+            dd($e);
             return redirect()->back()->with('error', __('toast.create.failed.message'));
         }
     }

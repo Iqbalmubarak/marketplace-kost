@@ -33,7 +33,9 @@ class HistoryController extends Controller
         //
         try {
             $room = Room::pluck('name', 'id');
-            return view('backend.kostSeeker.manageHistory.index', compact('room'));
+            $histories = History::where('kost_seeker_id', Auth::user()->kostSeeker->id)->get();
+            //dd($histories->rent->room->roomType->firstImage()->image);
+            return view('backend.kostSeeker.manageHistory.index', compact('room','histories'));
         } catch (\Exception $e) {
             return redirect()->back();
         }

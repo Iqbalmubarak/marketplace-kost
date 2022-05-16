@@ -118,7 +118,7 @@
                             @if(Auth::user())
                                 @if(Auth::user()->isCustomer())
                                 <li class="@if(Route::currentRouteName()=='customer.booking.indexCustomer') active  @endif  dropdown"> <a href="{{ route('customer.booking.indexCustomer') }}">Pemesanan kamar</a> </li>
-                                <li class="@if(Route::currentRouteName()=='customer.booking.indexCustomer') active  @endif  dropdown"> <a href="{{ route('customer.history.show', 18) }}">Penyewaan kamar</a> </li>
+                                <li class="@if(Route::currentRouteName()=='customer.history.index') active  @endif  dropdown"> <a href="{{ route('customer.history.index') }}">Penyewaan kamar</a> </li>
                                 @endif
                             @endif
                             

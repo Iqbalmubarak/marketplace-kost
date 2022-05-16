@@ -14,8 +14,4 @@ class History extends Model
         return $this->hasOne(Rent::class, 'id', 'rent_id');
     }
 
-    public function booking()
-    {
-        return $this->hasOne(Booking::class, 'id', 'booking_id');
-    }
 }
