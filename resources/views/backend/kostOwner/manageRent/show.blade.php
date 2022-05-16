@@ -18,6 +18,21 @@
         $percent = 100;
     }
 ?>
+<div class="modal inmodal" id="imageModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content animated flipInY">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+                        class="sr-only">Close</span></button>
+                <h4 class="modal-title">Bukti pembayaran</h4>
+            </div>
+            <div class="modal-body">
+                <img id="modalImg" src="{{ asset('templates/img/input_image.png') }}"
+                                                alt="Snow" style="width:100%;max-width:100%">
+            </div>
+        </div>
+    </div>
+</div>
 <div class="row wrapper border-bottom white-bg page-heading">
     <div class="col-lg-12">
         <h2>Detail Penyewaan kamar</h2>
@@ -206,6 +221,7 @@
                                                             <th>Dimulai</th>
                                                             <th>Berakhir</th>
                                                             <th>Total biaya</th>
+                                                            <th>Aksi</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -216,19 +232,23 @@
                                                         <tr>
                                                             <td>
                                                                 @if ($rentDetail->status == 1)
-                                                                        @if ($today < $ended_at) <span
-                                                                            class="label label-primary"><i
-                                                                                class="fa fa-check"></i> Berjalan</span>
-                                                                            @else
-                                                                            <span class="label label-danger"><i
-                                                                                    class="fa fa-check"></i>
-                                                                                Selesai</span>
-                                                                            @endif
-                                                                            @else
-                                                                            <span class="label label-warning"><i
-                                                                                    class="fa fa-check"></i>
-                                                                                Diajukan</span>
-                                                                            @endif
+                                                                    @if ($today < $ended_at) <span
+                                                                    class="label label-primary"><i
+                                                                        class="fa fa-check"></i> Berjalan</span>
+                                                                    @else
+                                                                    <span class="label label-danger"><i
+                                                                            class="fa fa-check"></i>
+                                                                        Selesai</span>
+                                                                    @endif
+                                                                @elseif($rentDetail->status == 2)
+                                                                <span class="label label-warning"><i
+                                                                        class="fa fa-check"></i>
+                                                                    Diajukan</span>
+                                                                @else
+                                                                <span class="label label-danger"><i
+                                                                        class="fa fa-check"></i>
+                                                                    Ditolak</span>
+                                                                @endif
                                                             </td>
                                                             <td>
                                                                 {{$rentDetail->started_at}}
@@ -240,236 +260,16 @@
                                                                 <p class="text-navy">
                                                                     {{Helper::rupiah($rentDetail->total_price)}}</p>
                                                             </td>
+                                                            <td>
+                                                                <div><button class="btn btn-xs btn-white" onclick="showImg(`{{ asset('storage/images/payment/'.$rentDetail->document) }}`)" id="myImg" data-toggle="modal" data-target="#imageModal"><i class="fa fa-eye"></i> Bukti pembayaran</button></div>
+                                                                <div><button class="btn btn-xs btn-white" onclick="acceptDetail({{$rentDetail->id}})"><i class="fa fa-check"></i> Terima</button></div>
+                                                                <div><button class="btn btn-xs btn-white" onclick="rejectDetail({{$rentDetail->id}})"><i class="fa fa-close"></i> Tolak</button></div>
+                                                            </td>
                                                         </tr>
                                                         @endforeach
                                                     </tbody>
                                                 </table>
 
-
-                                            </div>
-                                            <div class="tab-pane" id="tab-2">
-
-                                                <table class="table table-striped">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Status</th>
-                                                            <th>Title</th>
-                                                            <th>Start Time</th>
-                                                            <th>End Time</th>
-                                                            <th>Comments</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr>
-                                                            <td>
-                                                                <span class="label label-primary"><i
-                                                                        class="fa fa-check"></i> Completed</span>
-                                                            </td>
-                                                            <td>
-                                                                Create project in webapp
-                                                            </td>
-                                                            <td>
-                                                                12.07.2014 10:10:1
-                                                            </td>
-                                                            <td>
-                                                                14.07.2014 10:16:36
-                                                            </td>
-                                                            <td>
-                                                                <p class="small">
-                                                                    Lorem Ipsum is that it has a more-or-less normal
-                                                                    distribution of letters, as opposed to using
-                                                                    'Content here, content here', making it look like
-                                                                    readable.
-                                                                </p>
-                                                            </td>
-
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <span class="label label-primary"><i
-                                                                        class="fa fa-check"></i> Accepted</span>
-                                                            </td>
-                                                            <td>
-                                                                Various versions
-                                                            </td>
-                                                            <td>
-                                                                12.07.2014 10:10:1
-                                                            </td>
-                                                            <td>
-                                                                14.07.2014 10:16:36
-                                                            </td>
-                                                            <td>
-                                                                <p class="small">
-                                                                    Various versions have evolved over the years,
-                                                                    sometimes by accident, sometimes on purpose
-                                                                    (injected humour and the like).
-                                                                </p>
-                                                            </td>
-
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <span class="label label-primary"><i
-                                                                        class="fa fa-check"></i> Sent</span>
-                                                            </td>
-                                                            <td>
-                                                                There are many variations
-                                                            </td>
-                                                            <td>
-                                                                12.07.2014 10:10:1
-                                                            </td>
-                                                            <td>
-                                                                14.07.2014 10:16:36
-                                                            </td>
-                                                            <td>
-                                                                <p class="small">
-                                                                    There are many variations of passages of Lorem Ipsum
-                                                                    available, but the majority have suffered alteration
-                                                                    in some form, by injected humour, or randomised
-                                                                    words which
-                                                                </p>
-                                                            </td>
-
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <span class="label label-primary"><i
-                                                                        class="fa fa-check"></i> Reported</span>
-                                                            </td>
-                                                            <td>
-                                                                Latin words
-                                                            </td>
-                                                            <td>
-                                                                12.07.2014 10:10:1
-                                                            </td>
-                                                            <td>
-                                                                14.07.2014 10:16:36
-                                                            </td>
-                                                            <td>
-                                                                <p class="small">
-                                                                    Latin words, combined with a handful of model
-                                                                    sentence structures
-                                                                </p>
-                                                            </td>
-
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <span class="label label-primary"><i
-                                                                        class="fa fa-check"></i> Accepted</span>
-                                                            </td>
-                                                            <td>
-                                                                The generated Lorem
-                                                            </td>
-                                                            <td>
-                                                                12.07.2014 10:10:1
-                                                            </td>
-                                                            <td>
-                                                                14.07.2014 10:16:36
-                                                            </td>
-                                                            <td>
-                                                                <p class="small">
-                                                                    The generated Lorem Ipsum is therefore always free
-                                                                    from repetition, injected humour, or
-                                                                    non-characteristic words etc.
-                                                                </p>
-                                                            </td>
-
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <span class="label label-primary"><i
-                                                                        class="fa fa-check"></i> Sent</span>
-                                                            </td>
-                                                            <td>
-                                                                The first line
-                                                            </td>
-                                                            <td>
-                                                                12.07.2014 10:10:1
-                                                            </td>
-                                                            <td>
-                                                                14.07.2014 10:16:36
-                                                            </td>
-                                                            <td>
-                                                                <p class="small">
-                                                                    The first line of Lorem Ipsum, "Lorem ipsum dolor
-                                                                    sit amet..", comes from a line in section 1.10.32.
-                                                                </p>
-                                                            </td>
-
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <span class="label label-primary"><i
-                                                                        class="fa fa-check"></i> Reported</span>
-                                                            </td>
-                                                            <td>
-                                                                The standard chunk
-                                                            </td>
-                                                            <td>
-                                                                12.07.2014 10:10:1
-                                                            </td>
-                                                            <td>
-                                                                14.07.2014 10:16:36
-                                                            </td>
-                                                            <td>
-                                                                <p class="small">
-                                                                    The standard chunk of Lorem Ipsum used since the
-                                                                    1500s is reproduced below for those interested.
-                                                                </p>
-                                                            </td>
-
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <span class="label label-primary"><i
-                                                                        class="fa fa-check"></i> Completed</span>
-                                                            </td>
-                                                            <td>
-                                                                Lorem Ipsum is that
-                                                            </td>
-                                                            <td>
-                                                                12.07.2014 10:10:1
-                                                            </td>
-                                                            <td>
-                                                                14.07.2014 10:16:36
-                                                            </td>
-                                                            <td>
-                                                                <p class="small">
-                                                                    Lorem Ipsum is that it has a more-or-less normal
-                                                                    distribution of letters, as opposed to using
-                                                                    'Content here, content here', making it look like
-                                                                    readable.
-                                                                </p>
-                                                            </td>
-
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <span class="label label-primary"><i
-                                                                        class="fa fa-check"></i> Sent</span>
-                                                            </td>
-                                                            <td>
-                                                                Contrary to popular
-                                                            </td>
-                                                            <td>
-                                                                12.07.2014 10:10:1
-                                                            </td>
-                                                            <td>
-                                                                14.07.2014 10:16:36
-                                                            </td>
-                                                            <td>
-                                                                <p class="small">
-                                                                    Contrary to popular belief, Lorem Ipsum is not
-                                                                    simply random text. It has roots in a piece of
-                                                                    classical
-                                                                </p>
-                                                            </td>
-
-                                                        </tr>
-
-                                                    </tbody>
-                                                </table>
 
                                             </div>
                                         </div>
@@ -485,8 +285,11 @@
         </div>
     </div>
 </div>
-{!! Form::open(['method'=>'DELETE', 'route' => ['owner.rent.destroy', 0], 'style' =>
-'display:none','id'=>'deleted_rent']) !!}
+{!! Form::open(['method'=>'POST', 'route' => ['owner.rentDetail.accept', 0], 'style' =>
+'display:none','id'=>'accept_detail']) !!}
+{!! Form::close() !!}
+{!! Form::open(['method'=>'POST', 'route' => ['owner.rentDetail.reject', 0], 'style' =>
+'display:none','id'=>'reject_detail']) !!}
 {!! Form::close() !!}
 {!! Form::open(['method'=>'POST', 'route' => ['owner.rent.stopRent', 0], 'style' =>
 'display:none','id'=>'stop_rent']) !!}
@@ -497,6 +300,17 @@
 @section('script')
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
+     // Get the modal
+    var modal = document.getElementById("myModal");
+
+    // Get the image and insert it inside the modal - use its "alt" text as a caption
+    var img = document.getElementById("myImg");
+    var modalImg = document.getElementById("modalImg");
+
+    function showImg(src){
+        console.log(src);
+        modalImg.src = src;
+    }
     
     $('#c_room').on('select2:select', function (e) {
         let room_type = $('#c_room_type').val();
@@ -636,23 +450,46 @@
 
 </script>
 <script>
-    function confirm_delete(id) {
+    function acceptDetail(id) {
         swal({
                 title: "Apakah kamu yakin?",
-                text: "Data yang telah dihapus tidak dapat dikembalikan!",
+                text: "Durasi sewa kamar akan diperpanjang!",
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#DD6B55",
-                confirmButtonText: "Ya, hapus!",
+                confirmButtonText: "Ya, terima!",
                 cancelButtonText: "Tidak, batalkan!",
                 closeOnConfirm: false,
                 closeOnCancel: false
             },
             function (isConfirm) {
                 if (isConfirm) {
-                    swal("Terhapus!", "Data kamu telah terhapus.", "success");
-                    $('#deleted_rent').attr('action', "{{route('owner.rent.index')}}/" + id);
-                    $('#deleted_rent').submit();
+                    swal("Diterima!", "Penyewaan kamar berhasil diperpanjang.", "success");
+                    $('#accept_detail').attr('action', "{{route('owner.rentDetail.index')}}/"+ id +"/accept");
+                    $('#accept_detail').submit();
+                } else {
+                    swal("Dibatalkan", "Data kamu aman :)", "error");
+                }
+            });
+    }
+
+    function rejectDetail(id) {
+        swal({
+                title: "Apakah kamu yakin?",
+                text: "Permohonan perpanjangan durasi akan ditolak!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Ya, tolak!",
+                cancelButtonText: "Tidak, batalkan!",
+                closeOnConfirm: false,
+                closeOnCancel: false
+            },
+            function (isConfirm) {
+                if (isConfirm) {
+                    swal("Ditolak!", "Permohonan penyewaan kamar berhasil ditolak.", "success");
+                    $('#reject_detail').attr('action', "{{route('owner.rentDetail.index')}}/"+ id +"/reject");
+                    $('#reject_detail').submit();
                 } else {
                     swal("Dibatalkan", "Data kamu aman :)", "error");
                 }

@@ -80,6 +80,7 @@ class KostController extends Controller
             $kost->manager_handphone = $request->handphone;
             $kost->latitude = $request->latitude;
             $kost->longitude = $request->longitude;
+            $kost->no_rek = $request->no_rek;
             $kost->kost_type_id = $request->kost_type;
             $kost->kost_owner_id = Auth::user()->kostOwner->id;
             $kost->no_rek = "248919371";
@@ -458,6 +459,7 @@ class KostController extends Controller
             $kost->manager_handphone = $request->handphone;
             $kost->latitude = $request->latitude;
             $kost->longitude = $request->longitude;
+            $kost->no_rek = $request->no_rek;
             $kost->kost_type_id = $request->kost_type;
             if($request->data == 'request'){
                 $kost->status = 0;

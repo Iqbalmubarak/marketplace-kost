@@ -43,13 +43,13 @@ class Rent extends Model
 
     public function started()
     {
-        $started = RentDetail::where('rent_id', $this->id)->orderBy('started_at', 'asc')->first();
+        $started = RentDetail::where('rent_id', $this->id)->where('status', 1)->orderBy('started_at', 'asc')->first();
         return $started;
     }
 
     public function ended()
     {
-        $ended = RentDetail::where('rent_id', $this->id)->orderBy('ended_at', 'desc')->first();
+        $ended = RentDetail::where('rent_id', $this->id)->where('status', 1)->orderBy('ended_at', 'desc')->first();
         return $ended;
     }
 

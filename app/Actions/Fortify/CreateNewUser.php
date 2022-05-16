@@ -117,7 +117,7 @@ class CreateNewUser implements CreatesNewUsers
             'token' => $token
         ];
 
-        return response($response, 201);
+        return $user;
         
     }
 }

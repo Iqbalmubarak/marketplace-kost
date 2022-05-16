@@ -13,6 +13,7 @@ use App\Http\Controllers\CommerceController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\LandingPageController;
+use App\Http\Controllers\RentDetailController;
 
 /*
 |--------------------------------------------------------------------------
@@ -79,6 +80,11 @@ Route::prefix('owner')->middleware(['auth', 'auth.isOwner'])->name('owner.')->gr
     Route::resource('/booking', BookingController::class);
     Route::post('/booking/{id}/accept', [BookingController::class, 'accept'])->name('booking.accept');
     Route::patch('/booking/{id}/reject', [BookingController::class, 'reject'])->name('booking.reject');
+
+    //Rent Detail
+    Route::post('/rentDetail', [RentDetailController::class, 'index'])->name('rentDetail.index');
+    Route::post('/rentDetail/{id}/accept', [RentDetailController::class, 'accept'])->name('rentDetail.accept');
+    Route::post('/rentDetail/{id}/reject', [RentDetailController::class, 'reject'])->name('rentDetail.reject');
 });
 
 Route::prefix('customer')->middleware(['auth', 'auth.isCustomer'])->name('customer.')->group(function () {

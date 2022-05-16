@@ -186,10 +186,14 @@
                                                                                     class="fa fa-check"></i>
                                                                                 Selesai</span>
                                                                             @endif
-                                                                            @else
+                                                                            @elseif($rentDetail->status == 2)
                                                                             <span class="label label-warning"><i
                                                                                     class="fa fa-check"></i>
                                                                                 Diajukan</span>
+                                                                            @else
+                                                                            <span class="label label-danger"><i
+                                                                                    class="fa fa-check"></i>
+                                                                                Ditolak</span>
                                                                             @endif
                                                                     </td>
                                                                     <td>
@@ -235,7 +239,9 @@
 
 @section('script')
 <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js">
-<script src="{{ asset('templates/js/plugins/jasny/jasny-bootstrap.min.js') }}"></script>
+    < script src = "{{ asset('templates/js/plugins/jasny/jasny-bootstrap.min.js') }}" >
+
+</script>
 <script>
     function fileValidation() {
         var fileInput = document.getElementById('payment');
