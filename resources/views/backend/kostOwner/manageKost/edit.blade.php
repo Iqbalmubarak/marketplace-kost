@@ -111,6 +111,18 @@
                             </select>
                         </div>
                     </div>
+                    <div class="form-group row"><label class="col-lg-3 col-form-label">Nomor rekening</label>
+                        <div class="col-lg-9">
+                            <input id="c_no_rek" name="no_rek" type="text" placeholder="Nomor rekening"
+                                class="form-control @error('no_rek') is-invalid @enderror required" value="{{$kost->no_rek}}"> <span
+                                class="form-text m-b-none"></span>
+                            @error('no_rek')
+                            <div class="invalid-feedback">
+                                {{$message}}
+                            </div>
+                            @enderror
+                        </div>
+                    </div>
                     <div class="form-group row"><label class="col-lg-3 col-form-label">Tambah data pengelola</label>
                         <div class="col-lg-9">
                             <div class="checkbox checkbox-success">
@@ -131,7 +143,7 @@
                         <div class="col-lg-9">
                             <input id="e_manager" name="manager" value="{{$kost->manager_name}}" type="text"
                                 placeholder="Nama Pengelola"
-                                class="form-control @error('manager') is-invalid @enderror required"> <span
+                                class="form-control @error('manager') is-invalid @enderror"> <span
                                 class="form-text m-b-none"></span>
                             @error('manager')
                             <div class="invalid-feedback">
@@ -147,7 +159,7 @@
                         <div class="col-lg-9">
                             <input id="e_handphone" name="handphone" type="phone" value="{{$kost->manager_handphone}}"
                                 placeholder="Nomor Handphone Pengelola"
-                                class="form-control @error('handphone') is-invalid @enderror required"> <span
+                                class="form-control @error('handphone') is-invalid @enderror"> <span
                                 class="form-text m-b-none"></span>
                             @error('handphone')
                             <div class="invalid-feedback">

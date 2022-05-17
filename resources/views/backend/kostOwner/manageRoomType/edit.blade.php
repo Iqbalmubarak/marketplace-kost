@@ -83,6 +83,30 @@
                     </div>
                 </fieldset>
 
+                <h1>Fasilitas Kos</h1>
+                <fieldset>
+                    <?php $i = 3; ?>
+                    @foreach ($room_type->roomFacilityDetail as $detail)
+                    <div class="form-group row"><label class="col-lg-3 col-form-label">
+                            @if ($detail->facility->facility_type_id == $i)
+                            {{$detail->facility->type->name}}
+                            <?php $i++ ; ?>
+                            @endif</label>
+                        <div class="col-lg-9">
+                            <div class="checkbox checkbox-primary">
+                                <input id="room_facility[{{$detail->id}}]" name="room_facility[]" type="checkbox"
+                                    value="{{$detail->facility_id}}" @if ($detail->status == 2)
+                                checked
+                                @endif>
+                                <label for="room_facility[{{$detail->id}}]">
+                                    {{$detail->facility->name}}
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    @endforeach
+                </fieldset>
+
                 <h1>Foto Kamar</h1>
                 <fieldset>
                     <div class="form-group row ">

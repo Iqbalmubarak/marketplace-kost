@@ -101,6 +101,7 @@
                                 <div class="col-lg-6">
                                     <div class="row">
                                         @foreach ($kost->kostFacilityDetail as $kostFacilityDetail)
+                                        @if ($kostFacilityDetail->status == 2)
                                         <div class="col-lg-6">
                                             @if ($kostFacilityDetail->facility->icon)
                                             <div class="row">
@@ -124,6 +125,8 @@
                                             </div>
                                             @endif
                                         </div>
+                                        @endif
+                                        
                                         @endforeach
                                     </div>
                                 </div>
@@ -131,7 +134,9 @@
                                     <div class="row">
                                         <div class="col-lg-6">
                                             @foreach ($kost->rule_detail as $rule_detail)
+                                            @if ($rule_detail->status == 2)
                                             <i class="fa fa-check"> {{$rule_detail->rule->name}}</i><br>
+                                            @endif
                                             @endforeach
                                         </div>
                                         <div class="col-lg-6">

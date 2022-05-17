@@ -94,6 +94,25 @@
                     </div>
                 </fieldset>
 
+                <h1>Fasilitas Kamar</h1>
+                <fieldset>
+                    @foreach ($facility_types as $facility_type)
+                    <div class="form-group row"><label class="col-lg-3 col-form-label">{{$facility_type->name}}</label>
+                        <div class="col-lg-9">
+                            @foreach ($facility_type->facility as $facility)
+                            <div class="checkbox checkbox-primary">
+                                <input id="room_facility[{{$facility->id}}]" name="room_facility[]" type="checkbox"
+                                    value="{{$facility->id}}">
+                                <label for="room_facility[{{$facility->id}}]">
+                                    {{$facility->name}}
+                                </label>
+                            </div>
+                            @endforeach
+                        </div>
+                    </div>
+                    @endforeach
+                </fieldset>
+
                 <h1>Foto Kamar</h1>
                 <fieldset>
                     <div class="form-group row ">

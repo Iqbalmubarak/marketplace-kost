@@ -180,6 +180,13 @@
                                             </a>
                                             @endif
                                             @endforeach
+                                            @foreach ($roomType->roomFacilityDetail as $roomFacilityDetail)
+                                            <a class="button btn btn-primary" data-toggle="tooltip"
+                                                data-placement="right" title="{{$roomFacilityDetail->facility->name}}"
+                                                href="#">
+                                                {{$roomFacilityDetail->facility->name}}
+                                            </a>
+                                            @endforeach
                                             <br><br>
                                         </p>
                                     </div>

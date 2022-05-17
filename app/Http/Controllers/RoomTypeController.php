@@ -35,7 +35,8 @@ class RoomTypeController extends Controller
         try {   
             $kost = Kost::find($id);    
             $rent_durations = RentDuration::all();
-            return view('backend.kostOwner.manageRoomType.create', compact('kost','rent_durations'));
+            $facility_types = FacilityType::whereIn('id', [3, 4])->get();
+            return view('backend.kostOwner.manageRoomType.create', compact('kost','rent_durations','facility_types'));
         } catch (\Exception $e) {
             return redirect()->back()->with('error', __('toast.index.failed.message'));
         }
@@ -87,6 +88,24 @@ class RoomTypeController extends Controller
                         $optional_price->name = $request->price_name[$i];
                         $optional_price->price = $price;
                         $optional_price->price_list_id = $price_list->id;
+                    }
+                }
+
+                $facilities = Facility::whereIn('facility_type_id', [3, 4])->get();
+                foreach($facilities as $facility){
+                    $roomFacilityDetail = new RoomFacilityDetail;
+                    $roomFacilityDetail->room_type_id = $room_type->id;
+                    $roomFacilityDetail->facility_id = $facility->id;
+                    $roomFacilityDetail->save();
+                }
+                //Room facility
+                if($request->room_facility){
+                    for($i=0; $i < count($request->room_facility); $i++){
+                        $roomFacilityDetail = RoomFacilityDetail::where('room_type_id', $room_type->id)
+                        ->where('facility_id', $request->room_facility[$i])
+                        ->first();
+                        $roomFacilityDetail->status = 2;
+                        $roomFacilityDetail->save();
                     }
                 }
 
@@ -171,7 +190,6 @@ class RoomTypeController extends Controller
 
             return redirect()->route('owner.kost.show', compact('kost','rooms','room_type'))->with('success', __('toast.create.success.message'));
         } catch (\Exception $e) {
-            dd($e);
             return redirect()->back()->with('error', __('toast.create.failed.message'));
         }
     }

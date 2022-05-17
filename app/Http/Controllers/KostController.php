@@ -245,19 +245,19 @@ class KostController extends Controller
 
                 $facilities = Facility::whereIn('facility_type_id', [3, 4])->get();
                 foreach($facilities as $facility){
-                    $kostFacilityDetail = new KostFacilityDetail;
-                    $kostFacilityDetail->kost_id = $kost->id;
-                    $kostFacilityDetail->facility_id = $facility->id;
-                    $kostFacilityDetail->save();
+                    $roomFacilityDetail = new RoomFacilityDetail;
+                    $roomFacilityDetail->room_type_id = $room_type->id;
+                    $roomFacilityDetail->facility_id = $facility->id;
+                    $roomFacilityDetail->save();
                 }
                 //Room facility
                 if($request->room_facility){
                     for($i=0; $i < count($request->room_facility); $i++){
-                        $kostFacilityDetail = KostFacilityDetail::where('kost_id', $kost->id)
+                        $roomFacilityDetail = RoomFacilityDetail::where('room_type_id', $room_type->id)
                         ->where('facility_id', $request->room_facility[$i])
                         ->first();
-                        $kostFacilityDetail->status = 2;
-                        $kostFacilityDetail->save();
+                        $roomFacilityDetail->status = 2;
+                        $roomFacilityDetail->save();
                     }
                 }
                 
@@ -449,7 +449,7 @@ class KostController extends Controller
     public function update(Request $request, $id)
     {
         try {
-
+            
             $kost = Kost::find($id);
             $kost->name = $request->name;
             $kost->address = $request->address;
@@ -465,24 +465,25 @@ class KostController extends Controller
                 $kost->status = 0;
             }
             $kost->save();
-
+            
             if($kost->id){
                 
                 //Rule detail
-                $ruleDetails = RuleDetail::where('kost_id', $kost->id)
-                ->whereNotIn('rule_id', $request->rule_detail)->get();
-
-                foreach($ruleDetails as $ruleDetail){
-                    $ruleDetail->status = 1;
-                    $ruleDetail->save();
-                }
-
-                for($i=0; $i < count($request->rule_detail); $i++){
-                    $ruleDetail = RuleDetail::where('kost_id', $kost->id)
-                    ->where('rule_id', $request->rule_detail[$i])
-                    ->first();
-                    $ruleDetail->status = 2;
-                    $ruleDetail->save();
+                if($request->rule_detail){
+                    $ruleDetails = RuleDetail::where('kost_id', $kost->id)
+                    ->whereNotIn('rule_id', $request->rule_detail)->get();
+                    
+                    foreach($ruleDetails as $ruleDetail){
+                        $ruleDetail->status = 1;
+                        $ruleDetail->save();
+                    }
+                    for($i=0; $i < count($request->rule_detail); $i++){
+                        $ruleDetail = RuleDetail::where('kost_id', $kost->id)
+                        ->where('rule_id', $request->rule_detail[$i])
+                        ->first();
+                        $ruleDetail->status = 2;
+                        $ruleDetail->save();
+                    }
                 }
                 
                 if($request->file('rule_upload')){
