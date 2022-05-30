@@ -1,415 +1,474 @@
 @extends('layouts.kostOwner.main')
 
 @section('content')
-<div class="container">
-  <div class="row">
-  <div class="col-md-2">
-      <div class="ibox ">
-          <div class="ibox-title">
-              <span class="label label-success float-right">Monthly</span>
-              <h5>Views</h5>
-          </div>
-          <div class="ibox-content">
-              <h1 class="no-margins">386,200</h1>
-              <div class="stat-percent font-bold text-success">98% <i class="fa fa-bolt"></i></div>
-              <small>Total views</small>
-          </div>
-      </div>
-  </div>
-  <div class="col-md-2">
-      <div class="ibox ">
-          <div class="ibox-title">
-              <span class="label label-info float-right">Annual</span>
-              <h5>Orders</h5>
-          </div>
-          <div class="ibox-content">
-                      <h1 class="no-margins">80,800</h1>
-                      <div class="stat-percent font-bold text-info">20% <i class="fa fa-level-up"></i></div>
-                      <small>New orders</small>
-          </div>
-      </div>
-  </div>
+<?php 
+    $kosts = \App\Models\Kost::select('id')
+                                ->where('kost_owner_id', Auth::user()->kostOwner->id)
+                                ->where('status', 1)
+                                ->get();
+    $kost_id = collect([]);;
+    foreach($kosts as $kost){
+        $kost_id->push($kost->id);
+    }
 
-  <div class="col-md-4">
-      <div class="ibox ">
-          <div class="ibox-title">
-              <span class="label label-primary float-right">Today</span>
-              <h5>visits</h5>
-          </div>
-          <div class="ibox-content">
+    $rooms = \App\Models\Room::select('id')
+                                ->whereIn('kost_id', $kost_id)
+                                ->get();
 
-              <div class="row">
-                  <div class="col-md-6">
-                      <h1 class="no-margins">$ 406,420</h1>
-                      <div class="font-bold text-navy">44% <i class="fa fa-level-up"></i> <small>Rapid pace</small></div>
-                  </div>
-                  <div class="col-md-6">
-                      <h1 class="no-margins">206,120</h1>
-                      <div class="font-bold text-navy">22% <i class="fa fa-level-up"></i> <small>Slow pace</small></div>
-                  </div>
-              </div>
+    $room_id = collect([]);;
+    foreach($rooms as $room){
+        $room_id->push($room->id);
+    }
+?>
+<div class="wrapper wrapper-content">
+    <div class="row">
+        <div class="col-lg-3">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <span class="label label-success float-right">Bulanan</span>
+                    <h5>Pendapatan</h5>
+                </div>
+                <div class="ibox-content">
+                    <?php 
+                        $this_month_price = \App\Models\Rent::join('rent_details', 'rents.id', '=', 'rent_details.rent_id')
+                                                    ->whereIn('rents.room_id', $room_id)
+                                                    ->sum('rent_details.total_price');
+                    ?>
+                    <h1 class="no-margins">
+                        {{Helper::rupiah($this_month_price)}}
+                    </h1>
+                    <div class="stat-percent font-bold text-info">20% <i class="fa fa-level-up"></i></div>
+                    <small>Total pemasukan</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <span class="label label-info float-right">Tahunan</span>
+                    <h5>Penyewaan</h5>
+                </div>
+                <div class="ibox-content">
+                    <h1 class="no-margins">275,800</h1>
+                    <div class="stat-percent font-bold text-info">20% <i class="fa fa-level-up"></i></div>
+                    <small>Penyewaan kamar baru</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <span class="label label-info float-right">Tahunan</span>
+                    <h5>Penyewa</h5>
+                </div>
+                <div class="ibox-content">
+                    <h1 class="no-margins">106,120</h1>
+                    <div class="stat-percent font-bold text-navy">44% <i class="fa fa-level-up"></i></div>
+                    <small>Penyewa baru</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <span class="label label-primary float-right">Hari ini</span>
+                    <h5>Kamar disewa</h5>
+                </div>
+                <div class="ibox-content">
+                    <h1 class="no-margins">80,600</h1>
+                    <div class="stat-percent font-bold text-danger">38% <i class="fa fa-level-down"></i>
+                    </div>
+                    <small>Dari keseluruhan kamar</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox ">
+                <div class="ibox-content">
+                    <div>
+                        <span class="float-right text-right">
+                            <small>Transaksi terbanyak bulan ini terdapat pada: <strong>Kost Anma</strong></small>
+                            <br />
+                            Total transaksi: 162,862
+                        </span>
+                        <h1 class="m-b-xs">Rp. 100.468.000,00</h1>
+                    </div>
+
+                    <div>
+                        <canvas id="lineChart" height="70"></canvas>
+                    </div>
+
+                    <div class="m-t-md">
+                        <small class="float-right">
+                            <i class="fa fa-clock-o"> </i>
+                            Update on 16.07.2015
+                        </small>
+                        <small>
+                            <strong>Analysis of sales:</strong> The value has been changed over time, and last month
+                            reached a level over $50,000.
+                        </small>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-4">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <h5>Messages</h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                        <a class="close-link">
+                            <i class="fa fa-times"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content ibox-heading">
+                    <h3><i class="fa fa-envelope-o"></i> New messages</h3>
+                    <small><i class="fa fa-tim"></i> You have 22 new messages and 16 waiting in draft
+                        folder.</small>
+                </div>
+                <div class="ibox-content">
+                    <div class="feed-activity-list">
+
+                        <div class="feed-element">
+                            <div>
+                                <small class="float-right text-navy">1m ago</small>
+                                <strong>Monica Smith</strong>
+                                <div>Lorem Ipsum is simply dummy text of the printing and typesetting
+                                    industry. Lorem Ipsum</div>
+                                <small class="text-muted">Today 5:60 pm - 12.06.2014</small>
+                            </div>
+                        </div>
+
+                        <div class="feed-element">
+                            <div>
+                                <small class="float-right">2m ago</small>
+                                <strong>Jogn Angel</strong>
+                                <div>There are many variations of passages of Lorem Ipsum available</div>
+                                <small class="text-muted">Today 2:23 pm - 11.06.2014</small>
+                            </div>
+                        </div>
+
+                        <div class="feed-element">
+                            <div>
+                                <small class="float-right">5m ago</small>
+                                <strong>Jesica Ocean</strong>
+                                <div>Contrary to popular belief, Lorem Ipsum</div>
+                                <small class="text-muted">Today 1:00 pm - 08.06.2014</small>
+                            </div>
+                        </div>
+
+                        <div class="feed-element">
+                            <div>
+                                <small class="float-right">5m ago</small>
+                                <strong>Monica Jackson</strong>
+                                <div>The generated Lorem Ipsum is therefore </div>
+                                <small class="text-muted">Yesterday 8:48 pm - 10.06.2014</small>
+                            </div>
+                        </div>
 
 
-          </div>
-      </div>
-  </div>
-  <div class="col-md-4">
-      <div class="ibox ">
-          <div class="ibox-title">
-              <h5>Monthly income</h5>
-              <div class="ibox-tools">
-                  <span class="label label-primary">Updated 12.2015</span>
-              </div>
-          </div>
-          <div class="ibox-content no-padding">
-              <div class="flot-chart m-t-lg" style="height: 55px;">
-                  <div class="flot-chart-content" id="flot-chart1"></div>
-              </div>
-          </div>
+                        <div class="feed-element">
+                            <div>
+                                <small class="float-right">5m ago</small>
+                                <strong>Anna Legend</strong>
+                                <div>All the Lorem Ipsum generators on the Internet tend to repeat </div>
+                                <small class="text-muted">Yesterday 8:48 pm - 10.06.2014</small>
+                            </div>
+                        </div>
+                        <div class="feed-element">
+                            <div>
+                                <small class="float-right">5m ago</small>
+                                <strong>Damian Nowak</strong>
+                                <div>The standard chunk of Lorem Ipsum used </div>
+                                <small class="text-muted">Yesterday 8:48 pm - 10.06.2014</small>
+                            </div>
+                        </div>
+                        <div class="feed-element">
+                            <div>
+                                <small class="float-right">5m ago</small>
+                                <strong>Gary Smith</strong>
+                                <div>200 Latin words, combined with a handful</div>
+                                <small class="text-muted">Yesterday 8:48 pm - 10.06.2014</small>
+                            </div>
+                        </div>
 
-      </div>
-  </div>
-  </div>
-  <div class="row">
-      <div class="col-lg-8">
-          <div class="ibox ">
-              <div class="ibox-content">
-                  <div>
-                          <span class="float-right text-right">
-                          <small>Average value of sales in the past month in: <strong>United states</strong></small>
-                              <br/>
-                              All sales: 162,862
-                          </span>
-                      <h3 class="font-bold no-margins">
-                          Half-year revenue margin
-                      </h3>
-                      <small>Sales marketing.</small>
-                  </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-                  <div class="m-t-sm">
+        <div class="col-lg-8">
 
-                      <div class="row">
-                          <div class="col-md-8">
-                              <div>
-                              <canvas id="lineChart" height="114"></canvas>
-                              </div>
-                          </div>
-                          <div class="col-md-4">
-                              <ul class="stat-list m-t-lg">
-                                  <li>
-                                      <h2 class="no-margins">2,346</h2>
-                                      <small>Total orders in period</small>
-                                      <div class="progress progress-mini">
-                                          <div class="progress-bar" style="width: 48%;"></div>
-                                      </div>
-                                  </li>
-                                  <li>
-                                      <h2 class="no-margins ">4,422</h2>
-                                      <small>Orders in last month</small>
-                                      <div class="progress progress-mini">
-                                          <div class="progress-bar" style="width: 60%;"></div>
-                                      </div>
-                                  </li>
-                              </ul>
-                          </div>
-                      </div>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="ibox ">
+                        <div class="ibox-title">
+                            <h5>User project list</h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+                                <a class="close-link">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="ibox-content table-responsive">
+                            <table class="table table-hover no-margins">
+                                <thead>
+                                    <tr>
+                                        <th>Status</th>
+                                        <th>Date</th>
+                                        <th>User</th>
+                                        <th>Value</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><small>Pending...</small></td>
+                                        <td><i class="fa fa-clock-o"></i> 11:20pm</td>
+                                        <td>Samantha</td>
+                                        <td class="text-navy"> <i class="fa fa-level-up"></i> 24% </td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="label label-warning">Canceled</span> </td>
+                                        <td><i class="fa fa-clock-o"></i> 10:40am</td>
+                                        <td>Monica</td>
+                                        <td class="text-navy"> <i class="fa fa-level-up"></i> 66% </td>
+                                    </tr>
+                                    <tr>
+                                        <td><small>Pending...</small> </td>
+                                        <td><i class="fa fa-clock-o"></i> 01:30pm</td>
+                                        <td>John</td>
+                                        <td class="text-navy"> <i class="fa fa-level-up"></i> 54% </td>
+                                    </tr>
+                                    <tr>
+                                        <td><small>Pending...</small> </td>
+                                        <td><i class="fa fa-clock-o"></i> 02:20pm</td>
+                                        <td>Agnes</td>
+                                        <td class="text-navy"> <i class="fa fa-level-up"></i> 12% </td>
+                                    </tr>
+                                    <tr>
+                                        <td><small>Pending...</small> </td>
+                                        <td><i class="fa fa-clock-o"></i> 09:40pm</td>
+                                        <td>Janet</td>
+                                        <td class="text-navy"> <i class="fa fa-level-up"></i> 22% </td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="label label-primary">Completed</span> </td>
+                                        <td><i class="fa fa-clock-o"></i> 04:10am</td>
+                                        <td>Amelia</td>
+                                        <td class="text-navy"> <i class="fa fa-level-up"></i> 66% </td>
+                                    </tr>
+                                    <tr>
+                                        <td><small>Pending...</small> </td>
+                                        <td><i class="fa fa-clock-o"></i> 12:08am</td>
+                                        <td>Damian</td>
+                                        <td class="text-navy"> <i class="fa fa-level-up"></i> 23% </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="ibox ">
+                        <div class="ibox-title">
+                            <h5>Small todo list</h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+                                <a class="close-link">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="ibox-content">
+                            <ul class="todo-list m-t small-list">
+                                <li>
+                                    <a href="#" class="check-link"><i class="fa fa-check-square"></i> </a>
+                                    <span class="m-l-xs todo-completed">Buy a milk</span>
 
-                  </div>
+                                </li>
+                                <li>
+                                    <a href="#" class="check-link"><i class="fa fa-square-o"></i> </a>
+                                    <span class="m-l-xs">Go to shop and find some products.</span>
 
-                  <div class="m-t-md">
-                      <small class="float-right">
-                          <i class="fa fa-clock-o"> </i>
-                          Update on 16.07.2015
-                      </small>
-                      <small>
-                          <strong>Analysis of sales:</strong> The value has been changed over time, and last month reached a level over $50,000.
-                      </small>
-                  </div>
+                                </li>
+                                <li>
+                                    <a href="#" class="check-link"><i class="fa fa-square-o"></i> </a>
+                                    <span class="m-l-xs">Send documents to Mike</span>
+                                    <small class="label label-primary"><i class="fa fa-clock-o"></i> 1
+                                        mins</small>
+                                </li>
+                                <li>
+                                    <a href="#" class="check-link"><i class="fa fa-square-o"></i> </a>
+                                    <span class="m-l-xs">Go to the doctor dr Smith</span>
+                                </li>
+                                <li>
+                                    <a href="#" class="check-link"><i class="fa fa-check-square"></i> </a>
+                                    <span class="m-l-xs todo-completed">Plan vacation</span>
+                                </li>
+                                <li>
+                                    <a href="#" class="check-link"><i class="fa fa-square-o"></i> </a>
+                                    <span class="m-l-xs">Create new stuff</span>
+                                </li>
+                                <li>
+                                    <a href="#" class="check-link"><i class="fa fa-square-o"></i> </a>
+                                    <span class="m-l-xs">Call to Anna for dinner</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="ibox ">
+                        <div class="ibox-title">
+                            <h5>Transactions worldwide</h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+                                <a class="close-link">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="ibox-content">
 
-              </div>
-          </div>
-      </div>
-      <div class="col-lg-4">
-          <div class="ibox ">
-              <div class="ibox-title">
-                  <span class="label label-warning float-right">Data has changed</span>
-                  <h5>User activity</h5>
-              </div>
-              <div class="ibox-content">
-                  <div class="row">
-                      <div class="col-4">
-                          <small class="stats-label">Pages / Visit</small>
-                          <h4>236 321.80</h4>
-                      </div>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <table class="table table-hover margin bottom">
+                                        <thead>
+                                            <tr>
+                                                <th style="width: 1%" class="text-center">No.</th>
+                                                <th>Transaction</th>
+                                                <th class="text-center">Date</th>
+                                                <th class="text-center">Amount</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="text-center">1</td>
+                                                <td> Security doors
+                                                </td>
+                                                <td class="text-center small">16 Jun 2014</td>
+                                                <td class="text-center"><span class="label label-primary">$483.00</span>
+                                                </td>
 
-                      <div class="col-4">
-                          <small class="stats-label">% New Visits</small>
-                          <h4>46.11%</h4>
-                      </div>
-                      <div class="col-4">
-                          <small class="stats-label">Last week</small>
-                          <h4>432.021</h4>
-                      </div>
-                  </div>
-              </div>
-              <div class="ibox-content">
-                  <div class="row">
-                      <div class="col-4">
-                          <small class="stats-label">Pages / Visit</small>
-                          <h4>643 321.10</h4>
-                      </div>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center">2</td>
+                                                <td> Wardrobes
+                                                </td>
+                                                <td class="text-center small">10 Jun 2014</td>
+                                                <td class="text-center"><span class="label label-primary">$327.00</span>
+                                                </td>
 
-                      <div class="col-4">
-                          <small class="stats-label">% New Visits</small>
-                          <h4>92.43%</h4>
-                      </div>
-                      <div class="col-4">
-                          <small class="stats-label">Last week</small>
-                          <h4>564.554</h4>
-                      </div>
-                  </div>
-              </div>
-              <div class="ibox-content">
-                  <div class="row">
-                      <div class="col-4">
-                          <small class="stats-label">Pages / Visit</small>
-                          <h4>436 547.20</h4>
-                      </div>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center">3</td>
+                                                <td> Set of tools
+                                                </td>
+                                                <td class="text-center small">12 Jun 2014</td>
+                                                <td class="text-center"><span class="label label-warning">$125.00</span>
+                                                </td>
 
-                      <div class="col-4">
-                          <small class="stats-label">% New Visits</small>
-                          <h4>150.23%</h4>
-                      </div>
-                      <div class="col-4">
-                          <small class="stats-label">Last week</small>
-                          <h4>124.990</h4>
-                      </div>
-                  </div>
-              </div>
-          </div>
-      </div>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center">4</td>
+                                                <td> Panoramic pictures</td>
+                                                <td class="text-center small">22 Jun 2013</td>
+                                                <td class="text-center"><span class="label label-primary">$344.00</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center">5</td>
+                                                <td>Phones</td>
+                                                <td class="text-center small">24 Jun 2013</td>
+                                                <td class="text-center"><span class="label label-primary">$235.00</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center">6</td>
+                                                <td>Monitors</td>
+                                                <td class="text-center small">26 Jun 2013</td>
+                                                <td class="text-center"><span class="label label-primary">$100.00</span>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div id="world-map" style="height: 300px;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-  </div>
+        </div>
 
-  <div class="row">
 
-      <div class="col-lg-12">
-          <div class="ibox ">
-              <div class="ibox-title">
-                  <h5>Custom responsive table </h5>
-                  <div class="ibox-tools">
-                      <a class="collapse-link">
-                          <i class="fa fa-chevron-up"></i>
-                      </a>
-                      <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                          <i class="fa fa-wrench"></i>
-                      </a>
-                      <ul class="dropdown-menu dropdown-user">
-                          <li><a href="#" class="dropdown-item">Config option 1</a>
-                          </li>
-                          <li><a href="#" class="dropdown-item">Config option 2</a>
-                          </li>
-                      </ul>
-                      <a class="close-link">
-                          <i class="fa fa-times"></i>
-                      </a>
-                  </div>
-              </div>
-              <div class="ibox-content">
-                  <div class="row">
-                      <div class="col-sm-9 m-b-xs">
-                          <div data-toggle="buttons" class="btn-group btn-group-toggle">
-                              <label class="btn btn-sm btn-white"> <input type="radio" id="option1" name="options"> Day </label>
-                              <label class="btn btn-sm btn-white active"> <input type="radio" id="option2" name="options"> Week </label>
-                              <label class="btn btn-sm btn-white"> <input type="radio" id="option3" name="options"> Month </label>
-                          </div>
-                      </div>
-                      <div class="col-sm-3">
-                          <div class="input-group mb-3">
-                              <input type="text" class="form-control form-control-sm" placeholder="Search">
-                              <div class="input-group-append">
-                                  <button class="btn btn-sm btn-primary" type="button">Go!</button>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-                  <div class="table-responsive">
-                      <table class="table table-striped">
-                          <thead>
-                          <tr>
-
-                              <th>#</th>
-                              <th>Project </th>
-                              <th>Name </th>
-                              <th>Phone </th>
-                              <th>Company </th>
-                              <th>Completed </th>
-                              <th>Task</th>
-                              <th>Date</th>
-                              <th>Action</th>
-                          </tr>
-                          </thead>
-                          <tbody>
-                          <tr>
-                              <td>1</td>
-                              <td>Project <small>This is example of project</small></td>
-                              <td>Patrick Smith</td>
-                              <td>0800 051213</td>
-                              <td>Inceptos Hymenaeos Ltd</td>
-                              <td><span class="pie">0.52/1.561</span></td>
-                              <td>20%</td>
-                              <td>Jul 14, 2013</td>
-                              <td><a href="#"><i class="fa fa-check text-navy"></i></a></td>
-                          </tr>
-                          <tr>
-                              <td>2</td>
-                              <td>Alpha project</td>
-                              <td>Alice Jackson</td>
-                              <td>0500 780909</td>
-                              <td>Nec Euismod In Company</td>
-                              <td><span class="pie">6,9</span></td>
-                              <td>40%</td>
-                              <td>Jul 16, 2013</td>
-                              <td><a href="#"><i class="fa fa-check text-navy"></i></a></td>
-                          </tr>
-                          <tr>
-                              <td>3</td>
-                              <td>Betha project</td>
-                              <td>John Smith</td>
-                              <td>0800 1111</td>
-                              <td>Erat Volutpat</td>
-                              <td><span class="pie">3,1</span></td>
-                              <td>75%</td>
-                              <td>Jul 18, 2013</td>
-                              <td><a href="#"><i class="fa fa-check text-navy"></i></a></td>
-                          </tr>
-                          <tr>
-                              <td>4</td>
-                              <td>Gamma project</td>
-                              <td>Anna Jordan</td>
-                              <td>(016977) 0648</td>
-                              <td>Tellus Ltd</td>
-                              <td><span class="pie">4,9</span></td>
-                              <td>18%</td>
-                              <td>Jul 22, 2013</td>
-                              <td><a href="#"><i class="fa fa-check text-navy"></i></a></td>
-                          </tr>
-                          <tr>
-                              <td>2</td>
-                              <td>Alpha project</td>
-                              <td>Alice Jackson</td>
-                              <td>0500 780909</td>
-                              <td>Nec Euismod In Company</td>
-                              <td><span class="pie">6,9</span></td>
-                              <td>40%</td>
-                              <td>Jul 16, 2013</td>
-                              <td><a href="#"><i class="fa fa-check text-navy"></i></a></td>
-                          </tr>
-                          <tr>
-                              <td>1</td>
-                              <td>Project <small>This is example of project</small></td>
-                              <td>Patrick Smith</td>
-                              <td>0800 051213</td>
-                              <td>Inceptos Hymenaeos Ltd</td>
-                              <td><span class="pie">0.52/1.561</span></td>
-                              <td>20%</td>
-                              <td>Jul 14, 2013</td>
-                              <td><a href="#"><i class="fa fa-check text-navy"></i></a></td>
-                          </tr>
-                          <tr>
-                              <td>4</td>
-                              <td>Gamma project</td>
-                              <td>Anna Jordan</td>
-                              <td>(016977) 0648</td>
-                              <td>Tellus Ltd</td>
-                              <td><span class="pie">4,9</span></td>
-                              <td>18%</td>
-                              <td>Jul 22, 2013</td>
-                              <td><a href="#"><i class="fa fa-check text-navy"></i></a></td>
-                          </tr>
-                          <tr>
-                              <td>1</td>
-                              <td>Project <small>This is example of project</small></td>
-                              <td>Patrick Smith</td>
-                              <td>0800 051213</td>
-                              <td>Inceptos Hymenaeos Ltd</td>
-                              <td><span class="pie">0.52/1.561</span></td>
-                              <td>20%</td>
-                              <td>Jul 14, 2013</td>
-                              <td><a href="#"><i class="fa fa-check text-navy"></i></a></td>
-                          </tr>
-                          <tr>
-                              <td>2</td>
-                              <td>Alpha project</td>
-                              <td>Alice Jackson</td>
-                              <td>0500 780909</td>
-                              <td>Nec Euismod In Company</td>
-                              <td><span class="pie">6,9</span></td>
-                              <td>40%</td>
-                              <td>Jul 16, 2013</td>
-                              <td><a href="#"><i class="fa fa-check text-navy"></i></a></td>
-                          </tr>
-                          <tr>
-                              <td>3</td>
-                              <td>Betha project</td>
-                              <td>John Smith</td>
-                              <td>0800 1111</td>
-                              <td>Erat Volutpat</td>
-                              <td><span class="pie">3,1</span></td>
-                              <td>75%</td>
-                              <td>Jul 18, 2013</td>
-                              <td><a href="#"><i class="fa fa-check text-navy"></i></a></td>
-                          </tr>
-                          <tr>
-                              <td>4</td>
-                              <td>Gamma project</td>
-                              <td>Anna Jordan</td>
-                              <td>(016977) 0648</td>
-                              <td>Tellus Ltd</td>
-                              <td><span class="pie">4,9</span></td>
-                              <td>18%</td>
-                              <td>Jul 22, 2013</td>
-                              <td><a href="#"><i class="fa fa-check text-navy"></i></a></td>
-                          </tr>
-                          <tr>
-                              <td>2</td>
-                              <td>Alpha project</td>
-                              <td>Alice Jackson</td>
-                              <td>0500 780909</td>
-                              <td>Nec Euismod In Company</td>
-                              <td><span class="pie">6,9</span></td>
-                              <td>40%</td>
-                              <td>Jul 16, 2013</td>
-                              <td><a href="#"><i class="fa fa-check text-navy"></i></a></td>
-                          </tr>
-                          <tr>
-                              <td>1</td>
-                              <td>Project <small>This is example of project</small></td>
-                              <td>Patrick Smith</td>
-                              <td>0800 051213</td>
-                              <td>Inceptos Hymenaeos Ltd</td>
-                              <td><span class="pie">0.52/1.561</span></td>
-                              <td>20%</td>
-                              <td>Jul 14, 2013</td>
-                              <td><a href="#"><i class="fa fa-check text-navy"></i></a></td>
-                          </tr>
-                          <tr>
-                              <td>4</td>
-                              <td>Gamma project</td>
-                              <td>Anna Jordan</td>
-                              <td>(016977) 0648</td>
-                              <td>Tellus Ltd</td>
-                              <td><span class="pie">4,9</span></td>
-                              <td>18%</td>
-                              <td>Jul 22, 2013</td>
-                              <td><a href="#"><i class="fa fa-check text-navy"></i></a></td>
-                          </tr>
-                          </tbody>
-                      </table>
-                  </div>
-              </div>
-          </div>
-      </div>
-  </div>
+    </div>
 </div>
+</div>
+@endsection
+
+@section('script')
+<!-- ChartJS-->
+<script src="{{ asset('templates/js/plugins/chartJs/Chart.min.js') }}"></script>
+<script>
+    $(document).ready(function () {
+
+        var lineData = {
+            labels: ["January", "February", "March", "April", "May", "June", "July"],
+            datasets: [{
+                    label: "Example dataset",
+                    backgroundColor: "rgba(26,179,148,0.5)",
+                    borderColor: "rgba(26,179,148,0.7)",
+                    pointBackgroundColor: "rgba(26,179,148,1)",
+                    pointBorderColor: "#fff",
+                    data: [28, 48, 40, 19, 86, 27, 90]
+                },
+                {
+                    label: "Example dataset",
+                    backgroundColor: "rgba(220,220,220,0.5)",
+                    borderColor: "rgba(220,220,220,1)",
+                    pointBackgroundColor: "rgba(220,220,220,1)",
+                    pointBorderColor: "#fff",
+                    data: [65, 59, 80, 81, 56, 55, 40]
+                }
+            ]
+        };
+
+        var lineOptions = {
+            responsive: true
+        };
+
+
+        var ctx = document.getElementById("lineChart").getContext("2d");
+        new Chart(ctx, {
+            type: 'line',
+            data: lineData,
+            options: lineOptions
+        });
+
+    });
+
+</script>
 @endsection

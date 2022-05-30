@@ -26,4 +26,9 @@ class KostSeeker extends Model
     {
         return $this->hasMany(Booking::class, 'kost_seeker_id', 'id');
     }
+
+    public function chat()
+    {
+        return $this->hasMany(Chat::class, 'kost_seeker_id', 'id');
+    }
 }

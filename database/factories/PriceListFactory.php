@@ -15,7 +15,7 @@ class PriceListFactory extends Factory
     {
         return [
             'price' => $this->faker->numberBetween(400000, 2000000),
-            'rent_duration_id' => $this->faker->numberBetween(1, 5),
+            'rent_duration_id' => $this->faker->randomElement($array = array (2,3,4,5)),
         ];
     }
 }

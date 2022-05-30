@@ -14,6 +14,7 @@ use App\Models\TenantDetail;
 use App\Models\RoomType;
 use App\Models\PriceList;
 use App\Models\OptionalPrice;
+use App\Http\Resources\RentList;
 use DB;
 use DateTime;
 use Carbon\Carbon;
@@ -29,22 +30,40 @@ class RentController extends Controller
     public function index()
     {
         try {       
-            $kosts = Kost::select('id')->where('kost_owner_id', Auth::user()->kostOwner->id)->get();
-            $room_id = collect([]);;
-            foreach($kosts as $kost){
-                foreach ($kost->room as $room) {
+            if(Auth::user()->isOwner())
+                {
+                    $kosts = Kost::select('id')->where('kost_owner_id', Auth::user()->kostOwner->id)->get();
+                    $room_id = collect([]);;
+                    foreach($kosts as $kost){
+                        foreach ($kost->room as $room) {
+                            
+                            $room_id->push($room->id);
+                        }
+                    }
                     
-                    $room_id->push($room->id);
+                    $rents = Rent::whereIn('room_id', $room_id)->orderBy('created_at', 'desc')->get();
+                    // foreach($rents as $rent){
+                    //     $ended_at = new DateTime($rent->ended()->ended_at);
+                    //     dd($ended_at);
+                    // }
+                    return view('backend.kostOwner.manageRent.index', compact('rents'));
+                } 
+            elseif(Auth::user()->isAdmin())
+                {
+                    $kosts = Kost::all();
+                    $room_id = collect([]);;
+                    foreach($kosts as $kost){
+                        foreach ($kost->room as $room) {
+                            
+                            $room_id->push($room->id);
+                        }
+                    }
+                    $rents = Rent::whereIn('room_id', $room_id)->orderBy('created_at', 'desc')->get();
+                    return view('backend.admin.manageRent.index', compact('rents'));
                 }
-            }
             
-            $rents = Rent::whereIn('room_id', $room_id)->orderBy('created_at', 'desc')->get();
-            // foreach($rents as $rent){
-            //     $ended_at = new DateTime($rent->ended()->ended_at);
-            //     dd($ended_at);
-            // }
-            return view('backend.kostOwner.manageRent.index', compact('rents'));
         } catch (\Exception $e) {
+            dd($e);
             return redirect()->back()->with('error', __('toast.index.failed.message'));
         }
     }
@@ -57,7 +76,7 @@ class RentController extends Controller
     public function create()
     {
         try {
-            $kost = Kost::where('kost_owner_id', Auth::user()->kostOwner->id)->get()->pluck('name', 'id');
+            $kost = Kost::where('kost_owner_id', Auth::user()->kostOwner->id)->where('status', 1)->get()->pluck('name', 'id');
             $room_type = RoomType::get()->pluck('name', 'id');
             $room = Room::get()->pluck('name', 'id');
             $price_list = PriceList::select('price_lists.id',DB::RAW("concat(rent_durations.name,'/ ',concat('Rp. ', format(price_lists.price,2, 'id_ID'))) as name"))
@@ -68,6 +87,7 @@ class RentController extends Controller
             $optionals = OptionalPrice::all();
             return view('backend.kostOwner.manageRent.create', compact('tenant','kost','room_type','room','price_list','optionals'));
         } catch (\Exception $e) {
+          
             return redirect()->back()->with('error', __('toast.index.failed.message'));
         }
     }
@@ -109,6 +129,7 @@ class RentController extends Controller
 
             return redirect()->route('owner.rent.index')->with('success', __('toast.create.success.message'));    
         } catch (\Exception $e) {
+              dd($e);
             return redirect()->back()->with('error', __('toast.create.failed.message'));
         }
     }
@@ -245,5 +266,16 @@ class RentController extends Controller
         }
     }
 
+    public function getData(Request $request)
+    {
+        $data = [];
+        //?data=all
+        if($request->data=="all"){
+            $data = Rent::orderby('id','desc')->get();
+        }
+        
+        if($data)return response()->json(RentList::collection($data));
+        return $data;
+    }
     
 }

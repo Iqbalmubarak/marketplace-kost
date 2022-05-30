@@ -83,7 +83,6 @@ class HistoryController extends Controller
             return view('backend.kostSeeker.manageHistory.show', compact('history','rent','price_list','optionals'));
             
         } catch (\Exception $e) {
-            dd($e);
             return redirect()->back()->with('error', __('toast.index.failed.message'));
         }
     }

@@ -19,7 +19,7 @@ class CreateRentDetailsTable extends Migration
             $table->tinyInteger('status');
             $table->date('started_at');
             $table->date('ended_at');
-            $table->string('payment');
+            $table->string('payment')->nullable();
             $table->integer('rent_id')->unsigned();
             $table->integer('price_list_id')->unsigned();
             $table->timestamps();

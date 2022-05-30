@@ -11,6 +11,7 @@ use App\Models\RuleUpload;
 use App\Models\KostType; 
 use App\Models\KostImage; 
 use App\Models\KostFacilityDetail; 
+use App\Models\RoomFacilityDetail; 
 use App\Models\FacilityType; 
 use App\Models\Facility;
 use App\Models\Room;
@@ -229,15 +230,20 @@ class RoomTypeController extends Controller
 
                 //Create Price List
                 for ($i=1; $i <= count($request->duration_price); $i++) {
+                    $price = NULL;
+                    //dd($request->duration_price);
                     if($request->duration_price[$i]){
                         $price_list = PriceList::where('room_type_id', $id)->where('rent_duration_id', $i)->first();
                         $price = preg_replace("/[^0-9]/", "", $request->duration_price[$i]);
+                        //dd($price);
                         $price = (int) $price;
                         $dp = 30 / 100 * $price;
+                        
                         if($price_list){
                             $price_list->price = $price;
                             $price_list->dp = $dp;
                             $price_list->save();
+                            // /dd($price_list);
                         }else{
                             $price_list = new PriceList;
                             $price_list->price = $price;

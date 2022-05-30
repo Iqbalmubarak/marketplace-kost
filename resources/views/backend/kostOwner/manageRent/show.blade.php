@@ -261,9 +261,14 @@
                                                                     {{Helper::rupiah($rentDetail->total_price)}}</p>
                                                             </td>
                                                             <td>
-                                                                <div><button class="btn btn-xs btn-white" onclick="showImg(`{{ asset('storage/images/payment/'.$rentDetail->document) }}`)" id="myImg" data-toggle="modal" data-target="#imageModal"><i class="fa fa-eye"></i> Bukti pembayaran</button></div>
-                                                                <div><button class="btn btn-xs btn-white" onclick="acceptDetail({{$rentDetail->id}})"><i class="fa fa-check"></i> Terima</button></div>
-                                                                <div><button class="btn btn-xs btn-white" onclick="rejectDetail({{$rentDetail->id}})"><i class="fa fa-close"></i> Tolak</button></div>
+                                                                @if ($rentDetail->payment != NULL)
+                                                                    <div><button class="btn btn-xs btn-white" onclick="showImg(`{{ asset('storage/images/payment/'.$rentDetail->document) }}`)" id="myImg" data-toggle="modal" data-target="#imageModal"><i class="fa fa-eye"></i> Bukti pembayaran</button></div>
+                                                                @endif
+                                                                
+                                                                @if ($rentDetail->status == 2)
+                                                                    <div><button class="btn btn-xs btn-white" onclick="acceptDetail({{$rentDetail->id}})"><i class="fa fa-check"></i> Terima</button></div>
+                                                                    <div><button class="btn btn-xs btn-white" onclick="rejectDetail({{$rentDetail->id}})"><i class="fa fa-close"></i> Tolak</button></div>
+                                                                @endif
                                                             </td>
                                                         </tr>
                                                         @endforeach
@@ -293,6 +298,9 @@
 {!! Form::close() !!}
 {!! Form::open(['method'=>'POST', 'route' => ['owner.rent.stopRent', 0], 'style' =>
 'display:none','id'=>'stop_rent']) !!}
+{!! Form::close() !!}
+{!! Form::open(['method'=>'DELETE', 'route' => ['owner.rent.destroy', 0], 'style' =>
+'display:none','id'=>'deleted_rent']) !!}
 {!! Form::close() !!}
 
 @endsection
@@ -515,6 +523,29 @@
                     $('#stop_rent').submit();
                 } else {
                     swal("Dibatalkan", "Data kamu aman :)", "error");
+                }
+            });
+    }
+
+    function confirm_delete(id) {
+        swal({
+                title: "Are you sure?",
+                text: "Your will not be able to recover this imaginary file!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Yes, delete it!",
+                cancelButtonText: "No, cancel plx!",
+                closeOnConfirm: false,
+                closeOnCancel: false
+            },
+            function (isConfirm) {
+                if (isConfirm) {
+                    swal("Deleted!", "Your imaginary file has been deleted.", "success");
+                    $('#deleted_rent').attr('action', "{{route('owner.rent.index')}}/" + id);
+                    $('#deleted_rent').submit();
+                } else {
+                    swal("Cancelled", "Your imaginary file is safe :)", "error");
                 }
             });
     }

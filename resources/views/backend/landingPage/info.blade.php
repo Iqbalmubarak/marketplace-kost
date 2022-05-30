@@ -1,18 +1,7 @@
 @extends('layouts.landingPage.main')
 
 @section('content')
-<div class="breadcrumb">
-    <div class="container">
-        <div class="breadcrumb-inner">
-            <ul class="list-inline list-unstyled">
-                <li><a href="#">Home</a></li>
-                <li class='active'>Handbags</li>
-            </ul>
-        </div>
-        <!-- /.breadcrumb-inner -->
-    </div>
-    <!-- /.container -->
-</div>
+
 <!-- /.breadcrumb -->
 <div class="body-content outer-top-xs">
     <div class='container'>
@@ -34,15 +23,20 @@
                                 <div class="accordion">
                                     <div class="accordion-group">
                                         <div class="accordion-heading"> <a href="#collapseOne" data-toggle="collapse"
-                                                class="accordion-toggle collapsed"> Camera </a> </div>
+                                                class="accordion-toggle collapsed"> Tipe kos </a> </div>
                                         <!-- /.accordion-heading -->
                                         <div class="accordion-body collapse" id="collapseOne" style="height: 0px;">
                                             <div class="accordion-inner">
                                                 <ul>
-                                                    <li><a href="#">gaming</a></li>
-                                                    <li><a href="#">office</a></li>
-                                                    <li><a href="#">kids</a></li>
-                                                    <li><a href="#">for women</a></li>
+                                                    <li><a
+                                                            href="{{ route('landingPage.sortType') }}?type=putra">Putra</a>
+                                                    </li>
+                                                    <li><a
+                                                            href="{{ route('landingPage.sortType') }}?type=putri">Putri</a>
+                                                    </li>
+                                                    <li><a
+                                                            href="{{ route('landingPage.sortType') }}?type=campur">Campur</a>
+                                                    </li>
                                                 </ul>
                                             </div>
                                             <!-- /.accordion-inner -->
@@ -53,91 +47,41 @@
 
                                     <div class="accordion-group">
                                         <div class="accordion-heading"> <a href="#collapseTwo" data-toggle="collapse"
-                                                class="accordion-toggle collapsed"> Desktops </a> </div>
+                                                class="accordion-toggle collapsed"> Kampus terdekat </a> </div>
                                         <!-- /.accordion-heading -->
                                         <div class="accordion-body collapse" id="collapseTwo" style="height: 0px;">
                                             <div class="accordion-inner">
                                                 <ul>
-                                                    <li><a href="#">gaming</a></li>
-                                                    <li><a href="#">office</a></li>
-                                                    <li><a href="#">kids</a></li>
-                                                    <li><a href="#">for women</a></li>
-                                                </ul>
-                                            </div>
-                                            <!-- /.accordion-inner -->
-                                        </div>
-                                        <!-- /.accordion-body -->
-                                    </div>
-                                    <!-- /.accordion-group -->
-
-                                    <div class="accordion-group">
-                                        <div class="accordion-heading"> <a href="#collapseThree" data-toggle="collapse"
-                                                class="accordion-toggle collapsed"> Pants </a> </div>
-                                        <!-- /.accordion-heading -->
-                                        <div class="accordion-body collapse" id="collapseThree" style="height: 0px;">
-                                            <div class="accordion-inner">
-                                                <ul>
-                                                    <li><a href="#">gaming</a></li>
-                                                    <li><a href="#">office</a></li>
-                                                    <li><a href="#">kids</a></li>
-                                                    <li><a href="#">for women</a></li>
-                                                </ul>
-                                            </div>
-                                            <!-- /.accordion-inner -->
-                                        </div>
-                                        <!-- /.accordion-body -->
-                                    </div>
-                                    <!-- /.accordion-group -->
-
-                                    <div class="accordion-group">
-                                        <div class="accordion-heading"> <a href="#collapseFour" data-toggle="collapse"
-                                                class="accordion-toggle collapsed"> Bags </a> </div>
-                                        <!-- /.accordion-heading -->
-                                        <div class="accordion-body collapse" id="collapseFour" style="height: 0px;">
-                                            <div class="accordion-inner">
-                                                <ul>
-                                                    <li><a href="#">gaming</a></li>
-                                                    <li><a href="#">office</a></li>
-                                                    <li><a href="#">kids</a></li>
-                                                    <li><a href="#">for women</a></li>
-                                                </ul>
-                                            </div>
-                                            <!-- /.accordion-inner -->
-                                        </div>
-                                        <!-- /.accordion-body -->
-                                    </div>
-                                    <!-- /.accordion-group -->
-
-                                    <div class="accordion-group">
-                                        <div class="accordion-heading"> <a href="#collapseFive" data-toggle="collapse"
-                                                class="accordion-toggle collapsed"> Hats </a> </div>
-                                        <!-- /.accordion-heading -->
-                                        <div class="accordion-body collapse" id="collapseFive" style="height: 0px;">
-                                            <div class="accordion-inner">
-                                                <ul>
-                                                    <li><a href="#">gaming</a></li>
-                                                    <li><a href="#">office</a></li>
-                                                    <li><a href="#">kids</a></li>
-                                                    <li><a href="#">for women</a></li>
-                                                </ul>
-                                            </div>
-                                            <!-- /.accordion-inner -->
-                                        </div>
-                                        <!-- /.accordion-body -->
-                                    </div>
-                                    <!-- /.accordion-group -->
-
-                                    <div class="accordion-group">
-                                        <div class="accordion-heading"> <a href="#collapseSix" data-toggle="collapse"
-                                                class="accordion-toggle collapsed"> Accessories </a> </div>
-                                        <!-- /.accordion-heading -->
-                                        <div class="accordion-body collapse" id="collapseSix" style="height: 0px;">
-                                            <div class="accordion-inner">
-                                                <ul>
-                                                    <li><a href="#">gaming</a></li>
-                                                    <li><a href="#">office</a></li>
-                                                    <li><a href="#">kids</a></li>
-                                                    <li><a href="#">for women</a></li>
+                                                    <li><a
+                                                            href="{{ route('landingPage.sortAround') }}?latitude= -0.914518 & longitude=100.459526">Universitas
+                                                            Andalas</a></li>
+                                                    <li><a
+                                                            href="{{ route('landingPage.sortAround') }}?latitude= -0.8969444444444444 & longitude=100.35027777777778">Universitas
+                                                            Negeri Padang</a></li>
+                                                    <li><a
+                                                            href="{{ route('landingPage.sortAround') }}?latitude= -0.9574999999999999 & longitude=100.39555555555556">Universitas
+                                                            Putra Indonesia</a></li>
+                                                    <li><a
+                                                            href="{{ route('landingPage.sortAround') }}?latitude= -0.87 & longitude=100.38333333333334">Universitas
+                                                            Baiturrahmah </a></li>
+                                                    <li><a
+                                                            href="{{ route('landingPage.sortAround') }}?latitude= -0.9444444444444444 & longitude=100.37555555555555">Universitas
+                                                            Dharma Andalas </a></li>
+                                                    <li><a
+                                                            href="{{ route('landingPage.sortAround') }}?latitude= -0.9097222222222222 & longitude=100.36722222222221">Universitas
+                                                            PGRI </a></li>
+                                                    <li><a
+                                                            href="{{ route('landingPage.sortAround') }}?latitude= -0.9302777777777778 & longitude=100.3863888888889">Universitas
+                                                            Islam Negeri Imam Bonjol</a></li>
+                                                    <li><a
+                                                            href="{{ route('landingPage.sortAround') }}?latitude= -0.8555555555555555 & longitude=100.33277777777778">Universitas
+                                                            Muhammadiyah</a></li>
+                                                    <li><a
+                                                            href="{{ route('landingPage.sortAround') }}?latitude= -0.9144444444444445 & longitude=100.46611111111112">Politeknik
+                                                            Negeri Padang</a></li>
+                                                    <li><a
+                                                            href="{{ route('landingPage.sortAround') }}?latitude= -0.8694444444444445 & longitude=100.37888888888888">Institut
+                                                            Teknologi Padang</a></li>
                                                 </ul>
                                             </div>
                                             <!-- /.accordion-inner -->
@@ -157,81 +101,34 @@
                         <!-- ============================================== PRICE SILDER============================================== -->
                         <div class="sidebar-widget">
                             <div class="widget-header">
-                                <h4 class="widget-title">Price Slider</h4>
+                                <h4 class="widget-title">Rentangan harga</h4>
                             </div>
                             <div class="sidebar-widget-body m-t-10">
-                                <div class="price-range-holder"> <span class="min-max"> <span
-                                            class="pull-left">$200.00</span> <span class="pull-right">$800.00</span>
+                                <div class="price-range-holder"> <span class="min-max"> <span class="pull-left">Rp.
+                                            100.000,00</span> <span class="pull-right">Rp. 2.000.000,00</span>
                                     </span>
                                     <input type="text" id="amount"
                                         style="border:0; color:#666666; font-weight:bold;text-align:center;">
-                                    <input type="text" class="price-slider" value="">
+                                    <input type="text" class="price-slider" value="" id="priceRange">
                                 </div>
                                 <!-- /.price-range-holder -->
-                                <a href="#" class="lnk btn btn-primary">Show Now</a>
+                                <a href="#" class="lnk btn btn-primary" id="sortPrice">Tampilkan</a>
                             </div>
                             <!-- /.sidebar-widget-body -->
                         </div>
                         <!-- /.sidebar-widget -->
                         <!-- ============================================== PRICE SILDER : END ============================================== -->
-                        <!-- ============================================== MANUFACTURES============================================== -->
-                        <div class="sidebar-widget">
-                            <div class="widget-header">
-                                <h4 class="widget-title">Manufactures</h4>
-                            </div>
-                            <div class="sidebar-widget-body">
-                                <ul class="list">
-                                    <li><a href="#">Forever 18</a></li>
-                                    <li><a href="#">Nike</a></li>
-                                    <li><a href="#">Dolce & Gabbana</a></li>
-                                    <li><a href="#">Alluare</a></li>
-                                    <li><a href="#">Chanel</a></li>
-                                    <li><a href="#">Other Brand</a></li>
-                                </ul>
-                                <!--<a href="#" class="lnk btn btn-primary">Show Now</a>-->
-                            </div>
-                            <!-- /.sidebar-widget-body -->
-                        </div>
-                        <!-- /.sidebar-widget -->
-                        <!-- ============================================== MANUFACTURES: END ============================================== -->
-                        <!-- ============================================== COLOR============================================== -->
-                        <div class="sidebar-widget">
-                            <div class="widget-header">
-                                <h4 class="widget-title">Colors</h4>
-                            </div>
-                            <div class="sidebar-widget-body">
-                                <ul class="list">
-                                    <li><a href="#">Red</a></li>
-                                    <li><a href="#">Blue</a></li>
-                                    <li><a href="#">Yellow</a></li>
-                                    <li><a href="#">Pink</a></li>
-                                    <li><a href="#">Brown</a></li>
-                                    <li><a href="#">Teal</a></li>
-                                </ul>
-                            </div>
-                            <!-- /.sidebar-widget-body -->
-                        </div>
-                        <!-- /.sidebar-widget -->
+                        
                         <!-- ============================================== COLOR: END ============================================== -->
-                        <!-- ============================================== COMPARE============================================== -->
-                        <div class="sidebar-widget outer-top-vs">
-                            <h3 class="section-title">Compare products</h3>
-                            <div class="sidebar-widget-body">
-                                <div class="compare-report">
-                                    <p>You have no <span>item(s)</span> to compare</p>
-                                </div>
-                                <!-- /.compare-report -->
-                            </div>
-                            <!-- /.sidebar-widget-body -->
-                        </div>
-                        <!-- /.sidebar-widget -->
+                       
                         <!-- ============================================== COMPARE: END ============================================== -->
                         <!-- ============================================== PRODUCT TAGS ============================================== -->
                         <div class="sidebar-widget product-tag outer-top-vs">
                             <h3 class="section-title">Product tags</h3>
                             <div class="sidebar-widget-body outer-top-xs">
-                                <div class="tag-list"> <a class="item" title="Phone" href="category.html">Phone</a> <a
-                                        class="item active" title="Vest" href="category.html">Vest</a> <a class="item"
+                                <div class="tag-list">
+                                    <span class="item" title="Phone" href="category.html"><input type="checkbox" value="1">Phone</span>
+                                    <a class="item active" title="Vest" href="category.html">Vest</a> <a class="item"
                                         title="Smartphone" href="category.html">Smartphone</a> <a class="item"
                                         title="Furniture" href="category.html">Furniture</a> <a class="item"
                                         title="T-shirt" href="category.html">T-shirt</a> <a class="item"
@@ -244,63 +141,11 @@
                             <!-- /.sidebar-widget-body -->
                         </div>
                         <!-- /.sidebar-widget -->
-                        <!-- /.Testimonials -->
-                        <div class="sidebar-widget  outer-top-vs ">
-                            <div id="advertisement" class="advertisement">
-                                <div class="item">
-                                    <div class="avatar"><img src="assets/images/testimonials/member1.png" alt="Image">
-                                    </div>
-                                    <div class="testimonials"><em>"</em> Vtae sodales aliq uam morbi non sem lacus port
-                                        mollis. Nunc condime tum metus eud molest sed consectetuer. Sed quia non numquam
-                                        eius modi tempora incidunt ut labore et dolore.<em>"</em></div>
-                                    <div class="clients_author">John Doe <span>Abc Company</span> </div>
-                                    <!-- /.container-fluid -->
-                                </div>
-                                <!-- /.item -->
-
-                                <div class="item">
-                                    <div class="avatar"><img src="assets/images/testimonials/member3.png" alt="Image">
-                                    </div>
-                                    <div class="testimonials"><em>"</em>Vtae sodales aliq uam morbi non sem lacus port
-                                        mollis. Nunc condime tum metus eud molest sed consectetuer. Sed quia non numquam
-                                        eius modi tempora incidunt ut labore et dolore.<em>"</em></div>
-                                    <div class="clients_author">Stephen Doe <span>Xperia Designs</span> </div>
-                                </div>
-                                <!-- /.item -->
-
-                                <div class="item">
-                                    <div class="avatar"><img src="assets/images/testimonials/member2.png" alt="Image">
-                                    </div>
-                                    <div class="testimonials"><em>"</em> Vtae sodales aliq uam morbi non sem lacus port
-                                        mollis. Nunc condime tum metus eud molest sed consectetuer. Sed quia non numquam
-                                        eius modi tempora incidunt ut labore et dolore.<em>"</em></div>
-                                    <div class="clients_author">Saraha Smith <span>Datsun &amp; Co</span> </div>
-                                    <!-- /.container-fluid -->
-                                </div>
-                                <!-- /.item -->
-
-                            </div>
-                            <!-- /.owl-carousel -->
-                        </div>
-
+                       
                         <!-- ============================================== Testimonials: END ============================================== -->
 
                         <!-- ============================================== NEWSLETTER ============================================== -->
-                        <div class="sidebar-widget newsletter outer-bottom-small  outer-top-vs">
-                            <h3 class="section-title">Newsletters</h3>
-                            <div class="sidebar-widget-body outer-top-xs">
-                                <p>Sign Up for Our Newsletter!</p>
-                                <form>
-                                    <div class="form-group">
-                                        <label class="sr-only" for="exampleInputEmail1">Email address</label>
-                                        <input type="email" class="form-control" id="exampleInputEmail1"
-                                            placeholder="Subscribe to our newsletter">
-                                    </div>
-                                    <button class="btn btn-primary">Subscribe</button>
-                                </form>
-                            </div>
-                            <!-- /.sidebar-widget-body -->
-                        </div>
+                       
                         <!-- /.sidebar-widget -->
                         <!-- ============================================== NEWSLETTER: END ============================================== -->
 
@@ -321,11 +166,8 @@
                                 class="img-responsive"> </div>
                         <div class="container-fluid">
                             <div class="caption vertical-top text-left">
-                                <div class="big-text"> Big Sale </div>
-                                <div class="excerpt hidden-sm hidden-md"> Save up to 49% off </div>
-                                <div class="excerpt-normal hidden-sm hidden-md"> Lorem ipsum dolor sit amet, consectetur
-                                    adipiscing elit </div>
-                                <div class="buy-btn"><a href="#" class="lnk btn btn-primary">Show Now</a></div>
+                                <div class="big-text">KOSANKU </div>
+                                <div class="excerpt-normal hidden-sm hidden-md"> Cari kos sesuai kebutuhan anda disini! </div>
                             </div>
                             <!-- /.caption -->
                         </div>
@@ -354,12 +196,17 @@
                                     <div class="fld inline">
                                         <div class="dropdown dropdown-small dropdown-med dropdown-white inline">
                                             <button data-toggle="dropdown" type="button" class="btn dropdown-toggle">
-                                                Position <span class="caret"></span> </button>
+                                                Sorting <span class="caret"></span> </button>
                                             <ul role="menu" class="dropdown-menu">
-                                                <li role="presentation"><a href="#">position</a></li>
-                                                <li role="presentation"><a href="#">Price:Lowest first</a></li>
-                                                <li role="presentation"><a href="#">Price:HIghest first</a></li>
-                                                <li role="presentation"><a href="#">Product Name:A to Z</a></li>
+                                                <li role="presentation"><a
+                                                        href="{{ route('landingPage.priceAsc') }}">Price:Lowest
+                                                        first</a></li>
+                                                <li role="presentation"><a
+                                                        href="{{ route('landingPage.priceDesc') }}">Price:Highest
+                                                        first</a></li>
+                                                <li role="presentation"><a
+                                                        href="{{ route('landingPage.nameAsc') }}">Product Name:A to
+                                                        Z</a></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -374,18 +221,7 @@
                                         <div class="dropdown dropdown-small dropdown-med dropdown-white inline">
                                             <button data-toggle="dropdown" type="button" class="btn dropdown-toggle"> 1
                                                 <span class="caret"></span> </button>
-                                            <ul role="menu" class="dropdown-menu">
-                                                <li role="presentation"><a href="#">1</a></li>
-                                                <li role="presentation"><a href="#">2</a></li>
-                                                <li role="presentation"><a href="#">3</a></li>
-                                                <li role="presentation"><a href="#">4</a></li>
-                                                <li role="presentation"><a href="#">5</a></li>
-                                                <li role="presentation"><a href="#">6</a></li>
-                                                <li role="presentation"><a href="#">7</a></li>
-                                                <li role="presentation"><a href="#">8</a></li>
-                                                <li role="presentation"><a href="#">9</a></li>
-                                                <li role="presentation"><a href="#">10</a></li>
-                                            </ul>
+                                            {{ $roomTypes->appends(Request::except('page'))->links('layouts.vendor.pagination2') }}
                                         </div>
                                     </div>
                                     <!-- /.fld -->
@@ -396,14 +232,9 @@
                         </div>
                         <!-- /.col -->
                         <div class="col col-sm-6 col-md-4 col-xs-6 col-lg-4 text-right">
-                            {{$kosts->links()}}
-                            <!-- <div class="pagination-container">
-                              
-                                <ul class="list-inline list-unstyled">
-                                    <li><a href="#">{{ $kosts->links() }}</a></li>
-                                </ul>
-                            </div> -->
-                            <!-- /.pagination-container -->
+                            <div class="pagination-container">
+                                {{ $roomTypes->appends(Request::except('page'))->links('layouts.vendor.pagination1') }}
+                            </div>
                         </div>
                         <!-- /.col -->
                     </div>
@@ -414,17 +245,19 @@
                         <div class="tab-pane active " id="grid-container">
                             <div class="category-product">
                                 <div class="row">
-
-                                    @foreach ($kosts as $kost)
+                                    @if (Route::currentRouteName()=='landingPage.priceAsc' ||
+                                    Route::currentRouteName()=='landingPage.priceDesc' ||
+                                    Route::currentRouteName()=='landingPage.sortPrice')
+                                    @foreach ($roomTypes as $roomType)
                                     <div class="col-sm-6 col-md-4 col-lg-3">
-                                        <div class="item item-carousel">
+                                        <div class="item">
                                             <div class="products">
                                                 <div class="product">
                                                     <div class="product-image">
                                                         <div class="image">
                                                             <a
-                                                                href="{{ route('landingPage.show', $kost->firtsRoomType()->id) }}">
-                                                                @foreach ($kost->firtsRoomType()->image() as $image)
+                                                                href="{{ route('landingPage.show', $roomType->roomType->id) }}">
+                                                                @foreach ($roomType->roomType->image() as $image)
                                                                 @if($loop->iteration == 1)
                                                                 <img src="{{ asset('storage/images/room/'.$image->image) }}"
                                                                     alt="">
@@ -440,22 +273,35 @@
 
                                                     <div class="product-info text-left">
                                                         <h3 class="name"><a
-                                                                href="{{ route('landingPage.show', $kost->firtsRoomType()->id) }}">{{$kost->firtsRoomType()->name}}
-                                                                &diams;{{$kost->name}}</a></h3>
-                                                        @if ($kost->type->id == 1)
-                                                        <span class="badge badge-success">{{$kost->type->name}}</span>
-                                                        @elseif ($kost->type->id == 2)
-                                                        <span class="badge badge-danger">{{$kost->type->name}}</span>
+                                                                href="{{ route('landingPage.show', $roomType->roomType->id) }}">{{$roomType->roomType->name}}</a>
+                                                        </h3>
+                                                        <h5 style="font-style: italic; color: red;">
+                                                            {{$roomType->roomType->kost->name}}</h5>
+                                                        @if ($roomType->roomType->kost->type->id == 1)
+                                                        <span class="badge badge-success"
+                                                            style="background-color:blue;">{{$roomType->roomType->kost->type->name}}</span>
+                                                        @elseif ($roomType->roomType->kost->type->id == 2)
+                                                        <span class="badge badge-danger"
+                                                            style="background-color:red;">{{$roomType->roomType->kost->type->name}}</span>
                                                         @else
-                                                        <span class="badge badge-warning">{{$kost->type->name}}</span>
+                                                        <span class="badge badge-warning"
+                                                            style="background-color:green;">{{$roomType->roomType->kost->type->name}}</span>
                                                         @endif
                                                         <div class="description"><i class="fa fa-map-marker"
-                                                                aria-hidden="true"></i> {{$kost->address}}</div>
+                                                                aria-hidden="true"></i>
+                                                            <?php 
+                                                                $karakter = strlen($roomType->roomType->kost->address);
+                                                                if($karakter<20){
+                                                                    echo substr($roomType->roomType->kost->address, 0, 20) ; 
+                                                                }else{
+                                                                    echo substr($roomType->roomType->kost->address, 0, 20).' ...';
+                                                                }
+                                                            ?></div>
                                                         <div class="description"
                                                             style="font-style: italic; color: red;">Sisa
-                                                            {{$kost->firtsRoomType()->roomLeft()}} Kamar</div><br>
+                                                            {{$roomType->roomType->roomLeft()}} Kamar</div><br>
                                                         <div class="product-price"> <span class="price">
-                                                                {{Helper::rupiah($kost->firtsRoomType()->month()->price)}}
+                                                                {{Helper::rupiah($roomType->roomType->month()->price)}}
                                                             </span> <span class="product-info">Per Bulan</span> </div>
                                                         <!-- /.product-price -->
 
@@ -476,6 +322,81 @@
                                         </div>
                                     </div>
                                     @endforeach
+                                    @else
+                                    @foreach ($roomTypes as $roomType)
+                                    <div class="col-sm-6 col-md-4 col-lg-3">
+                                        <div class="item">
+                                            <div class="products">
+                                                <div class="product">
+                                                    <div class="product-image">
+                                                        <div class="image">
+                                                            <a href="{{ route('landingPage.show', $roomType->id) }}">
+                                                                @foreach ($roomType->image() as $image)
+                                                                @if($loop->iteration == 1)
+                                                                <img src="{{ asset('storage/images/room/'.$image->image) }}"
+                                                                    alt="">
+                                                                @elseif($loop->iteration == 2)
+                                                                <img src="{{ asset('storage/images/room/'.$image->image) }}"
+                                                                    alt="" class="hover-image">
+                                                                @endif
+                                                                @endforeach
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                    <!-- /.product-image -->
+
+                                                    <div class="product-info text-left">
+                                                        <h3 class="name"><a
+                                                                href="{{ route('landingPage.show', $roomType->id) }}">{{$roomType->name}}</a>
+                                                        </h3>
+                                                        <h5 style="font-style: italic; color: red;">
+                                                            {{$roomType->kost->name}}</h5>
+                                                        @if ($roomType->kost->type->id == 1)
+                                                        <span class="badge badge-success"
+                                                            style="background-color:blue;">{{$roomType->kost->type->name}}</span>
+                                                        @elseif ($roomType->kost->type->id == 2)
+                                                        <span class="badge badge-danger"
+                                                            style="background-color:red;">{{$roomType->kost->type->name}}</span>
+                                                        @else
+                                                        <span class="badge badge-warning"
+                                                            style="background-color:green;">{{$roomType->kost->type->name}}</span>
+                                                        @endif
+                                                        <div class="description"><i class="fa fa-map-marker"
+                                                                aria-hidden="true"></i>
+                                                            <?php 
+                                                                $karakter = strlen($roomType->kost->address);
+                                                                if($karakter<20){
+                                                                    echo substr($roomType->kost->address, 0, 20) ; 
+                                                                }else{
+                                                                    echo substr($roomType->kost->address, 0, 20).' ...';
+                                                                }
+                                                            ?></div>
+                                                        <div class="description"
+                                                            style="font-style: italic; color: red;">Sisa
+                                                            {{$roomType->roomLeft()}} Kamar</div><br>
+                                                        <div class="product-price"> <span class="price">
+                                                                {{Helper::rupiah($roomType->month()->price)}}
+                                                            </span> <span class="product-info">Per Bulan</span> </div>
+                                                        <!-- /.product-price -->
+
+                                                    </div>
+                                                    <!-- /.product-info -->
+                                                    <div class="cart clearfix animate-effect">
+                                                        <div class="action">
+
+                                                        </div>
+                                                        <!-- /.action -->
+                                                    </div>
+                                                    <!-- /.cart -->
+                                                </div>
+                                                <!-- /.product -->
+
+                                            </div>
+                                            <!-- /.products -->
+                                        </div>
+                                    </div>
+                                    @endforeach
+                                    @endif
                                 </div>
                                 <!-- /.row -->
                             </div>
@@ -486,34 +407,42 @@
 
                         <div class="tab-pane " id="list-container">
                             <div class="category-product">
+                                @if (Route::currentRouteName()=='landingPage.priceAsc' ||
+                                Route::currentRouteName()=='landingPage.priceDesc' ||
+                                Route::currentRouteName()=='landingPage.sortPrice')
+                                @foreach ($roomTypes as $roomType)
                                 <div class="category-product-inner">
                                     <div class="products">
                                         <div class="product-list product">
                                             <div class="row product-list-row">
                                                 <div class="col col-sm-3 col-lg-3">
                                                     <div class="product-image">
-                                                        <div class="image"> <img src="assets/images/products/p3.jpg"
-                                                                alt=""> </div>
+                                                        <div class="image">
+                                                            @if ($roomType->roomType->firstImage())
+                                                            <img style="height: 150px;"
+                                                                src="{{ asset('storage/images/room/'.$roomType->roomType->firstImage()->image) }}"
+                                                                alt="">
+                                                            @endif
+                                                        </div>
                                                     </div>
                                                     <!-- /.product-image -->
                                                 </div>
                                                 <!-- /.col -->
                                                 <div class="col col-sm-9 col-lg-9">
                                                     <div class="product-info">
-                                                        <h3 class="name"><a href="detail.php">Floral Print Buttoned</a>
+                                                        <h3 class="name"><a
+                                                                href="{{ route('landingPage.show', $roomType->roomType->id) }}">{{$roomType->roomType->name}}
+                                                                &diams;{{$roomType->roomType->kost->name}}</a>
                                                         </h3>
-                                                        <div class="rating rateit-small"></div>
-                                                        <div class="product-price"> <span class="price"> Rp 1,600,000
+                                                        <div class="product-price"> <span class="price">
+                                                                {{Helper::rupiah($roomType->roomType->month()->price)}}
                                                             </span> <span class="product-info">Per Bulan</span> </div>
                                                         <!-- /.product-price -->
-                                                        <div class="description m-t-10">Suspendisse posuere arcu diam,
-                                                            id accumsan eros pharetra ac. Nulla enim risus, facilisis
-                                                            bibendum gravida eget, lacinia id purus. Suspendisse posuere
-                                                            arcu diam, id accumsan eros pharetra ac. Nulla enim risus,
-                                                            facilisis bibendum gravida eget. Suspendisse posuere arcu
-                                                            diam, id accumsan eros pharetra ac. Nulla enim risus,
-                                                            facilisis bibendum gravida eget, lacinia id purus.
-                                                            Suspendisse posuere arcu diam, id accumsan eros pharetra.
+                                                        <div class="description"><i class="fa fa-map-marker"
+                                                                aria-hidden="true"></i>
+                                                            {{$roomType->roomType->kost->address}}</div>
+                                                        <div class="description m-t-10">
+                                                            {{$roomType->roomType->kost->note}}
                                                         </div>
                                                         <div class="cart clearfix animate-effect">
                                                             <div class="action">
@@ -536,40 +465,45 @@
                                     </div>
                                     <!-- /.products -->
                                 </div>
-                                <!-- /.category-product-inner -->
-
+                                @endforeach
+                                @else
+                                @foreach ($roomTypes as $roomType)
                                 <div class="category-product-inner">
                                     <div class="products">
                                         <div class="product-list product">
                                             <div class="row product-list-row">
                                                 <div class="col col-sm-3 col-lg-3">
                                                     <div class="product-image">
-                                                        <div class="image"> <img src="assets/images/products/p4.jpg"
-                                                                alt=""> </div>
+                                                        <div class="image">
+                                                            @if ($roomType->firstImage())
+                                                            <img style="height: 150px;"
+                                                                src="{{ asset('storage/images/room/'.$roomType->firstImage()->image) }}"
+                                                                alt="">
+                                                            @endif
+                                                        </div>
                                                     </div>
                                                     <!-- /.product-image -->
                                                 </div>
                                                 <!-- /.col -->
                                                 <div class="col col-sm-9 col-lg-9">
                                                     <div class="product-info">
-                                                        <h3 class="name"><a href="detail.php">Floral Print Buttoned</a>
+                                                        <h3 class="name"><a
+                                                                href="{{ route('landingPage.show', $roomType->id) }}">{{$roomType->name}}
+                                                                &diams;{{$roomType->kost->name}}</a>
                                                         </h3>
-                                                        <div class="rating rateit-small"></div>
-                                                        <div class="product-price"> <span class="price"> Rp 1,600,000
+                                                        <div class="product-price"> <span class="price">
+                                                                {{Helper::rupiah($roomType->month()->price)}}
                                                             </span> <span class="product-info">Per Bulan</span> </div>
                                                         <!-- /.product-price -->
-                                                        <div class="description m-t-10">Suspendisse posuere arcu diam,
-                                                            id accumsan eros pharetra ac. Nulla enim risus, facilisis
-                                                            bibendum gravida eget, lacinia id purus. Suspendisse posuere
-                                                            arcu diam, id accumsan eros pharetra ac. Nulla enim risus,
-                                                            facilisis bibendum gravida eget. Suspendisse posuere arcu
-                                                            diam, id accumsan eros pharetra ac. Nulla enim risus,
-                                                            facilisis bibendum gravida eget, lacinia id purus.
-                                                            Suspendisse posuere arcu diam, id accumsan eros pharetra.
+                                                        <div class="description"><i class="fa fa-map-marker"
+                                                                aria-hidden="true"></i> {{$roomType->kost->address}}
+                                                        </div>
+                                                        <div class="description m-t-10">{{$roomType->kost->note}}
                                                         </div>
                                                         <div class="cart clearfix animate-effect">
                                                             <div class="action">
 
+                                                                </ul>
                                                             </div>
                                                             <!-- /.action -->
                                                         </div>
@@ -581,66 +515,14 @@
                                                 <!-- /.col -->
                                             </div>
                                             <!-- /.product-list-row -->
-                                            <div class="tag sale"><span>sale</span></div>
+                                            <div class="tag new"><span>new</span></div>
                                         </div>
                                         <!-- /.product-list -->
                                     </div>
                                     <!-- /.products -->
                                 </div>
-                                <!-- /.category-product-inner -->
-
-                                <div class="category-product-inner">
-                                    <div class="products">
-                                        <div class="product-list product">
-                                            <div class="row product-list-row">
-                                                <div class="col col-sm-3 col-lg-3">
-                                                    <div class="product-image">
-                                                        <div class="image"> <img src="assets/images/products/p5.jpg"
-                                                                alt=""> </div>
-                                                    </div>
-                                                    <!-- /.product-image -->
-                                                </div>
-                                                <!-- /.col -->
-                                                <div class="col col-sm-9 col-lg-9">
-                                                    <div class="product-info">
-                                                        <h3 class="name"><a href="detail.php">Floral Print Buttoned</a>
-                                                        </h3>
-                                                        <div class="rating rateit-small"></div>
-                                                        <div class="product-price"> <span class="price"> Rp 1,600,000
-                                                            </span> <span class="product-info">Per Bulan</span> </div>
-                                                        <!-- /.product-price -->
-                                                        <div class="description m-t-10">Suspendisse posuere arcu diam,
-                                                            id accumsan eros pharetra ac. Nulla enim risus, facilisis
-                                                            bibendum gravida eget, lacinia id purus. Suspendisse posuere
-                                                            arcu diam, id accumsan eros pharetra ac. Nulla enim risus,
-                                                            facilisis bibendum gravida eget. Suspendisse posuere arcu
-                                                            diam, id accumsan eros pharetra ac. Nulla enim risus,
-                                                            facilisis bibendum gravida eget, lacinia id purus.
-                                                            Suspendisse posuere arcu diam, id accumsan eros pharetra.
-                                                        </div>
-                                                        <div class="cart clearfix animate-effect">
-                                                            <div class="action">
-
-                                                            </div>
-                                                            <!-- /.action -->
-                                                        </div>
-                                                        <!-- /.cart -->
-
-                                                    </div>
-                                                    <!-- /.product-info -->
-                                                </div>
-                                                <!-- /.col -->
-                                            </div>
-                                            <!-- /.product-list-row -->
-                                            <div class="tag hot"><span>hot</span></div>
-                                        </div>
-                                        <!-- /.product-list -->
-                                    </div>
-                                    <!-- /.products -->
-                                </div>
-                                <!-- /.category-product-inner -->
-
-
+                                @endforeach
+                                @endif
 
                             </div>
                             <!-- /.category-product -->
@@ -650,14 +532,9 @@
                     <!-- /.tab-content -->
                     <div class="clearfix filters-container bottom-row">
                         <div class="text-right">
-                            {{$kosts->links()}}
-                            <!-- <div class="pagination-container">
-                                <ul class="list-inline list-unstyled">
-                                    <li class="prev"><a href="#"><i class="fa fa-angle-left"></i></a></li>
-                                    <li><a href="#">{{$kosts->links()}}</a></li>
-                                    <li class="next"><a href="#"><i class="fa fa-angle-right"></i></a></li>
-                                </ul>
-                            </div> -->
+                            <div class="pagination-container">
+                                {{ $roomTypes->appends(Request::except('page'))->links('layouts.vendor.pagination1') }}
+                            </div>
                             <!-- /.pagination-container -->
                         </div>
                         <!-- /.text-right -->
@@ -730,4 +607,17 @@
 
 </div>
 <!-- /.body-content -->
+@endsection
+
+@section('script')
+<script>
+    // Open close small chat
+    $('#sortPrice').on('click', function (e) {
+        let text = $('#priceRange').val()
+        const val = text.split(",");
+        console.log(val[0]);
+        window.open("{{ route('landingPage.sortPrice') }}?min=" + val[0] + "&max=" + val[1] + "", "_self");
+    });
+
+</script>
 @endsection

@@ -18,7 +18,35 @@ class helper {
     }
 
     public static function rupiah($val) {
-        return "Rp. " .number_format($val, 0, ',', '.'). ",00";
+        return "Rp. ".number_format($val, 0, ',', '.'). ",00";
+    }
+
+    public static function dateFormat($val) {
+        return $val->format('d F Y');
+    }
+
+    public static function rupiahSecond($val) {
+        return "Rp. ".number_format($val, 0, ',', '.');
+    }
+
+    public static function timeago($date) {
+        $timestamp=strtotime($date);
+
+        $strTime=array("detik", "menit", "jam", "hari", "bulan", "tahun");
+        $length=array("60", "60", "24", "30", "12", "10");
+
+        $currentTime=time();
+
+        if($currentTime >=$timestamp) {
+            $diff=time()- $timestamp;
+
+            for($i=0; $diff >=$length[$i] && $i < count($length)-1; $i++) {
+                $diff=$diff / $length[$i];
+            }
+
+            $diff=round($diff);
+            return $diff . " ". $strTime[$i] . " yang lalu";
+        }
     }
 
     public static function sekianwaktu($time) {

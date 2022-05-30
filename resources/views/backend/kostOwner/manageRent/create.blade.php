@@ -151,7 +151,8 @@
                 <div class="form-group row">
                     <div class="col-lg-6 col-form-label">
                         <button type="submit" class="btn btn-outline-primary">Simpan</button>
-                    </div>
+        
+                </div>
 
                 </div>
                 

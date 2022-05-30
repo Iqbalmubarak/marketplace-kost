@@ -335,7 +335,7 @@
                             required @endif
                             @foreach ($price_lists as $price_list)
                             @if($price_list->rent_duration_id == $duration->id)
-                            value = "{{Helper::rupiah($price_list->price)}}"
+                            value = "{{Helper::rupiahSecond($price_list->price)}}"
                             @endif
                             @endforeach
                             >

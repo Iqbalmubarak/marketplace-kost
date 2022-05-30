@@ -10,6 +10,13 @@ class RentDetailController extends Controller
     public function accept($id){
         try {    
             $rentDetail = RentDetail::find($id);
+
+            $update = RentDetail::where('rent_id', $rentDetail->rent_id)
+                                ->where('status', 1)
+                                ->get();
+            $update->status = 3;
+            $update->save();
+
             $rentDetail->status = 1;
             $rentDetail->save();
 

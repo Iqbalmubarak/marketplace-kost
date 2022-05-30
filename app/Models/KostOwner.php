@@ -25,4 +25,9 @@ class KostOwner extends Model
     {
         return $this->hasMany(Kost::class, 'kost_owner_id', 'id');
     }
+
+    public function chat()
+    {
+        return $this->hasMany(Chat::class, 'kost_owner_id', 'id');
+    }
 }

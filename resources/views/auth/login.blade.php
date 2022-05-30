@@ -1,84 +1,135 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Sign Up Form by Colorlib</title>
+@extends('layouts.landingPage.main')
 
-    <!-- Font Icon -->
-    <link rel="stylesheet" href="{{ asset('auth/fonts/material-icon/css/material-design-iconic-font.min.css') }}">
+@section('content')
+<div class="breadcrumb">
+    <div class="container">
+        <div class="breadcrumb-inner">
+            <ul class="list-inline list-unstyled">
+                <li><a href="home.html">Home</a></li>
+                <li class='active'>Login</li>
+            </ul>
+        </div><!-- /.breadcrumb-inner -->
+    </div><!-- /.container -->
+</div><!-- /.breadcrumb -->
 
-    <!-- Main css -->
-    <link rel="stylesheet" href="{{ asset('auth/css/style.css') }}">
-</head>
-<body>
-
-    <div class="main">
-
-        <!-- Sing in  Form -->
-        <section class="sign-in">
-            <div class="container">
-                <div class="signin-content">
-                    <div class="signin-image">
-                        <figure><img src="{{ asset('auth/images/signin-image.jpg') }}" alt="sing up image"></figure>
-                    @if(isset($_GET['role']))
-                        @if($_GET['role']=='owner')
-                        <a href="{{ route('register') }}?role=owner" class="signup-image-link">Create an account</a>
-                            @elseif($_GET['role']=='customer')
-                            <a href="{{ route('register') }}?role=customer" class="signup-image-link">Create an account</a>
-                            @else
-                        @endif
-                    @endif
-                    </div>
-
-                    <div class="signin-form">
-                        <h2 class="form-title">Sign in</h2>
-                        <form method="POST" class="register-form" id="login-form" action="{{ route('login') }}">
-                            @csrf
-                             <div class="form-group">
-                                <label for="email">Email</label>
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email">
-                                @error('email')
-                                <div class="invalid-feedback">
-                                    {{$message}}
-                                </div>
-                                @enderror
-                            </div>
-                             <div class="form-group">
-                                <label for="password">Password</label>
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password">
-                                @error('password')
-                                <div class="invalid-feedback">
-                                    {{$message}}
-                                </div>
-                                @enderror
-                            </div>
-                            <div class="form-group">
-                                <input type="checkbox" name="remember-me" id="remember-me" class="agree-term" />
-                                <label for="remember-me" class="label-agree-term"><span><span></span></span>Remember me</label>
-                            </div>
-                            <div class="form-group form-button">
-                                <input type="submit" name="signin" id="signin" class="form-submit" value="Log in"/>
-                            </div>
-                        </form>
-                        <div class="social-login">
-                            <span class="social-label">Or login with</span>
-                            <ul class="socials">
-                                <li><a href="#"><i class="display-flex-center zmdi zmdi-facebook"></i></a></li>
-                                <li><a href="#"><i class="display-flex-center zmdi zmdi-twitter"></i></a></li>
-                                <li><a href="#"><i class="display-flex-center zmdi zmdi-google"></i></a></li>
-                            </ul>
+<div class="body-content">
+    <div class="container">
+        <div class="sign-in-page">
+            <div class="row">
+                <!-- Sign-in -->
+                <div class="col-md-6 col-sm-6 sign-in">
+                    <h4 class="">Sign in</h4>
+                    <p class="">Hello, Welcome to your account.</p>
+                    <form method="POST" class="register-form outer-top-xs" role="form" action="{{ route('login') }}">
+                        @csrf
+                        <div class="form-group">
+                            <label class="info-title" for="email">Email Address <span>*</span></label>
+                            <input type="email" class="form-control unicase-form-control text-input @error('email') is-invalid @enderror"
+                                id="email" name="email">
                         </div>
-                    </div>
+                        <div class="form-group">
+                            <label class="info-title" for="password">Password <span>*</span></label>
+                            <input type="password" class="form-control unicase-form-control text-input @error('password') is-invalid @enderror"
+                                id="password" name="password">
+                            @error('password')
+                            <div class="invalid-feedback">
+                                {{$message}}
+                            </div>
+                            @enderror
+                        </div>
+                        <div class="radio outer-xs">
+                            <button type="submit" class="btn-upper btn btn-primary checkout-page-button">Login</button>
+                            <a href="#" class="forgot-password pull-right">Forgot your Password?</a>
+                        </div>
+                        
+                    </form>
                 </div>
-            </div>
-        </section>
+                <!-- Sign-in -->
 
-    </div>
+                <!-- create a new account -->
+                <div class="col-md-6 col-sm-6 create-new-account">
+                    <h4 class="checkout-subtitle">Create a new account </h4>
+                    <p class="text title-tag-line" >Create your new account.</p>
+                    <form method="POST" class="register-form outer-top-xs" role="form" action="{{ route('register') }}">
+                        @csrf
+                        <div class="form-group col-md-12 col-sm-12">
+                            <label class="info-title" for="email">Email Address <span>@error('email')
+                                    <div class="invalid-feedback">
+                                        {{$message}}
+                                    </div>
+                                    @enderror</span></label>
+                            <input type="email" class="form-control unicase-form-control text-input @error('email') is-invalid @enderror"
+                                id="email" name="email">
+                        </div>
+                            <div class="form-group col-md-6 col-sm-6">
+                                <label class="info-title" for="first_name">First Name <span>@error('first_name')
+                                        <div class="invalid-feedback">
+                                            {{$message}}
+                                        </div>
+                                        @enderror</span></label>
+                                <input type="text" class="form-control unicase-form-control text-input @error('first_name') is-invalid @enderror"
+                                    id="first_name" name="first_name">
+                            </div>
+                            <div class="form-group col-md-6 col-sm-6">
+                                <label class="info-title" for="last_name">Last Name <span>@error('last_name')
+                                        <div class="invalid-feedback">
+                                            {{$message}}
+                                        </div>
+                                        @enderror</span></label>
+                                <input type="text" class="form-control unicase-form-control text-input @error('last_name') is-invalid @enderror"
+                                    id="last_name" name="last_name">
+                            </div>
+                        <div class="form-group col-md-12 col-sm-12">
+                            <label class="info-title" for="handphone">Phone Number <span>@error('handphone')
+                                    <div class="invalid-feedback">
+                                        {{$message}}
+                                    </div>
+                                    @enderror</span></label>
+                            <input type="phone" class="form-control unicase-form-control text-input @error('handphone') is-invalid @enderror"
+                                id="handphone" name="handphone">
+                        </div>
+                        <div class="form-group col-md-12 col-sm-12">
+                            <label class="info-title" for="address">Address <span>@error('address')
+                                    <div class="invalid-feedback">
+                                        {{$message}}
+                                    </div>
+                                    @enderror</span></label>
+                            <textarea name="address" id="address" class="form-control unicase-form-control text-input @error('handphone') is-invalid @enderror"></textarea>
+                        </div>
+                        <div class="form-group col-md-6 col-sm-6">
+                            <label class="info-title" for="password">Password <span>@error('password')
+                                    <div class="invalid-feedback">
+                                        {{$message}}
+                                    </div>
+                                    @enderror</span></label>
+                            <input type="password" class="form-control unicase-form-control text-input @error('password') is-invalid @enderror"
+                                id="password" name="password">
+                        </div>
+                        <div class="form-group col-md-6 col-sm-6">
+                            <label class="info-title" for="password">Confirm Password <span>@error('password')
+                                    <div class="invalid-feedback">
+                                        {{$message}}
+                                    </div>
+                                    @enderror</span></label>
+                            <input type="password" class="form-control unicase-form-control text-input @error('password') is-invalid @enderror"
+                                id="password" name="password_confirmation">
+                        </div>
+                        <div class="form-group col-md-12 col-sm-12">
+                            @if($_GET['role']=='owner')   
+                                <input type="hidden" name="role" value="owner">
+                            @elseif($_GET['role']=='customer')   
+                                <input type="hidden" name="role" value="customer">
+                            @else
+                                <input type="hidden" name="role" value="admin">
+                            @endif
+                            <button type="submit" class="btn-upper btn btn-primary checkout-page-button">Sign Up</button>
+                        </div>
+                        
+                    </form>
 
-    <!-- JS -->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="js/main.js"></script>
-</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
-</html>
+
+                </div>
+                <!-- create a new account -->
+            </div><!-- /.row -->
+        </div><!-- /.sigin-in-->>
+        @endsection

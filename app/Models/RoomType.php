@@ -45,6 +45,11 @@ class RoomType extends Model
     {
         return $this->hasOne(Kost::class, 'id', 'kost_id');
     }
+    
+    public function findKost()
+    {
+        return $this->hasOne(Kost::class, 'id', 'kost_id');
+    }
 
     public function room()
     {
@@ -60,6 +65,12 @@ class RoomType extends Model
     public function image()
     {
         $image = RoomImage::where('room_type_id', $this->id)->where('section_id', 5)->orderBy('created_at', 'desc')->take(2)->get();
+        return $image;
+    }
+
+    public function sectionImage($val)
+    {
+        $image = RoomImage::where('room_type_id', $this->id)->where('section_id', $val)->get();
         return $image;
     }
 

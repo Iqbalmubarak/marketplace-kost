@@ -24,6 +24,7 @@ class CreateNewUser implements CreatesNewUsers
      */
     public function create(array $input)
     {
+        //dd($input);
         if($input['role'] == 'admin'){
             $validator = Validator::make($input, [
                 'first_name' => ['required', 'string', 'max:40'],
@@ -60,22 +61,23 @@ class CreateNewUser implements CreatesNewUsers
                     'email',
                     'max:255'
                 ],
-                'phone' => ['required', 'numeric', 'regex:/^([0-9\s\-\+\(\)]*)$/', 'min:10'],
+                'address' => ['required', 'string'],
+                'handphone' => ['required', 'numeric', 'regex:/^([0-9\s\-\+\(\)]*)$/', 'min:10'],
                 'password' => $this->passwordRules(),
                 'password_confirmation' => ['required', 'string', 'min:8'],
             ]);
-
+            
             $validator->validate();
-
+            
             $user = new User;
             $user->email = $input['email'];
             $user->password = Hash::make($input['password']);
             $user->save();
-
+        
             $kost_owner = new KostOwner;
             $kost_owner->first_name = $input['first_name'];
             $kost_owner->last_name = $input['last_name'];
-            $kost_owner->handphone = $input['phone'];
+            $kost_owner->handphone = $input['handphone'];
             $kost_owner->user_id = $user->id;
             $kost_owner->save();
         }elseif($input['role'] == 'customer'){
@@ -88,7 +90,7 @@ class CreateNewUser implements CreatesNewUsers
                     'email',
                     'max:255'
                 ],
-                'phone' => ['required', 'numeric', 'regex:/^([0-9\s\-\+\(\)]*)$/', 'min:10'],
+                'handphone' => ['required', 'numeric', 'regex:/^([0-9\s\-\+\(\)]*)$/', 'min:10'],
                 'password' => $this->passwordRules(),
                 'password_confirmation' => ['required', 'string', 'min:8'],
             ]);
@@ -101,7 +103,7 @@ class CreateNewUser implements CreatesNewUsers
             $user->save();
 
             $kost_seeker = new KostSeeker;
-            $kost_seeker->handphone = $input['phone'];
+            $kost_seeker->handphone = $input['handphone'];
             $kost_seeker->first_name = $input['first_name'];
             $kost_seeker->last_name = $input['last_name'];
             $kost_seeker->user_id = $user->id;
@@ -116,8 +118,8 @@ class CreateNewUser implements CreatesNewUsers
             'user' => $user,
             'token' => $token
         ];
-
         return $user;
+        
         
     }
 }

@@ -14,7 +14,7 @@ class RoomTypeFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->slug(),
+            'name' => $this->faker->company(),
             'wide' => $this->faker->numberBetween(2, 5),
             'lenght' => $this->faker->numberBetween(2, 5),
             'capacity' => $this->faker->numberBetween(1, 4),

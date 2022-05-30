@@ -5,6 +5,98 @@
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
 <link href="{{ asset('templates/css/plugins/jasny/jasny-bootstrap.min.css') }}" rel="stylesheet">
+<link href="{{ asset('templates/css/plugins/blueimp/css/blueimp-gallery.min.css') }}" rel="stylesheet">
+<style>
+    .small-chat-box {
+        display: none;
+        position: fixed;
+        bottom: 20px;
+        right: 75px;
+        background: #fff;
+        border: 1px solid #e7eaec;
+        width: 230px;
+        height: 320px;
+        border-radius: 4px;
+    }
+
+    .small-chat-box.ng-small-chat {
+        display: block;
+    }
+
+    .body-small .small-chat-box {
+        bottom: 70px;
+        right: 20px;
+    }
+
+    .small-chat-box.active {
+        display: block;
+    }
+
+    .small-chat-box .heading {
+        background: #2f4050;
+        padding: 8px 15px;
+        font-weight: bold;
+        color: #fff;
+    }
+
+    .small-chat-box .chat-date {
+        opacity: 0.6;
+        font-size: 10px;
+        font-weight: normal;
+    }
+
+    .small-chat-box .content {
+        padding: 15px 15px;
+    }
+
+    .small-chat-box .content .author-name {
+        font-weight: bold;
+        margin-bottom: 3px;
+        font-size: 11px;
+    }
+
+    .small-chat-box .content>div {
+        padding-bottom: 20px;
+    }
+
+    .small-chat-box .content .chat-message {
+        padding: 5px 10px;
+        border-radius: 6px;
+        font-size: 11px;
+        line-height: 14px;
+        max-width: 80%;
+        background: #f3f3f4;
+        margin-bottom: 10px;
+    }
+
+    .small-chat-box .content .chat-message.active {
+        background: #1ab394;
+        color: #fff;
+    }
+
+    .small-chat-box .content .left {
+        text-align: left;
+        clear: both;
+    }
+
+    .small-chat-box .content .left .chat-message {
+        float: left;
+    }
+
+    .small-chat-box .content .right {
+        text-align: right;
+        clear: both;
+    }
+
+    .small-chat-box .content .right .chat-message {
+        float: right;
+    }
+
+    .small-chat-box .form-chat {
+        padding: 10px 10px;
+    }
+
+</style>
 @endsection
 
 @section('content')
@@ -42,7 +134,7 @@
                                     <div class="single-product-gallery-item" id="slide{{$loop->iteration}}">
                                         <a data-lightbox="image-1" data-title="Gallery"
                                             href="{{ asset('storage/images/room/'.$roomImage->image) }}">
-                                            <img class="img-responsive" alt=""
+                                            <img style="max-height: 250px;" class="img-responsive" alt=""
                                                 src="{{ asset('templateLandings/assets/images/blank.gif') }}"
                                                 data-echo="{{ asset('storage/images/room/'.$roomImage->image) }}" />
                                         </a>
@@ -72,7 +164,16 @@
                         <div class='col-sm-12 col-md-8 col-lg-8 product-info-block'>
                             <div class="product-info">
                                 <h1 class="name">{{$roomType->name}} &diams; {{$roomType->kost->name}}</h1>
-
+                                @if ($roomType->kost->type->id == 1)
+                                <span class="badge badge-success"
+                                    style="background-color:blue;">{{$roomType->kost->type->name}}</span>
+                                @elseif ($roomType->kost->type->id == 2)
+                                <span class="badge badge-danger"
+                                    style="background-color:red;">{{$roomType->kost->type->name}}</span>
+                                @else
+                                <span class="badge badge-warning"
+                                    style="background-color:green;">{{$roomType->kost->type->name}}</span>
+                                @endif
                                 <div class="stock-container info-container m-t-10">
                                     <div class="row">
                                         <div class="col-lg-12">
@@ -84,6 +185,14 @@
                                             <div class="pull-left">
                                                 <div class="stock-box">
                                                     <span class="value">Sisa {{$roomType->roomLeft()}} Kamar</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <div class="pull-left">
+                                                <div class="stock-box">
+                                                    <span class="label"><i class="fa fa-map-marker"
+                                                            aria-hidden="true"></i> {{$roomType->kost->address}}</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -107,18 +216,17 @@
 
                                         <div class="col-sm-6 col-xs-6">
                                             <div class="favorite-button m-t-5">
-                                                <a class="btn btn-primary" data-toggle="tooltip" data-placement="right"
-                                                    title="Wishlist" href="#">
-                                                    <i class="fa fa-heart"></i>
-                                                </a>
-                                                <a class="btn btn-primary" data-toggle="tooltip" data-placement="right"
-                                                    title="Add to Compare" href="#">
-                                                    <i class="fa fa-signal"></i>
-                                                </a>
-                                                <a class="btn btn-primary" data-toggle="tooltip" data-placement="right"
-                                                    title="E-mail" href="#">
-                                                    <i class="fa fa-envelope"></i>
-                                                </a>
+                                                @if (Auth::user())
+                                                    <a class="btn btn-primary open-small-chat" data-toggle="tooltip" data-placement="right"
+                                                        title="Kirim pesan" href="#">
+                                                        <i class="fa fa-comments"></i>
+                                                    </a>
+                                                @else
+                                                    <a class="btn btn-primary login-notification" data-toggle="tooltip" data-placement="right"
+                                                        title="Kirim pesan" href="#">
+                                                        <i class="fa fa-comments"></i>
+                                                    </a>
+                                                @endif
                                             </div>
                                         </div>
 
@@ -126,14 +234,21 @@
                                 </div><!-- /.price-container -->
 
                                 <div class="quantity-container info-container">
-                                    <div class="row">>
+                                    <div class="row">
 
                                         <div class="add-btn">
-                                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#bookingModal"><i
+                                            @if (Auth::user())
+                                                <button type="button" class="btn btn-primary" data-toggle="modal"
+                                                data-target="#bookingModal"><i
                                                     class="fa fa-shopping-cart inner-right-vs"></i> Sewa</button>
+                                            @else
+                                                <button type="button" class="btn btn-primary login-notification"><i
+                                                    class="fa fa-shopping-cart inner-right-vs"></i> Sewa</button>
+                                            @endif
+                                            
                                         </div>
 
-                                        
+
                                     </div><!-- /.row -->
                                 </div><!-- /.quantity-container -->
 
@@ -150,6 +265,7 @@
                                 <li class="active"><a data-toggle="tab" href="#description">FASILITAS</a></li>
                                 <li><a data-toggle="tab" href="#review">LOKASI</a></li>
                                 <li><a data-toggle="tab" href="#tags">PERATURAN</a></li>
+                                <li><a data-toggle="tab" href="#image">GALERI</a></li>
                             </ul><!-- /.nav-tabs #product-tabs -->
                         </div>
                         <div class="col-sm-12 col-md-9 col-lg-9">
@@ -258,6 +374,74 @@
                                     </div><!-- /.product-tab -->
                                 </div><!-- /.tab-pane -->
 
+                                <div id="image" class="tab-pane">
+                                    <div class="product-tag">
+                                        <div class="lightBoxGallery">
+                                            <h3>Foto bangunan dari depan</h3>
+                                            @foreach ($roomType->kost->sectionImage(1) as $image)
+                                            <a href="{{ asset('storage/images/kost/'.$image->image) }}"
+                                                title="Image from Unsplash" data-gallery=""><img
+                                                    style="width: 100px; height:100px;"
+                                                    src="{{ asset('storage/images/kost/'.$image->image) }}"></a>
+                                            @endforeach
+                                            <h3>Foto bagian dalam bangunan</h3>
+                                            @foreach ($roomType->kost->sectionImage(2) as $image)
+                                            <a href="{{ asset('storage/images/kost/'.$image->image) }}"
+                                                title="Image from Unsplash" data-gallery=""><img
+                                                    style="width: 100px; height:100px;"
+                                                    src="{{ asset('storage/images/kost/'.$image->image) }}"></a>
+                                            @endforeach
+                                            <h3>Foto bangunan dari jalan</h3>
+                                            @foreach ($roomType->kost->sectionImage(3) as $image)
+                                            <a href="{{ asset('storage/images/kost/'.$image->image) }}"
+                                                title="Image from Unsplash" data-gallery=""><img
+                                                    style="width: 100px; height:100px;"
+                                                    src="{{ asset('storage/images/kost/'.$image->image) }}"></a>
+                                            @endforeach
+                                            <h3>Foto bagian depan kamar</h3>
+                                            @foreach ($roomType->sectionImage(4) as $image)
+                                            <a href="{{ asset('storage/images/room/'.$image->image) }}"
+                                                title="Image from Unsplash" data-gallery=""><img
+                                                    style="width: 100px; height:100px;"
+                                                    src="{{ asset('storage/images/room/'.$image->image) }}"></a>
+                                            @endforeach
+                                            <h3>Foto bagian dalam kamar</h3>
+                                            @foreach ($roomType->sectionImage(5) as $image)
+                                            <a href="{{ asset('storage/images/room/'.$image->image) }}"
+                                                title="Image from Unsplash" data-gallery=""><img
+                                                    style="width: 100px; height:100px;"
+                                                    src="{{ asset('storage/images/room/'.$image->image) }}"></a>
+                                            @endforeach
+                                            <h3>Foto kamar mandi</h3>
+                                            @foreach ($roomType->sectionImage(6) as $image)
+                                            <a href="{{ asset('storage/images/room/'.$image->image) }}"
+                                                title="Image from Unsplash" data-gallery=""><img
+                                                    style="width: 100px; height:100px;"
+                                                    src="{{ asset('storage/images/room/'.$image->image) }}"></a>
+                                            @endforeach
+                                            <h3>Foto tambahan</h3>
+                                            @foreach ($roomType->sectionImage(7) as $image)
+                                            <a href="{{ asset('storage/images/room/'.$image->image) }}"
+                                                title="Image from Unsplash" data-gallery=""><img
+                                                    style="width: 100px; height:100px;"
+                                                    src="{{ asset('storage/images/room/'.$image->image) }}"></a>
+                                            @endforeach
+
+                                            <!-- The Gallery as lightbox dialog, should be a child element of the document body -->
+                                            <div id="blueimp-gallery" class="blueimp-gallery">
+                                                <div class="slides"></div>
+                                                <h3 class="title"></h3>
+                                                <a class="prev">‹</a>
+                                                <a class="next">›</a>
+                                                <a class="close">×</a>
+                                                <a class="play-pause"></a>
+                                                <ol class="indicator"></ol>
+                                            </div>
+
+                                        </div>
+                                    </div><!-- /.product-tab -->
+                                </div><!-- /.tab-pane -->
+
                             </div><!-- /.tab-content -->
                         </div><!-- /.col -->
                     </div><!-- /.row -->
@@ -336,17 +520,250 @@
         </div><!-- /.row -->
     </div><!-- /.container -->
 </div><!-- /.body-content -->
+@if (Auth::user())
+<div class="small-chat-box fadeInRight animated">
+
+    <div class="heading" draggable="true">
+        <small class="chat-date float-right">
+            {{Carbon\Carbon::today()->format('d M Y')}}
+        </small>
+        {{$roomType->kost->kostOwner->first_name}} {{$roomType->kost->kostOwner->last_name}}
+    </div>
+
+    <div class="content" id="chat-content">
+        @if ($chat)
+            @foreach ($chat->chatDetail as $chatDetail)
+                @if($chatDetail->sender == Auth::user()->kostSeeker->id)
+                    <div class="right">
+                        <div class="author-name">
+                            {{$chatDetail->kostSeeker->first_name}} {{$chatDetail->kostSeeker->last_name}}
+                            <br>
+                            <small class="chat-date">
+                                {{$chatDetail->created_at->format('d M Y h.i A')}}
+                            </small>
+                        </div>
+                        <div class="chat-message active">
+                            {{$chatDetail->message}} 
+                        </div>
+                    </div>
+                @elseif($chatDetail->sender != Auth::user()->kostSeeker->id)
+                    <div class="left">
+                        <div class="author-name">
+                            {{$chat->kostOwner->first_name}} {{$chat->kostOwner->last_name}}
+                            <br>
+                            <small class="chat-date">
+                                {{$chatDetail->created_at->format('d M Y h.i A')}}
+                            </small>
+                        </div>
+                        <div class="chat-message">
+                            {{$chatDetail->message}}
+                        </div>
+                    </div>
+                @endif
+            @endforeach
+        @endif
+    </div>
+    <div class="form-chat">
+        <div class="input-group input-group-sm"><input type="text" id="send-message" class="form-control"> <span class="input-group-btn">
+                <button class="btn btn-primary" type="button" onclick="sendMessage({{Auth::user()->kostSeeker->id}}, {{$roomType->kost->kostOwner->id}}, {{$roomType->kost->id}}, {{Auth::user()->isCustomer()}})">Send
+                </button> </span>
+        </div>
+    </div>
+    
+
+</div>
+@endif
+
 @endsection
 
 @section('script')
 <!-- Latest compiled and minified JavaScript -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js">
-<script type="text/javascript"
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCdGrzi3vv43yyxfcFiBRoGVqvtZcJ2lIM"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
 <!-- Data picker -->
 <script src="{{ asset('templates/js/plugins/datapicker/bootstrap-datepicker.js') }}"></script>
 <script src="{{ asset('templates/js/plugins/jasny/jasny-bootstrap.min.js') }}"></script>
+<script src="{{ asset('templates/js/plugins/blueimp/jquery.blueimp-gallery.min.js') }}"></script>
+<script src="{{ asset('templates/js/plugins/slimscroll/jquery.slimscroll.min.js') }}"></script>
+<script src="{{ asset('templates/js/plugins/metisMenu/jquery.metisMenu.js') }}"></script>
+
 <script>
+    // When the window has finished loading google map
+    google.maps.event.addDomListener(window, 'load', init);
+
+    function init() {
+        // More info see: https://developers.google.com/maps/documentation/javascript/reference#MapOptions
+        var mapOptions1 = {
+            zoom: 13,
+            center: new google.maps.LatLng(-0.9111111111111111, 100.34972222222221),
+            // Style for Google Maps
+            styles: [{
+                "featureType": "water",
+                "stylers": [{
+                    "saturation": 43
+                }, {
+                    "lightness": -11
+                }, {
+                    "hue": "#0088ff"
+                }]
+            }, {
+                "featureType": "road",
+                "elementType": "geometry.fill",
+                "stylers": [{
+                    "hue": "#ff0000"
+                }, {
+                    "saturation": -100
+                }, {
+                    "lightness": 99
+                }]
+            }, {
+                "featureType": "road",
+                "elementType": "geometry.stroke",
+                "stylers": [{
+                    "color": "#808080"
+                }, {
+                    "lightness": 54
+                }]
+            }, {
+                "featureType": "landscape.man_made",
+                "elementType": "geometry.fill",
+                "stylers": [{
+                    "color": "#ece2d9"
+                }]
+            }, {
+                "featureType": "poi.park",
+                "elementType": "geometry.fill",
+                "stylers": [{
+                    "color": "#ccdca1"
+                }]
+            }, {
+                "featureType": "road",
+                "elementType": "labels.text.fill",
+                "stylers": [{
+                    "color": "#767676"
+                }]
+            }, {
+                "featureType": "road",
+                "elementType": "labels.text.stroke",
+                "stylers": [{
+                    "color": "#ffffff"
+                }]
+            }, {
+                "featureType": "poi",
+                "stylers": [{
+                    "visibility": "off"
+                }]
+            }, {
+                "featureType": "landscape.natural",
+                "elementType": "geometry.fill",
+                "stylers": [{
+                    "visibility": "on"
+                }, {
+                    "color": "#b8cb93"
+                }]
+            }, {
+                "featureType": "poi.park",
+                "stylers": [{
+                    "visibility": "on"
+                }]
+            }, {
+                "featureType": "poi.sports_complex",
+                "stylers": [{
+                    "visibility": "on"
+                }]
+            }, {
+                "featureType": "poi.medical",
+                "stylers": [{
+                    "visibility": "on"
+                }]
+            }, {
+                "featureType": "poi.business",
+                "stylers": [{
+                    "visibility": "simplified"
+                }]
+            }]
+        };
+        // Get all html elements for map
+        var mapElement1 = document.getElementById('map');
+
+        // Create the Google Map using elements
+        var map = new google.maps.Map(mapElement1, mapOptions1);
+
+
+        // Variabel untuk menyimpan batas kordinat
+        bounds = new google.maps.LatLngBounds();
+
+        
+    }
+    
+    function sendMessage(kostSeeker, kostOwner, kost, status) {
+        let message = $('#send-message').val();
+        console.log(kostSeeker);
+        console.log(kostOwner);
+        console.log(kost);
+
+        let base_url = "{{URL('api/message/send_message')}}";
+        $.ajax({
+            
+            url: base_url + "?kostSeeker=" + kostSeeker + "&kostOwner=" + kostOwner + "&kost=" + kost +  "&message=" + message + "&status=" + status,
+            dataType: 'json',
+            cache: false,
+            dataSrc: '',
+            success: function (data) {
+                var div = $(`<div class="right">
+                    <div class="author-name">
+                        `+ data.name +`
+                        <br>
+                        <small class="chat-date">
+                            `+ data.created_at +`
+                        </small>
+                    </div>
+                    <div class="chat-message active">
+                        `+ data.message +`
+                    </div>
+                </div>`);
+
+                $('#chat-content').append(div);
+                $('#send-message').value = '';
+
+                $('#chat-content').scrollTop($('#chat-content')[0].scrollHeight);
+            }
+        });
+    }
+
+    // Open close small chat
+    $('.open-small-chat').on('click', function (e) {
+        e.preventDefault();
+        $(this).children().toggleClass('fa-comments').toggleClass('fa-times');
+        $('.small-chat-box').toggleClass('active');
+        $('#chat-content').scrollTop($('#chat-content')[0].scrollHeight);
+    });
+
+    $('.login-notification').on('click', function (e) {
+        toastr.options = {
+            "closeButton": true,
+            "debug": true,
+            "progressBar": true,
+            "preventDuplicates": true,
+            "positionClass": "toast-top-right",
+            "showDuration": "400",
+            "hideDuration": "1000",
+            "timeOut": "7000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        }
+        toastr.warning("Silahkan login terlebih dahulu");
+    });
+
+    // Initialize slimscroll for small chat
+    $('.small-chat-box .content').slimScroll({
+        height: '234px',
+        railOpacity: 0.4
+    });
+
+
     function fileValidation() {
         var fileInput = document.getElementById('payment');
         var filePath = fileInput.value;
@@ -552,45 +969,8 @@
         // Variabel untuk menyimpan batas kordinat
         bounds = new google.maps.LatLngBounds();
 
-        $.ajax({
-            url: "{{url('api/kost/get-location')}}?id={{$roomType->kost->id}}",
-            dataType: 'json',
-            cache: false,
-            dataSrc: '',
-
-            success: function (data) {
-                var latitude = data.map(function (item) {
-                    return item.latitude;
-                });
-                var longitude = data.map(function (item) {
-                    return item.longitude;
-                });
-                var latlng = new google.maps.LatLng(parseFloat(latitude), parseFloat(longitude));
-                for (i = 0; i < data.length; i++) {
-                    var pos = {
-                        lat: parseFloat(latitude[i]),
-                        lng: parseFloat(longitude[i])
-                    };
-                    var marker = new google.maps.Marker({
-                        position: pos,
-                        map: map,
-                        title: 'Lokasi Anda',
-                        icon: 'https://img.icons8.com/external-kmg-design-outline-color-kmg-design/32/000000/external-map-map-and-navigation-kmg-design-outline-color-kmg-design-3.png',
-                        draggable: true,
-                        animation: google.maps.Animation.DROP
-                    });
-                    marker.setMap(map);
-                    map.setCenter(latlng);
-                    // for(i=0; i<arrays.length; i++){
-                    //     var data = arrays
-                    //     console.log(data.properties.center['latitude']);
-                    // }                   
-                }
-            }
-
-        });
+        
     }
-    
 
 </script>
 @endsection

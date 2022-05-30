@@ -10,6 +10,7 @@ use App\Http\Controllers\RoomTypeController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\api\SelectController;
 use App\Http\Controllers\api\PaymentController;
+use App\Http\Controllers\api\MessageController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\RentController;
 use App\Http\Controllers\HistoryController;
@@ -52,4 +53,7 @@ Route::get('/payment/rent-payment/{id}',[PaymentController::class, 'rentPayment'
 //Delete Image
 Route::delete('/kost/{id}/destroy-image', [KostController::class, 'destroy_image'])->name('kost.destroy-image');
 Route::delete('/kost/{id}/destroy-roomTypeImage', [RoomTypeController::class, 'destroyRoomTypeImage'])->name('kost.destroy-roomTypeImage');
+
+//Message
+Route::get('/message/send_message',[MessageController::class, 'sendMessage'])->name('message.sendMessage');
 

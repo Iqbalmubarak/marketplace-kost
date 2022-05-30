@@ -13,7 +13,7 @@ class KostOwnerFactory extends Factory
      */
     public function definition()
     {
-         $gender = $this->faker->randomElement(['Wanita', 'Pria']);
+        $gender = $this->faker->randomElement(['Wanita', 'Pria']);
         return [
             'first_name' => $this->faker->firstName($gender),
             'last_name' => $this->faker->lastName($gender),

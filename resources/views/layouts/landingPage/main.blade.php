@@ -22,6 +22,7 @@
     <link rel="stylesheet" href="{{ asset('templateLandings/assets/css/animate.min.css') }}">
     <link rel="stylesheet" href="{{ asset('templateLandings/assets/css/rateit.css') }}">
     <link rel="stylesheet" href="{{ asset('templateLandings/assets/css/bootstrap-select.min.css') }}">
+    <link href="{{ asset('templates/css/plugins/dataTables/datatables.min.css') }}" rel="stylesheet">
     <!-- Sweet Alert -->
     <link href="{{ asset('templates/css/plugins/sweetalert/sweetalert.css') }}" rel="stylesheet">
     <!-- Toastr style -->
@@ -95,42 +96,7 @@
     <!-- ============================================== INFO BOXES : END ============================================== -->
 
     <!-- ============================================================= FOOTER ============================================================= -->
-    <footer id="footer" class="footer color-bg">
 
-        <div class="copyright-bar">
-            <div class="container">
-                <div class="col-xs-12 col-sm-4 no-padding social">
-                    <ul class="link">
-                        <li class="fb pull-left"><a target="_blank" rel="nofollow" href="#" title="Facebook"></a></li>
-                        <li class="tw pull-left"><a target="_blank" rel="nofollow" href="#" title="Twitter"></a></li>
-                        <li class="googleplus pull-left"><a target="_blank" rel="nofollow" href="#"
-                                title="GooglePlus"></a></li>
-                        <li class="rss pull-left"><a target="_blank" rel="nofollow" href="#" title="RSS"></a></li>
-                        <li class="pintrest pull-left"><a target="_blank" rel="nofollow" href="#" title="PInterest"></a>
-                        </li>
-                        <li class="linkedin pull-left"><a target="_blank" rel="nofollow" href="#" title="Linkedin"></a>
-                        </li>
-                        <li class="youtube pull-left"><a target="_blank" rel="nofollow" href="#" title="Youtube"></a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="col-xs-12 col-sm-4 no-padding copyright"><a target="_blank"
-                        href="https://www.templateshub.net">Templates Hub</a> </div>
-                <div class="col-xs-12 col-sm-4 no-padding">
-                    <div class="clearfix payment-methods">
-                        <ul>
-                            <li><img src="{{ asset('templateLandings/assets/images/payments/1.png') }}" alt=""></li>
-                            <li><img src="{{ asset('templateLandings/assets/images/payments/2.png') }}" alt=""></li>
-                            <li><img src="{{ asset('templateLandings/assets/images/payments/3.png') }}" alt=""></li>
-                            <li><img src="{{ asset('templateLandings/assets/images/payments/4.png') }}" alt=""></li>
-                            <li><img src="{{ asset('templateLandings/assets/images/payments/5.png') }}" alt=""></li>
-                        </ul>
-                    </div>
-                    <!-- /.payment-methods -->
-                </div>
-            </div>
-        </div>
-    </footer>
     <!-- ============================================================= FOOTER : END============================================================= -->
 
     <!-- For demo purposes – can be removed on production -->
@@ -155,7 +121,9 @@
     <script src="{{ asset('templates/js/plugins/sweetalert/sweetalert.min.js') }}"></script>
     <!-- Toastr script -->
     <script src="{{ asset('templates/js/plugins/toastr/toastr.min.js') }}"></script>
-
+    <!-- Data tables -->
+    <script src="{{ asset('templates/js/plugins/dataTables/datatables.min.js') }}"></script>
+    <script src="{{ asset('templates/js/plugins/dataTables/dataTables.bootstrap4.min.js') }}"></script>
     <script type="text/javascript">
         function logout() {
             event.preventDefault();
@@ -237,6 +205,13 @@
         }
         toastr.info("{{ session('info') }}");
         @endif
+
+        // Open close small chat
+        $('.search-button').on('click', function (e) {
+            let text = $('.search-field').val();
+            console.log(text);
+            window.open("{{ route('landingPage.search') }}?search="+text+"", "_self");
+        });
     </script>
     @yield('script')
 </body>

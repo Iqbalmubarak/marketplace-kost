@@ -15,3 +15,9 @@
 <li @if(Route::currentRouteName()=="admin.kost.admin-index") class="active" @endif>
     <a href="{{ route('admin.kost.admin-index') }}"><i class="fa fa-th-large"></i> <span class="nav-label">Kos</span></a>
 </li>
+<li @if(Route::currentRouteName()=="admin.booking.index") class="active" @endif>
+    <a href="{{ route('admin.booking.index') }}"><i class="fa fa-th-large"></i> <span class="nav-label">List Booking</span></a>
+</li>
+<li @if(Route::currentRouteName()=="admin.rent.index") class="active" @endif>
+    <a href="{{ route('admin.rent.index') }}"><i class="fa fa-th-large"></i> <span class="nav-label">List Sewa</span></a>
+</li>

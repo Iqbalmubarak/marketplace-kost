@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use App\Models\Kost; 
 use App\Models\RoomType; 
+use App\Models\RentDetail; 
 
 class HomeController extends Controller
 {
@@ -16,6 +17,8 @@ class HomeController extends Controller
 
     public function index()
     {
+        
+
         if (Gate::allows('isAdmin')) {
             return view('backend.admin.dashboard');
         }

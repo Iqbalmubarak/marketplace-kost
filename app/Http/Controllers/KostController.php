@@ -85,10 +85,7 @@ class KostController extends Controller
             $kost->kost_owner_id = Auth::user()->kostOwner->id;
             $kost->no_rek = "248919371";
             $kost->save();
-            if($request->file('image_room3')){
-
-                dd($request->file('image_room3'));
-            }
+            
             if($kost->id){
                 $rules = Rule::all();
                 foreach($rules as $rule){

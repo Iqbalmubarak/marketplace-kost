@@ -16,18 +16,17 @@ class CreateTenantsTable extends Migration
         Schema::create('tenants', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->tinyInteger('gender');
-            $table->string('birth_place');
-            $table->string('birth_day');
-            $table->string('handphone', 40);
-            $table->string('emergency', 40);
-            $table->tinyInteger('job');
+            $table->tinyInteger('gender')->nullable();
+            $table->string('birth_place')->nullable();
+            $table->string('birth_day')->nullable();
+            $table->string('handphone', 40)->nullable();
+            $table->string('emergency', 40)->nullable();
+            $table->tinyInteger('job')->nullable();
             $table->string('avatar')->nullable();
             $table->string('job_name')->nullable();
             $table->string('job_description')->nullable();
             $table->integer('kost_id')->unsigned();
             $table->timestamps();
-            
             $table->foreign('kost_id')->references('id')->on('kosts')->onUpdate('cascade')->onDelete('cascade');
         });
     }

@@ -36,8 +36,8 @@
                                         <div class="description"> {{$history->rent->rentDetail->count()}} kali melakukan
                                             pemesanan</div>
                                         <?php 
-                                          $today = new DateTime("today");
-                                          $ended = new DateTime($history->rent->ended()->ended_at);
+                                            $today = new DateTime("today");
+                                            $ended = new DateTime($history->rent->ended()->ended_at);
                                         ?>
                                         <div class="description">
                                             @if($today < $ended)

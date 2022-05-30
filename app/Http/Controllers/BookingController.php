@@ -28,9 +28,19 @@ class BookingController extends Controller
     {
         //
         try {
-            $room = Room::pluck('name', 'id');
-            return view('backend.kostOwner.manageBooking.index', compact('room'));
+            if(Auth::user()->isOwner())
+            {
+                $room = Room::pluck('name', 'id');
+                return view('backend.kostOwner.manageBooking.index', compact('room'));
+            }
+            elseif(Auth::user()->isAdmin())
+            {
+                $room = Room::all();
+                return view('backend.admin.manageBooking.index', compact('room'));
+            }
+            
         } catch (\Exception $e) {
+            dd($e);
             return redirect()->back();
         }
     }
@@ -125,11 +135,10 @@ class BookingController extends Controller
         try {
             $booking = Booking::find($id);
             $booking->status = 2;
-            $booking->room_id = $request->room;
             $booking->save();
 
             $rent = new Rent;
-            $rent->room_id = $booking->room_id;
+            $rent->room_id = $request->room;
             $rent->status = 1;
             $rent->save();
 
@@ -140,6 +149,7 @@ class BookingController extends Controller
             $rentDetail->started_at = $booking->started_at;
             $rentDetail->ended_at = $booking->ended_at;
             $rentDetail->price_list_id = $booking->price_list_id;
+            $rentDetail->payment = $booking->payment;
             $rentDetail->save();
 
             $history = new History;
@@ -147,7 +157,7 @@ class BookingController extends Controller
             $history->rent_id = $rent->id;
             $history->save();
 
-            $room = Room::find($booking->room_id);
+            $room = Room::find($request->room);
             $kostSeeker = KostSeeker::find($booking->kost_seeker_id);
 
             $tenant = new Tenant;
@@ -166,7 +176,6 @@ class BookingController extends Controller
 
             return redirect()->route('owner.booking.index')->with('success', __('toast.confirm.success.message'));     
         } catch (\Exception $e) {
-            dd($e);
             return redirect()->back()->with('error', __('toast.confirm.failed.message'));
         }
     }

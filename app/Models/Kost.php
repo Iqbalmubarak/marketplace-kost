@@ -20,7 +20,7 @@ class Kost extends Model
 
     public function kostOwner()
     {
-        return $this->hasOne(kostOwner::class, 'id', 'kost_owner_id');
+        return $this->hasOne(KostOwner::class, 'id', 'kost_owner_id');
     }
 
     public function type()
@@ -43,15 +43,27 @@ class Kost extends Model
         return $this->hasMany(RoomType::class, 'kost_id', 'id');
     }
 
-    public function firtsRoomType()
+    public function firstRoomType()
     {
         $roomType = RoomType::where('kost_id', $this->id)->first();
         return $roomType;
     }
 
+    public function firstKostImage()
+    {
+        $kostImage = KostImage::where('kost_id', $this->id)->first();
+        return $kostImage;
+    }
+
     public function kostImage()
     {
         return $this->hasMany(KostImage::class, 'kost_id', 'id');
+    }
+
+    public function sectionImage($val)
+    {
+        $image = KostImage::where('kost_id', $this->id)->where('section_id', $val)->get();
+        return $image;
     }
 
     public function kostFacilityDetail()
@@ -67,5 +79,10 @@ class Kost extends Model
     public function rule_upload()
     {
         return $this->hasOne(RuleUpload::class, 'kost_id', 'id');
+    }
+
+    public function chat()
+    {
+        return $this->hasMany(Chat::class, 'kost_id', 'id');
     }
 }

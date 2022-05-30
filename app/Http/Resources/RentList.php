@@ -24,6 +24,7 @@ class RentList extends JsonResource
         }
         return [
             'id' => $this->id,
+            'kostSeeker' => $name,
             'kost' => $this->room->roomType->kost->name,
             'room' => $this->room->name,
             'started_at' => $this->rentDetail->started_at,
