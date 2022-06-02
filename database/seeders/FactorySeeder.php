@@ -8,12 +8,15 @@ use App\Models\User;
 use App\Models\Kost;
 use App\Models\Room;
 use App\Models\Tenant;
+use App\Models\TenantDetail;
 use App\Models\KostOwner;
 use App\Models\KostSeeker;
 use App\Models\KostFacilityDetail;
 use App\Models\RoomFacilityDetail;
 use App\Models\RuleDetail;
 use App\Models\Rule;
+use App\Models\Rent;
+use App\Models\RentDetail;
 use App\Models\Facility;
 use App\Models\RoomType;
 use App\Models\PriceList;
@@ -22,6 +25,7 @@ use App\Models\RoomImage;
 use App\Models\RuleUpload;
 use Faker\Generator as Faker;
 use Illuminate\Database\Eloquent\Factories\Sequence;
+use Carbon\Carbon;
 
 class FactorySeeder extends Seeder
 {
@@ -53,8 +57,6 @@ class FactorySeeder extends Seeder
                     ->has(PriceList::factory()->count(1)
                     , 'priceList')
                 , 'roomType')
-                ->has(Tenant::factory()->count(10)
-                , 'tenant')
         ->create([
             'kost_owner_id' => 1,
         ]);
@@ -79,8 +81,6 @@ class FactorySeeder extends Seeder
                             ->has(PriceList::factory()->count(4)
                             , 'priceList')
                         , 'roomType')
-                        ->has(Tenant::factory()->count(10)
-                        , 'tenant')
                     , 'kost')
         , 'kostOwner')
         ->create();
@@ -97,15 +97,54 @@ class FactorySeeder extends Seeder
                 'room_type_id' => $room_type->id,
             ]);
 
+            $priceList = new PriceList;
+            $priceList->price = rand(400000, 2000000);
+            $priceList->room_type_id = $room_type->id;
+            $priceList->rent_duration_id = 1;
+            $priceList->save();
+
             $rooms = Room::where('kost_id', $room_type->kost_id)
                             ->where('room_type_id', $room_type->id)
-                            ->take(rand(1,5))
+                            ->take(rand(2,6))
                             ->get();
 
             foreach($rooms as $room){
                 $rent = new Rent;
                 $rent->room_id = $room->id;
-                $rent->created_at = $faker->dateTimeBetween($startDate = '-30 years', $endDate = 'now', $timezone = null);
+                $random = rand(6,24);
+                $rent->created_at = $faker->dateTimeBetween($startDate = '-'.$random.' months', $endDate = 'now', $timezone = null);
+                $rent->save();
+                
+                $started_at = $rent->created_at;
+                for($i=0; $i<$random; $i++){
+                    $rentDetail = new RentDetail;
+                    $rentDetail->rent_id = $rent->id;
+                    
+                    $priceList = PriceList::where('rent_duration_id', 1)->where('room_type_id', $room_type->id)->first();
+                    $rentDetail->price_list_id = $priceList->id;
+                    $rentDetail->total_price = $priceList->price;
+                    $rentDetail->started_at = $started_at;
+                    $ended_at = new Carbon($rentDetail->started_at);
+                    $rentDetail->ended_at = $ended_at->addDays($priceList->rentDuration->day);
+                    $rentDetail->status = 1;
+                    $rentDetail->save();
+
+                    $started_at = date('Y-m-d', strtotime('+1days', strtotime($rentDetail->ended_at)));
+                }
+
+                $tenants = Tenant::factory()
+                                        ->count(rand(1,2))
+                                        ->state(new Sequence(
+                                            fn ($sequence) => ['kost_id' => $room_type->kost_id],
+                                        ))
+                                        ->create();
+
+                foreach($tenants as $tenant){
+                    $tenantDetail = new TenantDetail;
+                    $tenantDetail->tenant_id = $tenant->id;
+                    $tenantDetail->rent_id = $rent->id;
+                    $tenantDetail->save();
+                }
             }
 
             foreach($room_facilities as $facility){
@@ -140,11 +179,6 @@ class FactorySeeder extends Seeder
                 } 
             }
 
-            $priceList = new PriceList;
-            $priceList->price = rand(400000, 2000000);
-            $priceList->room_type_id = $room_type->id;
-            $priceList->rent_duration_id = 1;
-            $priceList->save();
         }
 
         foreach($kosts as $kost){

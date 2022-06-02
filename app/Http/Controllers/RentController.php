@@ -240,7 +240,7 @@ class RentController extends Controller
             $rent_detail = new RentDetail;
             $rent_detail->rent_id = $id;
             $rent_detail->total_price = $total_price;
-            $rent_detail->started_at = date('Y-m-d', strtotime('+1days', strtotime($detail->ended_at)));;
+            $rent_detail->started_at = date('Y-m-d', strtotime('+1days', strtotime($detail->ended_at)));
             $ended_at = new Carbon($rent_detail->started_at);
             $rent_detail->ended_at = $ended_at->addDays($price_list->rentDuration->day);
             $rent_detail->price_list_id = $request->price_list;

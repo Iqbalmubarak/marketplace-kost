@@ -11,6 +11,7 @@ use App\Http\Controllers\RoomController;
 use App\Http\Controllers\api\SelectController;
 use App\Http\Controllers\api\PaymentController;
 use App\Http\Controllers\api\MessageController;
+use App\Http\Controllers\api\ChartController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\RentController;
 use App\Http\Controllers\HistoryController;
@@ -56,4 +57,7 @@ Route::delete('/kost/{id}/destroy-roomTypeImage', [RoomTypeController::class, 'd
 
 //Message
 Route::get('/message/send_message',[MessageController::class, 'sendMessage'])->name('message.sendMessage');
+
+//Chart
+Route::get('/chart/chart_income',[ChartController::class, 'chartIncome'])->name('chart.chartIncome');
 
