@@ -211,5 +211,64 @@ class MasterSeeder extends Seeder
                 'name' => 'Denda kerusakan barang kos',
             ]
         ]);
+
+        // DB::table('koordinar')->insert([
+        //     [
+        //         'name' => 'UNAND',
+        //         'latitude' => '-0.914518',
+        //         'longitude' => '100.459526'
+        //     ],
+        //     [
+        //         'name' => 'UNP',
+        //         'latitude' => '-0.8969444444444444',
+        //         'longitude' => '100.35027777777778'
+        //     ],
+        //     [
+        //         'name' => 'UBH',
+        //         'latitude' => '-0.8777777777777778',
+        //         'longitude' => '100.38222222222221'
+        //     ],
+        //     [
+        //         'name' => 'UNIDHA',
+        //         'latitude' => '-0.9444444444444444',
+        //         'longitude' => '100.37555555555555'
+        //     ],
+        //     [
+        //         'name' => 'UNIV. PGRI',
+        //         'latitude' => '-0.9097222222222222',
+        //         'longitude' => '100.36722222222221'
+        //     ],
+        //     [
+        //         'name' => 'IAIN IMAM BONJOL',
+        //         'latitude' => '-0.9302777777777778',
+        //         'longitude' => '100.3863888888889'
+        //     ],
+        //     [
+        //         'name' => 'UNIV. MUHAMMADIYAH',
+        //         'latitude' => '-0.8555555555555555',
+        //         'longitude' => '100.33277777777778'
+        //     ],
+        //     [
+        //         'name' => 'PNP',
+        //         'latitude' => '-0.9144444444444445',
+        //         'longitude' => '100.46611111111112'
+        //     ],
+        //     [
+        //         'name' => 'ITP',
+        //         'latitude' => '-0.8694444444444445',
+        //         'longitude' => '100.37888888888888'
+        //     ],
+        //     [
+        //         'name' => 'UNIV. BAITURRAHMAH',
+        //         'latitude' => '-0.87',
+        //         'longitude' => '100.38333333333334'
+        //     ],
+        //     [
+        //         'name' => 'Ada jam malam',
+        //         'latitude' => 'Ada jam malam',
+        //         'longitude' => 'Ada jam malam'
+        //     ]
+            
+        // ]);
     }
 }

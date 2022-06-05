@@ -28,18 +28,22 @@ use Illuminate\Support\Facades\Auth;
 use File;
 use Storage;
 use DB;
+use Illuminate\Support\Facades\Log;
+use Carbon\Carbon;
 
 class KostController extends Controller
 {
     public function index()
     {
-        try {       
+        try {  
             $kosts = Kost::where('kost_owner_id', Auth::user()->kostOwner->id)
             ->orderby('id','desc')
             ->get();
 
             return view('backend.kostOwner.manageKost.index', compact('kosts'));
         } catch (\Exception $e) {
+            dd($e);
+            Log::error("User ".Auth::user()->kostOwner->first_name." ".Auth::user()->kostOwner->last_name." Mengalami Eror di Index Kos | error : ".$e->getMessage());
             return redirect()->back()->with('error', __('toast.index.failed.message'));
         }
     }
@@ -748,7 +752,7 @@ class KostController extends Controller
         try {
             $kost = Kost::find($id);
             $kost->delete();
-            return redirect()->back()->with('success', __('toast.delete.success.message'));
+            return redirect()->route('owner.kost.index')->with('success', __('toast.delete.success.message'));
             
         } catch (\Exception $e) {
             return redirect()->back()->with('error', __('toast.delete.failed.message'));
@@ -822,6 +826,7 @@ class KostController extends Controller
         if($data)return response()->json(RoomList::collection($data));
         return $data;
     }
+
 
 
 }

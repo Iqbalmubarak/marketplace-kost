@@ -2,7 +2,7 @@
     @include('layouts.admin.sidebar.nav-header')
 </li>
 <li @if(Route::currentRouteName()=="home.index") class="active" @endif>
-    <a href="{{ route('home.index') }}"><i class="fa fa-th-large"></i> <span class="nav-label">Dashboard</span></a>
+    <a href="{{ URL('/log-viewer') }}"><i class="fa fa-th-large"></i> <span class="nav-label">Dashboard</span></a>
 </li>
 <li @if(Route::currentRouteName()=="admin.admin.index" || Route::currentRouteName()=="admin.kost-owner.index" || Route::currentRouteName()=="admin.kost-seeker.index") class="active" @endif>
     <a href="index.html"><i class="fa fa-th-large"></i> <span class="nav-label">Pengguna</span> <span class="fa arrow"></span></a>

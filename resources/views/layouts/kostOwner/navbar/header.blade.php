@@ -22,6 +22,45 @@
         $chats = \App\Models\Chat::whereIn('kost_id', $kost_id)
                                 ->where('owner_status', 0)
                                 ->get();
+
+        $rooms = \App\Models\Room::whereIn('kost_id', $kost_id)->get();
+
+        $room_id = collect([]);
+        foreach($rooms as $room){
+            $room_id->push($room->id);
+        }
+        $roomTypes = \App\Models\RoomType::whereIn('kost_id', $kost_id)->get();
+
+        $room_type_id = collect([]);
+        foreach($roomTypes as $roomType){
+            $room_type_id->push($roomType->id);
+        }
+        $deadlineRents = \App\Models\Rent::select('rents.id as id', 'rooms.name as name', 'rent_details.ended_at as ended_at')
+                                            ->join('rent_details', 'rents.id', '=', 'rent_details.rent_id')
+                                            ->join('rooms', 'rents.room_id', '=', 'rooms.id')
+                                            ->whereIn('rents.room_id', $room_id)
+                                            ->where('rent_details.status', 1)
+                                            ->where('rent_details.ended_at', Carbon\Carbon::now()->format('Y-m-d'))
+                                            ->get();
+        $warningRents = \App\Models\Rent::select('rents.id as id', 'rooms.name as name', 'rent_details.ended_at as ended_at')
+                                            ->join('rent_details', 'rents.id', '=', 'rent_details.rent_id')
+                                            ->join('rooms', 'rents.room_id', '=', 'rooms.id')
+                                            ->whereIn('rents.room_id', $room_id)
+                                            ->where('rent_details.status', 1)
+                                            ->where('rent_details.ended_at', '>=', Carbon\Carbon::now()->format('Y-m-d'))
+                                            ->where(DB::raw("DATE_SUB(rent_details.ended_at, INTERVAL 3 DAY)"), '<=', Carbon\Carbon::now()->format('Y-m-d'))
+                                            ->get();
+        $bookings = \App\Models\Booking::whereIn('room_type_id', $room_type_id)
+                                        ->where('status', 1)
+                                        ->get();
+
+        $updateDetails = \App\Models\RentDetail::where('ended_at', '<', Carbon\Carbon::now()->format('Y-m-d'))
+                                                ->where('status', 1)
+                                                ->get();
+        foreach($updateDetails as $updateDetail){
+            $updateDetail->status = 3;
+            $updateDetail->save();
+        }
     ?>
     
     <li class="dropdown">
@@ -70,7 +109,10 @@
     
     <li class="dropdown">
         <a class="right-sidebar-toggle count-info">
-            <i class="fa fa-bell"></i>  <span class="label label-primary">8</span>
+            @if (($warningRents->count() + $deadlineRents->count() + $bookings->count()) > 0)
+                
+            @endif
+            <i class="fa fa-bell"></i>  <span class="label label-primary">{{$warningRents->count() + $deadlineRents->count() + $bookings->count()}}</span>
         </a>
     </li>
     <li>

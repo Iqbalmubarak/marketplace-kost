@@ -196,6 +196,50 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="col-lg-12">
+                                            <div class="pull-left">
+                                                <div class="stock-box">
+                                                    <span class="label">Berdiri pada tahun {{$roomType->kost->exist}}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div><!-- /.row -->
+                                </div><!-- /.stock-container -->
+
+                                <div class="stock-container info-container m-t-10">
+                                    <div class="row">
+                                        @if ($roomType->kost->manager_name != NULL)
+                                            <div class="col-lg-12">
+                                                <div class="pull-left">
+                                                    <div class="stock-box">
+                                                        <span class="label">Manajer Kost : </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endif
+                                        <div class="col-lg-12">
+                                            <div class="pull-left">
+                                                <div class="stock-box">
+                                                    <span class="label"><b>{{$roomType->kost->manager_name}} - </b></span>
+                                                    <span class="label"><b>{{$roomType->kost->manager_handphone}}</b></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <div class="pull-left">
+                                                <div class="stock-box">
+                                                    <span class="label">Pemilik : </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <div class="pull-left">
+                                                <div class="stock-box">
+                                                    <span class="label"><b>{{$roomType->kost->kostOwner->first_name}} {{$roomType->kost->kostOwner->last_name}} -</b> </span>
+                                                    <span class="label"><b> {{$roomType->kost->kostOwner->handphone}} </b></span>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div><!-- /.row -->
                                 </div><!-- /.stock-container -->
 
@@ -280,7 +324,7 @@
                                             @if ($kostFacilityDetail->facility->type->id == 1)
                                             <a class="button btn btn-primary" data-toggle="tooltip"
                                                 data-placement="right" title="{{$kostFacilityDetail->facility->name}}"
-                                                href="#">
+                                                href="#" style="margin:2px;">
                                                 {{$kostFacilityDetail->facility->name}}
                                             </a>
                                             @endif
@@ -291,7 +335,7 @@
                                             @if ($kostFacilityDetail->facility->type->id != 1)
                                             <a class="button btn btn-primary" data-toggle="tooltip"
                                                 data-placement="right" title="{{$kostFacilityDetail->facility->name}}"
-                                                href="#">
+                                                href="#" style="margin:2px;">
                                                 {{$kostFacilityDetail->facility->name}}
                                             </a>
                                             @endif
@@ -299,7 +343,7 @@
                                             @foreach ($roomType->roomFacilityDetail as $roomFacilityDetail)
                                             <a class="button btn btn-primary" data-toggle="tooltip"
                                                 data-placement="right" title="{{$roomFacilityDetail->facility->name}}"
-                                                href="#">
+                                                href="#" style="margin:2px;">
                                                 {{$roomFacilityDetail->facility->name}}
                                             </a>
                                             @endforeach
@@ -327,11 +371,11 @@
                                             <h4 class="title">Berdekatan dengan :</h4>
                                             <a class="button btn btn-primary" data-toggle="tooltip"
                                                 data-placement="right" title="Add to Compare" href="#">
-                                                <i class="fa fa-location"></i> UNP
+                                                <i class="fa fa-location"></i> UNAND
                                             </a>
                                             <a class="button btn btn-primary" data-toggle="tooltip"
                                                 data-placement="right" title="Add to Compare" href="#">
-                                                <i class="fa fa-location"></i> ByPass
+                                                <i class="fa fa-location"></i> UNP
                                             </a>
                                             <a class="button btn btn-primary" data-toggle="tooltip"
                                                 data-placement="right" title="Add to Compare" href="#">
@@ -691,7 +735,6 @@
 
         // Variabel untuk menyimpan batas kordinat
         bounds = new google.maps.LatLngBounds();
-
         
     }
     
@@ -862,114 +905,6 @@
 
         rupiah = split[1] != undefined ? rupiah + "," + split[1] : rupiah;
         return prefix == undefined ? rupiah : rupiah ? prefix + rupiah : "";
-    }
-
-    // When the window has finished loading google map
-    google.maps.event.addDomListener(window, 'load', init);
-
-    function init() {
-        // More info see: https://developers.google.com/maps/documentation/javascript/reference#MapOptions
-        var mapOptions1 = {
-            zoom: 13,
-            center: new google.maps.LatLng(-0.9111111111111111, 100.34972222222221),
-            // Style for Google Maps
-            styles: [{
-                "featureType": "water",
-                "stylers": [{
-                    "saturation": 43
-                }, {
-                    "lightness": -11
-                }, {
-                    "hue": "#0088ff"
-                }]
-            }, {
-                "featureType": "road",
-                "elementType": "geometry.fill",
-                "stylers": [{
-                    "hue": "#ff0000"
-                }, {
-                    "saturation": -100
-                }, {
-                    "lightness": 99
-                }]
-            }, {
-                "featureType": "road",
-                "elementType": "geometry.stroke",
-                "stylers": [{
-                    "color": "#808080"
-                }, {
-                    "lightness": 54
-                }]
-            }, {
-                "featureType": "landscape.man_made",
-                "elementType": "geometry.fill",
-                "stylers": [{
-                    "color": "#ece2d9"
-                }]
-            }, {
-                "featureType": "poi.park",
-                "elementType": "geometry.fill",
-                "stylers": [{
-                    "color": "#ccdca1"
-                }]
-            }, {
-                "featureType": "road",
-                "elementType": "labels.text.fill",
-                "stylers": [{
-                    "color": "#767676"
-                }]
-            }, {
-                "featureType": "road",
-                "elementType": "labels.text.stroke",
-                "stylers": [{
-                    "color": "#ffffff"
-                }]
-            }, {
-                "featureType": "poi",
-                "stylers": [{
-                    "visibility": "off"
-                }]
-            }, {
-                "featureType": "landscape.natural",
-                "elementType": "geometry.fill",
-                "stylers": [{
-                    "visibility": "on"
-                }, {
-                    "color": "#b8cb93"
-                }]
-            }, {
-                "featureType": "poi.park",
-                "stylers": [{
-                    "visibility": "on"
-                }]
-            }, {
-                "featureType": "poi.sports_complex",
-                "stylers": [{
-                    "visibility": "on"
-                }]
-            }, {
-                "featureType": "poi.medical",
-                "stylers": [{
-                    "visibility": "on"
-                }]
-            }, {
-                "featureType": "poi.business",
-                "stylers": [{
-                    "visibility": "simplified"
-                }]
-            }]
-        };
-        // Get all html elements for map
-        var mapElement1 = document.getElementById('map');
-
-        // Create the Google Map using elements
-        var map = new google.maps.Map(mapElement1, mapOptions1);
-
-
-        // Variabel untuk menyimpan batas kordinat
-        bounds = new google.maps.LatLngBounds();
-
-        
     }
 
 </script>

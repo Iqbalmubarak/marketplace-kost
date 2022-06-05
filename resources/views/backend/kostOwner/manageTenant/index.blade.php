@@ -105,7 +105,7 @@ function confirm_delete(id) {
                     swal("Cancelled", "Your imaginary file is safe :)", "error");
                 }
             });
-    }
+}
 
     function edit(id) {
         $('#edit_tenant').attr('action', "{{route('owner.tenant.index' )}}/" + id + "/edit");

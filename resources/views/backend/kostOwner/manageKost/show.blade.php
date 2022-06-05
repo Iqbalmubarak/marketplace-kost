@@ -178,6 +178,8 @@
                                         class="fa fa-envelope"></i> Ajukan permohonan pada admin
                                 </a>
                                 @endif
+                                <button onclick="confirm_delete({{$kost->id}})" class="btn btn-danger btn-sm" 
+                                style="margin-left:10px;"><i class="fa fa-trash"></i> Hapus Kost</button>
 
                                 
                             </div>
@@ -362,6 +364,9 @@
     @endforeach
 </div>
 
+{!! Form::open(['method'=>'DELETE', 'route' => ['owner.kost.destroy', 0], 'style' =>
+'display:none','id'=>'deleted_kost']) !!}
+{!! Form::close() !!}
 
 {!! Form::open(['method'=>'GET', 'route' => ['owner.kost.room_type.edit', 0], 'style' =>
 'display:none','id'=>'edit_roomType']) !!}
@@ -753,6 +758,29 @@
                     $('#request').submit();
                 } else {
                     swal("Batal", "Kamu batal mengajukan permohonan kos", "error");
+                }
+            });
+    }
+
+    function confirm_delete(id) {
+        swal({
+                title: "Are you sure?",
+                text: "Your will not be able to recover this imaginary file!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Yes, delete it!",
+                cancelButtonText: "No, cancel plx!",
+                closeOnConfirm: false,
+                closeOnCancel: false
+            },
+            function (isConfirm) {
+                if (isConfirm) {
+                    swal("Deleted!", "Your imaginary file has been deleted.", "success");
+                    $('#deleted_kost').attr('action', "{{route('owner.kost.index')}}/" + id);
+                    $('#deleted_kost').submit();
+                } else {
+                    swal("Cancelled", "Your imaginary file is safe :)", "error");
                 }
             });
     }

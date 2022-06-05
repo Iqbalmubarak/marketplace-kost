@@ -13,6 +13,7 @@ use Carbon\Carbon;
 use DB;
 use Stevebauman\Location\Facades\Location;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log;
 
 class LandingPageController extends Controller
 {
@@ -25,6 +26,7 @@ class LandingPageController extends Controller
             }
             $newRoomTypes = RoomType::whereIn('kost_id', $kost_id)->take(8)->get();
             $newKosts = Kost::where('status', 1)->orderby('created_at', 'desc')->take(8)->get();
+            
             return view('backend.landingPage.home', compact('newRoomTypes','newKosts'));
         } catch (\Exception $e) {
             return redirect()->back();
