@@ -13,6 +13,7 @@ use App\Models\PriceList;
 use App\Models\Booking;
 use App\Models\KostSeeker;
 use App\Models\PaymentMethod;
+use App\Models\PaymentMethodDetail;
 use Helper;
 use DB;
 use Carbon\Carbon;
@@ -20,9 +21,21 @@ use Carbon\Carbon;
 class PaymentController extends Controller
 {
   public function addPaymentMethod(Request $request){
-    $data = PaymentMethod::whereIn('id', $request->id)->get();
+    $datas = PaymentMethod::whereIn('id', $request->id)->get();
+    if($request->kost_id){
+      foreach($datas as $data){
+        $detail = PaymentMethodDetail::where('payment_method_id', $data->id)
+                                      ->where('kost_id', $request->kost_id)
+                                      ->first();
+        if($detail){
+          $data->no_rek = $detail->no_rek;
+        }else{
+          $data->no_rek = 'null';
+        }
+      }
+    }
 
-    return response()->json($data);
+    return response()->json($datas);
   }
 
   public function rentPayment($id){

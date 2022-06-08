@@ -99,4 +99,9 @@ class RoomType extends Model
         ->get();
         return $room->count();
     }
+    
+    public function otherRoomFacility()
+    {
+        return $this->hasMany(OtherRoomFacility::class, 'room_type_id', 'id');
+    }
 }

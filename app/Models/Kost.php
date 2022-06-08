@@ -48,6 +48,11 @@ class Kost extends Model
         return $this->hasMany(PaymentMethodDetail::class, 'kost_id', 'id');
     }
 
+    public function otherKostFacility()
+    {
+        return $this->hasMany(OtherKostFacility::class, 'kost_id', 'id');
+    }
+
     public function firstRoomType()
     {
         $roomType = RoomType::where('kost_id', $this->id)->first();

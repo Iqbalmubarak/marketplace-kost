@@ -105,6 +105,55 @@
                         </div>
                     </div>
                     @endforeach
+                    <div class="form-group row"><label class="col-lg-3 col-form-label">Fasilitas Lainnya</label>
+                        <div class="col-lg-9">
+                            <div class="checkbox checkbox-primary">
+                                <input id="other_room_facility" onclick="otherRoomFacility()" type="checkbox">
+                                <label for="other_room_facility"></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="toggle-roomFacility" style="display:none" >
+                        @foreach ($other_room_facilities as $other_room_facility)
+                        <div class="form-group row row-roomFacility" id="row-roomFacility">
+                            <div class="col-lg-10 col-form-label">
+                                <input id="other_room_facility[]" name="other_room_facility[]" type="text" placeholder="Nama Fasilitas"
+                                    class="form-control @error('other_room_facility[]') is-invalid @enderror " value="{{$other_room_facility->name}}"> <span
+                                    class="form-text m-b-none"></span>
+                                @error('other_room_facility[]')
+                                <div class="invalid-feedback">
+                                    {{$message}}
+                                </div>
+                                @enderror
+                            </div>
+                            <div class="col-lg-2 col-form-label">
+                                <a href="javascript:0" class="btn btn-outline-danger"
+                                    onclick="delRoomFacilityClone(this)">Hapus</a>
+                            </div>
+                        </div>
+                        @endforeach
+                        <div class="form-group row row-roomFacility" id="row-roomFacility">
+                            <div class="col-lg-10 col-form-label">
+                                <input id="other_room_facility[]" name="other_room_facility[]" type="text" placeholder="Nama Fasilitas"
+                                    class="form-control @error('other_room_facility[]') is-invalid @enderror "> <span
+                                    class="form-text m-b-none"></span>
+                                @error('other_room_facility[]')
+                                <div class="invalid-feedback">
+                                    {{$message}}
+                                </div>
+                                @enderror
+                            </div>
+                            <div class="col-lg-2 col-form-label">
+                                <a href="javascript:0" class="btn btn-outline-danger"
+                                    onclick="delRoomFacilityClone(this)">Hapus</a>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-lg-6 col-form-label">
+                                <a href="javascript:0" class="btn btn-outline-success" onclick="roomFacilityClone()">Tambah</a>
+                            </div>
+                        </div>
+                    </div>
                 </fieldset>
 
                 <h1>Foto Kamar</h1>
@@ -342,79 +391,6 @@
                         </div>
                         @endforeach
                     </div>
-
-                    <div class="form-group row"><label class="col-lg-2 col-form-label">Biaya tambahan lainnya</label>
-                        <div class="col-lg-10">
-                            <div class="checkbox checkbox-success">
-                                <input id="check-optional" type="checkbox" onclick="checkOptional()">
-                                <label for="check-optional">
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-
-                    @foreach ($room_type->optionalPrice as $optionalPrice)
-                    <div class="form-group row row-optional" style="display:none" id="row-optional">
-                        <div class="col-lg-5 col-form-label">
-                            <input id="price_name[]" name="price_name[]" type="text" placeholder="Nama biaya"
-                                value="{{$optionalPrice->name}}"
-                                class="form-control @error('price_name[]') is-invalid @enderror"> <span
-                                class="form-text m-b-none"></span>
-                            @error('price_name[]')
-                            <div class="invalid-feedback">
-                                {{$message}}
-                            </div>
-                            @enderror
-                        </div>
-                        <div class="col-lg-5 col-form-label">
-                            <input id="price[]" name="price[]" type="text" placeholder="Total biaya"
-                                onchange="convertPrice(this)" value="{{Helper::rupiah($optionalPrice->price)}}"
-                                class="form-control @error('price[]') is-invalid @enderror"> <span
-                                class="form-text m-b-none"></span>
-                            @error('price[]')
-                            <div class="invalid-feedback">
-                                {{$message}}
-                            </div>
-                            @enderror
-                        </div>
-                        <div class="col-lg-2 col-form-label">
-                            <a href="javascript:0" class="btn btn-outline-danger"
-                                onclick="delPriceClone(this)">Hapus</a>
-                        </div>
-                    </div>
-                    @endforeach
-                    <div class="form-group row row-optional" style="display:none" id="row-optional">
-                        <div class="col-lg-5 col-form-label">
-                            <input id="price_name[]" name="price_name[]" type="text" placeholder="Nama biaya"
-                                class="form-control @error('price_name[]') is-invalid @enderror"> <span
-                                class="form-text m-b-none"></span>
-                            @error('price_name[]')
-                            <div class="invalid-feedback">
-                                {{$message}}
-                            </div>
-                            @enderror
-                        </div>
-                        <div class="col-lg-5 col-form-label">
-                            <input id="price[]" name="price[]" type="text" placeholder="Total biaya"
-                                onchange="convertPrice(this)"
-                                class="form-control @error('price[]') is-invalid @enderror"> <span
-                                class="form-text m-b-none"></span>
-                            @error('price[]')
-                            <div class="invalid-feedback">
-                                {{$message}}
-                            </div>
-                            @enderror
-                        </div>
-                        <div class="col-lg-2 col-form-label">
-                            <a href="javascript:0" class="btn btn-outline-danger"
-                                onclick="delPriceClone(this)">Hapus</a>
-                        </div>
-                    </div>
-
-                    <div class="form-group row" id="button-optional" style="display:none">
-                        <div class="col-lg-6 col-form-label">
-                            <a href="javascript:0" class="btn btn-outline-success" onclick="priceClone()">Tambah</a>
-                        </div>
                     </div>
                 </fieldset>
 
@@ -435,6 +411,23 @@
 
 
 <script>
+    function roomFacilityClone() {
+        $("#row-roomFacility")
+            .eq(0)
+            .clone()
+            .find("input").val("").end() // ***
+            .show()
+            .insertAfter(".row-roomFacility:last");
+    }
+
+    function delRoomFacilityClone(data) {
+        if ($('.row-roomFacility').length > 1) data.closest('.row-roomFacility').remove();
+    }
+
+    function otherRoomFacility() {
+        $(".toggle-roomFacility").toggle(this.checked);
+    }
+
     function delImage1(data, id) {
         //var $ele = data.parent().parent();
         //var id= $(this).val();

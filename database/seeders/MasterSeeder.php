@@ -215,13 +215,37 @@ class MasterSeeder extends Seeder
         DB::table('payment_methods')->insert([
             [
                 'name' => 'Bank Mandiri',
+                'icon' => 'mandiri.png',
             ],
             [
-                'name' => 'Bank Nagari',
+                'name' => 'Bank BRI',
+                'icon' => 'bri.png',
             ],
             [
                 'name' => 'Bank BNI',
-            ]
+                'icon' => 'bni.png',
+            ],
+            [
+                'name' => 'Bank BCA',
+                'icon' => 'bca.png',
+            ],
+            [
+                'name' => 'Bank BTN',
+                'icon' => 'btn.png',
+            ],
+            [
+                'name' => 'Bank Bukopin',
+                'icon' => 'bukopin.png',
+            ],
+            [
+                'name' => 'Bank CIMB',
+                'icon' => 'cimb.png',
+            ],
+            [
+                'name' => 'Bank Permata',
+                'icon' => 'permata.png',
+            ],
+
         ]);
 
         // DB::table('location_categories')->insert([

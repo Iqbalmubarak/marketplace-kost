@@ -191,6 +191,18 @@
                                         <div class="col-lg-12">
                                             <div class="pull-left">
                                                 <div class="stock-box">
+                                                    <span class="label">Luas kamar :</span>
+                                                </div>
+                                            </div>
+                                            <div class="pull-left">
+                                                <div class="stock-box">
+                                                    <span class="value">{{$roomType->lenght}} x {{$roomType->wide}} m</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <div class="pull-left">
+                                                <div class="stock-box">
                                                     <span class="label"><i class="fa fa-map-marker"
                                                             aria-hidden="true"></i> {{$roomType->kost->address}}</span>
                                                 </div>
@@ -225,19 +237,31 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-12">
+                                        <div class="col-lg-6">
                                             <div class="pull-left">
                                                 <div class="stock-box">
                                                     <span class="label">Pemilik : </span>
                                                 </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-12">
-                                            <div class="pull-left">
                                                 <div class="stock-box">
                                                     <span class="label"><b>{{$roomType->kost->kostOwner->first_name}} {{$roomType->kost->kostOwner->last_name}} -</b> </span>
                                                     <span class="label"><b> {{$roomType->kost->kostOwner->handphone}} </b></span>
                                                 </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="pull-left">
+                                                <div class="stock-box">
+                                                    <span class="label">Metode Pembayaran : </span>
+                                                </div>
+                                                @foreach ($roomType->kost->paymentMethodDetail as $paymentMethodDetail)
+                                                <div class="stock-box">
+                                                    <div>
+                                                        <img src="{{ asset('icon-bank/'.$paymentMethodDetail->paymentMethod->icon) }}" 
+                                                        alt="{{$paymentMethodDetail->paymentMethod->name}}" data-toggle="tooltip" data-placement="right"
+                                                        title="{{$paymentMethodDetail->paymentMethod->name}}  ( {{$paymentMethodDetail->no_rek}} )" >
+                                                    </div>
+                                                </div>
+                                                @endforeach
                                             </div>
                                         </div>
                                     </div><!-- /.row -->
@@ -319,9 +343,9 @@
                                 <div id="description" class="tab-pane in active">
                                     <div class="product-tab">
                                         <p class="text">
-                                            <h4>Fasilitas Umum :</h4><br>
+                                            <h4>Fasilitas Kost :</h4><br>
                                             @foreach ($roomType->kost->kostFacilityDetail as $kostFacilityDetail)
-                                            @if ($kostFacilityDetail->facility->type->id == 1)
+                                            @if ($kostFacilityDetail->facility->type->id <= 2)
                                             <a class="button btn btn-primary" data-toggle="tooltip"
                                                 data-placement="right" title="{{$kostFacilityDetail->facility->name}}"
                                                 href="#" style="margin:2px;">
@@ -330,24 +354,35 @@
                                             @endif
                                             @endforeach
                                             <br><br>
-                                            <h4>Fasilitas Lainnya :</h4><br>
-                                            @foreach ($roomType->kost->kostFacilityDetail as $kostFacilityDetail)
-                                            @if ($kostFacilityDetail->facility->type->id != 1)
+                                            <h4>Fasilitas Kost Lainnya :</h4><br>
+                                            @foreach ($roomType->kost->otherKostFacility as $otherKostFacility)
+                                            <a class="button btn btn-primary" data-toggle="tooltip"
+                                                data-placement="right" title="{{$otherKostFacility->name}}"
+                                                href="#" style="margin:2px;">
+                                                {{$otherKostFacility->name}}
+                                            </a>
+                                            @endforeach
+                                            <br><br>
+                                            <h4>Fasilitas Kamar :</h4><br>
+                                            @foreach ($roomType->roomFacilityDetail as $roomFacilityDetail)
+                                            @if ($roomFacilityDetail->facility->type->id >= 3)
                                             <a class="button btn btn-primary" data-toggle="tooltip"
                                                 data-placement="right" title="{{$kostFacilityDetail->facility->name}}"
-                                                href="#" style="margin:2px;">
-                                                {{$kostFacilityDetail->facility->name}}
-                                            </a>
-                                            @endif
-                                            @endforeach
-                                            @foreach ($roomType->roomFacilityDetail as $roomFacilityDetail)
-                                            <a class="button btn btn-primary" data-toggle="tooltip"
-                                                data-placement="right" title="{{$roomFacilityDetail->facility->name}}"
                                                 href="#" style="margin:2px;">
                                                 {{$roomFacilityDetail->facility->name}}
                                             </a>
+                                            @endif
                                             @endforeach
                                             <br><br>
+                                            <h4>Fasilitas Kamar Lainnya :</h4><br>
+                                            @foreach ($roomType->otherRoomFacility as $otherRoomFacility)
+                                                <a class="button btn btn-primary" data-toggle="tooltip"
+                                                    data-placement="right" title="{{$otherRoomFacility->name}}"
+                                                    href="#" style="margin:2px;">
+                                                    {{$otherRoomFacility->name}}
+                                                </a>
+                                            @endforeach
+                                            <br>
                                         </p>
                                     </div>
                                 </div><!-- /.tab-pane -->

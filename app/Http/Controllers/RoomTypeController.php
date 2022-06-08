@@ -12,6 +12,7 @@ use App\Models\KostType;
 use App\Models\KostImage; 
 use App\Models\KostFacilityDetail; 
 use App\Models\RoomFacilityDetail; 
+use App\Models\OtherRoomFacility;
 use App\Models\FacilityType; 
 use App\Models\Facility;
 use App\Models\Room;
@@ -80,17 +81,6 @@ class RoomTypeController extends Controller
                     }
                 }
                 
-                //Create Optional Price
-                if(count($request->price_name) > 0){
-                    for ($i=0; $i < count($request->price_name); $i++) {
-                        $price = preg_replace("/[^0-9]/", "", $request->price[$i]);
-                        $price = (int) $price;
-                        $optional_price = new OptionalPrice;
-                        $optional_price->name = $request->price_name[$i];
-                        $optional_price->price = $price;
-                        $optional_price->price_list_id = $price_list->id;
-                    }
-                }
 
                 $facilities = Facility::whereIn('facility_type_id', [3, 4])->get();
                 foreach($facilities as $facility){
@@ -107,6 +97,20 @@ class RoomTypeController extends Controller
                         ->first();
                         $roomFacilityDetail->status = 2;
                         $roomFacilityDetail->save();
+                    }
+                }
+
+                //Other room facility 
+                if($request->other_room_facility[0] != NULL)
+                {
+                    for($i=0; $i < count($request->other_room_facility); $i++){
+                        if($request->other_room_facility[$i] != NULL)
+                        {
+                            $otherRoomFacility = new OtherRoomFacility;
+                            $otherRoomFacility->name = $request->other_room_facility[$i];
+                            $otherRoomFacility->room_type_id = $room_type->id;
+                            $otherRoomFacility->save();
+                        }
                     }
                 }
 
@@ -210,8 +214,9 @@ class RoomTypeController extends Controller
             $kost_id = $room_type->room[0]->kost_id;
             $rent_durations = RentDuration::all();
             $price_lists = PriceList::where('room_type_id', $room_type->id)->get();
+            $other_room_facilities = OtherRoomFacility::where('room_type_id', $room_type->id)->get();
             
-            return view('backend.kostOwner.manageRoomType.edit', compact('price_lists','rent_durations','room_type','kost_id','room_images1','room_images2','room_images3','room_images4'));
+            return view('backend.kostOwner.manageRoomType.edit', compact('price_lists','rent_durations','room_type','kost_id','room_images1','room_images2','room_images3','room_images4','other_room_facilities'));
         } catch (\Exception $e) {
             return redirect()->back()->with('error', __('toast.index.failed.message'));
         }
@@ -259,26 +264,44 @@ class RoomTypeController extends Controller
                         }
                     }
                 }
-                
-                //Create Optional Price
-                $optional_prices = OptionalPrice::where('room_type_id', $room_type->id)->get();
-                    foreach ($optional_prices as $optional_price) {
-                        $optional_price->delete();
+
+                //Room facility
+                if($request->room_facility){
+                    $roomFacilityDetails = RoomFacilityDetail::where('room_type_id', $room_type->id)
+                    ->whereNotIn('facility_id', $request->room_facility)->get();
+
+                    foreach($roomFacilityDetails as $roomFacilityDetail){
+                        $roomFacilityDetail->status = 1;
+                        $roomFacilityDetail->save();
                     }
 
-                    if(count($request->price_name) > 0){
-                        for ($i=0; $i < count($request->price_name); $i++) {
-                            if($request->price_name[$i] && $request->price[$i]){
-                                $price = preg_replace("/[^0-9]/", "", $request->price[$i]);
-                            $price = (int) $price;
-                                $optional_price = new OptionalPrice;
-                                $optional_price->name = $request->price_name[$i];
-                                $optional_price->price = $price;
-                                $optional_price->room_type_id = $room_type->id;
-                                $optional_price->save();
-                            }
+                    for($i=0; $i < count($request->room_facility); $i++){
+                        $roomFacilityDetail = RoomFacilityDetail::where('room_type_id', $room_type->id)
+                        ->where('facility_id', $request->room_facility[$i])
+                        ->first();
+                        $roomFacilityDetail->status = 2;
+                        $roomFacilityDetail->save();
+                    }
+                }
+
+                //Other room facility 
+                $otherRoomFacility = OtherRoomFacility::where('room_type_id', $room_type->id)->get();
+                foreach($otherRoomFacility as $otherRoomFacility){
+                    $otherRoomFacility->delete();
+                }
+
+                if($request->other_room_facility)
+                {
+                    for($i=0; $i < count($request->other_room_facility); $i++){
+                        if($request->other_room_facility[$i] != NULL)
+                        {
+                            $otherRoomFacility = new OtherRoomFacility;
+                            $otherRoomFacility->name = $request->other_room_facility[$i];
+                            $otherRoomFacility->room_type_id = $room_type->id;
+                            $otherRoomFacility->save();
                         }
                     }
+                }
 
                 //Foto bagian depan kamar
                 $dir = storage_path().'/app/public/images/room';
@@ -362,6 +385,7 @@ class RoomTypeController extends Controller
 
             return redirect()->route('owner.kost.show', compact('kost','rooms','room_type'))->with('success', __('toast.update.success.message'));
         } catch (\Exception $e) {
+            dd($e);
             return redirect()->back()->with('error', __('toast.update.failed.message'));
         }
     }
@@ -380,6 +404,10 @@ class RoomTypeController extends Controller
 
         if($data)return response()->json(RoomTypeList::collection($data));
         return $data;
+    }
+
+    public function roomTypeDestroy($id){
+        dd($id);
     }
 
     

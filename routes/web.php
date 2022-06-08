@@ -81,6 +81,7 @@ Route::prefix('owner')->middleware(['auth', 'auth.isOwner'])->name('owner.')->gr
     Route::post('/kost/{id}/room_type-store', [RoomTypeController::class, 'roomTypeStore'])->name('kost.room_type.store');
     Route::get('/kost/{id}/room_type-edit', [RoomTypeController::class, 'roomTypeEdit'])->name('kost.room_type.edit');
     Route::patch('/kost/{id}/room_type-update', [RoomTypeController::class, 'roomTypeUpdate'])->name('kost.room_type.update');
+    Route::patch('/kost/{id}/room_type-destroy', [RoomTypeController::class, 'roomTypeDestroy'])->name('kost.room_type.destroy');
     
     //Room
     Route::resource('/room', RoomController::class);

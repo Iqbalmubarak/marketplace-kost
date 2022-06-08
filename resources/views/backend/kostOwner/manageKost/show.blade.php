@@ -60,14 +60,31 @@
                                 <strong>{{$kost->exist}}</strong></h2>
                         </div>
                         <hr>
-                        <h4>Deskripsi kos</h4>
-                        <div class="small text-muted">
-                            @if ($kost->note)
-                            <?php echo nl2br(htmlspecialchars($kost->note)); ?>
-                            @else
-                            Belum ada deskripsi kos
-                            @endif
+                        <div class="row">
+                            <div class="col-8">
+                                <h4>Deskripsi kos</h4>
+                                <div class="small text-muted">
+                                    @if ($kost->note)
+                                    <?php echo nl2br(htmlspecialchars($kost->note)); ?>
+                                    @else
+                                    Belum ada deskripsi kos
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <h4>Metode Pembayaran</h4>
+                                <div class="small text-muted">
+                                    @foreach ($kost->paymentMethodDetail as $paymentMethodDetail)
+                                        <div>
+                                            <i class="fa fa-credit-card-alt"></i>
+                                                {{$paymentMethodDetail->paymentMethod->name}} <b>( 
+                                                {{$paymentMethodDetail->no_rek}} )</b> 
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
                         </div>
+                        
                         <dl class="small m-t-md">
                             <dt><i class="fa fa-user"></i> Nama pengelola</dt>
                             <dd>@if ($kost->manager_name)
@@ -85,10 +102,13 @@
                             <dd><?php echo nl2br(htmlspecialchars($kost->address)); ?> </dd>
                             <dt>
                                 <div class="row">
-                                    <div class="col-lg-6">
-                                        <i class="fa fa-map-marker"></i> Fasilitas
+                                    <div class="col-lg-3">
+                                        <i class="fa fas fa-plus-square"></i> Fasilitas
                                     </div>
-                                    @if (!$kost->rule_upload)
+                                    <div class="col-lg-3">
+                                        <i class="fa fas fa-plus-square"></i> Fasilitas Lainnya
+                                    </div>
+                                    @if ($kost->rule_detail)
                                     <div class="col-lg-6">
                                         <i class="fa fa-file-text"></i> Peraturan
                                     </div>
@@ -98,35 +118,45 @@
                         </dl>
                         <div class="text-muted">
                             <div class="row">
-                                <div class="col-lg-6">
+                                <div class="col-lg-3">
                                     <div class="row">
                                         @foreach ($kost->kostFacilityDetail as $kostFacilityDetail)
                                         @if ($kostFacilityDetail->status == 2)
-                                        <div class="col-lg-6">
+                                        <div class="col-lg-12">
                                             @if ($kostFacilityDetail->facility->icon)
                                             <div class="row">
-                                                <div class="col-lg-1">
+                                                <div class="col-lg-10">
                                                     <abbr title="{{$kostFacilityDetail->facility->name}}"><i
                                                             class="{{$kostFacilityDetail->facility->icon}}"></i> </abbr>
-                                                </div>
-                                                <div class="col-lg-10">
-                                                    {{$kostFacilityDetail->facility->name}}
+                                                            {{$kostFacilityDetail->facility->name}}
                                                 </div>
                                             </div>
                                             @else
                                             <div class="row">
-                                                <div class="col-lg-1">
-                                                    <abbr title="{{$kostFacilityDetail->facility->name}}"><i
-                                                            class="fa fa-question"></i></abbr>
-                                                </div>
                                                 <div class="col-lg-10">
-                                                    {{$kostFacilityDetail->facility->name}}
+                                                    <abbr title="{{$kostFacilityDetail->facility->name}}"><i
+                                                            class="fa fas fa-plus"></i></abbr>
+                                                            {{$kostFacilityDetail->facility->name}}
                                                 </div>
                                             </div>
                                             @endif
                                         </div>
                                         @endif
-                                        
+                                        @endforeach
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="row">
+                                        @foreach ($kost->otherKostFacility as $otherKostFacility )
+                                        <div class="col-lg-12">
+                                            <div class="row">
+                                                <div class="col-lg-10">
+                                                    <abbr title="{{$otherKostFacility->name}}"><i
+                                                            class="fa fas fa-plus"></i> </abbr>
+                                                            {{$otherKostFacility->name}}
+                                                </div>
+                                            </div>
+                                        </div>
                                         @endforeach
                                     </div>
                                 </div>
@@ -366,6 +396,10 @@
 
 {!! Form::open(['method'=>'DELETE', 'route' => ['owner.kost.destroy', 0], 'style' =>
 'display:none','id'=>'deleted_kost']) !!}
+{!! Form::close() !!}
+
+{!! Form::open(['method'=>'DELETE', 'route' => ['owner.kost.room_type.destroy', 0], 'style' =>
+'display:none','id'=>'deleted_room_type']) !!}
 {!! Form::close() !!}
 
 {!! Form::open(['method'=>'GET', 'route' => ['owner.kost.room_type.edit', 0], 'style' =>
@@ -764,23 +798,46 @@
 
     function confirm_delete(id) {
         swal({
-                title: "Are you sure?",
-                text: "Your will not be able to recover this imaginary file!",
+                title: "Apakah kamu yakin?",
+                text: "Kamu tidak akan dapat memulihkan datanya kembali!",
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#DD6B55",
-                confirmButtonText: "Yes, delete it!",
-                cancelButtonText: "No, cancel plx!",
+                confirmButtonText: "Ya, hapus!",
+                cancelButtonText: "Tidak, batalkan!",
                 closeOnConfirm: false,
                 closeOnCancel: false
             },
             function (isConfirm) {
                 if (isConfirm) {
-                    swal("Deleted!", "Your imaginary file has been deleted.", "success");
+                    swal("Terhapus!", "Data kamu telah terhapus.", "success");
                     $('#deleted_kost').attr('action', "{{route('owner.kost.index')}}/" + id);
                     $('#deleted_kost').submit();
                 } else {
-                    swal("Cancelled", "Your imaginary file is safe :)", "error");
+                    swal("Dibatalkan", "Data kamu aman :)", "error");
+                }
+            });
+    }
+
+    function delete_room_type(id) {
+        swal({
+                title: "Apakah kamu yakin?",
+                text: "Kamu tidak akan dapat memulihkan datanya kembali!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Ya, hapus!",
+                cancelButtonText: "Tidak, batalkan!",
+                closeOnConfirm: false,
+                closeOnCancel: false
+            },
+            function (isConfirm) {
+                if (isConfirm) {
+                    swal("Terhapus!", "Data kamu telah terhapus.", "success");
+                    $('#deleted_room_type').attr('action', "{{route('owner.kost.index')}}/" + id);
+                    $('#deleted_room_type').submit();
+                } else {
+                    swal("Dibatalkan", "Data kamu aman :)", "error");
                 }
             });
     }
