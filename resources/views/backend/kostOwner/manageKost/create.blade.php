@@ -98,18 +98,6 @@
                             </select>
                         </div>
                     </div>
-                    <div class="form-group row"><label class="col-lg-3 col-form-label">Nomor rekening</label>
-                        <div class="col-lg-9">
-                            <input id="c_no_rek" name="no_rek" type="text" placeholder="Nomor rekening"
-                                class="form-control @error('no_rek') is-invalid @enderror required"> <span
-                                class="form-text m-b-none"></span>
-                            @error('no_rek')
-                            <div class="invalid-feedback">
-                                {{$message}}
-                            </div>
-                            @enderror
-                        </div>
-                    </div>
                     <div class="form-group row"><label class="col-lg-3 col-form-label">Tambah data pengelola</label>
                         <div class="col-lg-9">
                             <div class="checkbox checkbox-success">
@@ -148,6 +136,26 @@
                             </div>
                             @enderror
                         </div>
+                    </div>
+                    <div class="form-group row"><label class="col-lg-3 col-form-label">Metode pembayaran</label>
+                        <div class="col-lg-9">
+                            <div class="row g-2">
+                                @foreach ($payment_methods as $payment_method)
+                                <div class="col-4">
+                                    <div class="checkbox checkbox-primary">
+                                        <input class="checkbox-paymentMethod" id="payment_method[{{$payment_method->id}}]" type="checkbox"
+                                            value="{{$payment_method->id}}" onclick="addPaymentMethod()">
+                                        <label for="payment_method[{{$payment_method->id}}]">
+                                            {{$payment_method->name}}
+                                        </label>
+                                    </div>
+                                </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+                    <div id="row-paymentMethod">
+                        <!-- Add Payment Method -->
                     </div>
                     <div class="form-group row"><label class="col-lg-3 col-form-label">Catatan lainnya</label>
                         <div class="col-lg-9">
@@ -214,18 +222,51 @@
                     @foreach ($facility_types1 as $facility_type)
                     <div class="form-group row"><label class="col-lg-3 col-form-label">{{$facility_type->name}}</label>
                         <div class="col-lg-9">
-                            @foreach ($facility_type->facility as $facility)
-                            <div class="checkbox checkbox-primary">
-                                <input id="facility[{{$facility->id}}]" name="facility[]" type="checkbox"
-                                    value="{{$facility->id}}">
-                                <label for="facility[{{$facility->id}}]">
-                                    {{$facility->name}}
-                                </label>
+                            <div class="row g-2">
+                                @foreach ($facility_type->facility as $facility)
+                                <div class="col-4">
+                                    <div class="checkbox checkbox-primary">
+                                        <input id="facility[{{$facility->id}}]" name="facility[]" type="checkbox"
+                                            value="{{$facility->id}}">
+                                        <label for="facility[{{$facility->id}}]">
+                                            {{$facility->name}}
+                                        </label>
+                                    </div>
+                                </div>
+                                @endforeach
                             </div>
-                            @endforeach
                         </div>
                     </div>
                     @endforeach
+                    <div class="form-group row"><label class="col-lg-3 col-form-label">Fasilitas Lainnya</label>
+                        <div class="col-lg-9">
+                            <div class="checkbox checkbox-primary">
+                                <input id="other_kost_facility" onclick="otherKostFacility()" type="checkbox">
+                                <label for="other_kost_facility"></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row row-kostFacility" style="display:none" id="row-kostFacility">
+                        <div class="col-lg-10 col-form-label">
+                            <input id="other_kost_facility[]" name="other_kost_facility[]" type="text" placeholder="Nama Fasilitas"
+                                class="form-control @error('other_kost_facility[]') is-invalid @enderror "> <span
+                                class="form-text m-b-none"></span>
+                            @error('other_kost_facility[]')
+                            <div class="invalid-feedback">
+                                {{$message}}
+                            </div>
+                            @enderror
+                        </div>
+                        <div class="col-lg-2 col-form-label">
+                            <a href="javascript:0" class="btn btn-outline-danger"
+                                onclick="delKostFacilityClone(this)">Hapus</a>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-lg-6 col-form-label">
+                            <a href="javascript:0" class="btn btn-outline-success" onclick="kostFacilityClone()">Tambah</a>
+                        </div>
+                    </div>
                 </fieldset>
 
                 <h1>Foto Kos</h1>
@@ -375,24 +416,57 @@
                         </div>
                     </div>
                 </fieldset>
-
+                
                 <h1>Fasilitas Kamar</h1>
                 <fieldset>
                     @foreach ($facility_types2 as $facility_type)
                     <div class="form-group row"><label class="col-lg-3 col-form-label">{{$facility_type->name}}</label>
                         <div class="col-lg-9">
-                            @foreach ($facility_type->facility as $facility)
-                            <div class="checkbox checkbox-primary">
-                                <input id="room_facility[{{$facility->id}}]" name="room_facility[]" type="checkbox"
-                                    value="{{$facility->id}}">
-                                <label for="room_facility[{{$facility->id}}]">
-                                    {{$facility->name}}
-                                </label>
+                            <div class="row g-2">
+                                @foreach ($facility_type->facility as $facility)
+                                <div class="col-4">
+                                    <div class="checkbox checkbox-primary">
+                                        <input id="room_facility[{{$facility->id}}]" name="room_facility[]" type="checkbox"
+                                            value="{{$facility->id}}">
+                                        <label for="room_facility[{{$facility->id}}]">
+                                            {{$facility->name}}
+                                        </label>
+                                    </div>
+                                </div>
+                                @endforeach
                             </div>
-                            @endforeach
                         </div>
                     </div>
                     @endforeach
+                    <div class="form-group row"><label class="col-lg-3 col-form-label">Fasilitas Lainnya</label>
+                        <div class="col-lg-9">
+                            <div class="checkbox checkbox-primary">
+                                <input id="other_room_facility" onclick="otherRoomFacility()" type="checkbox">
+                                <label for="other_room_facility"></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row row-roomFacility" style="display:none" id="row-roomFacility">
+                        <div class="col-lg-10 col-form-label">
+                            <input id="other_room_facility[]" name="other_room_facility[]" type="text" placeholder="Nama Fasilitas"
+                                class="form-control @error('other_room_facility[]') is-invalid @enderror "> <span
+                                class="form-text m-b-none"></span>
+                            @error('other_room_facility[]')
+                            <div class="invalid-feedback">
+                                {{$message}}
+                            </div>
+                            @enderror
+                        </div>
+                        <div class="col-lg-2 col-form-label">
+                            <a href="javascript:0" class="btn btn-outline-danger"
+                                onclick="delRoomFacilityClone(this)">Hapus</a>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-lg-6 col-form-label">
+                            <a href="javascript:0" class="btn btn-outline-success" onclick="roomFacilityClone()">Tambah</a>
+                        </div>
+                    </div>
                 </fieldset>
 
                 <h1>Foto Kamar</h1>
@@ -595,6 +669,54 @@
 <script src="{{ asset('templates/js/plugins/jasny/jasny-bootstrap.min.js') }}"></script>
 
 <script>
+    function addPaymentMethod(){
+        let checked = [];
+        for(var i=0; i<$('.checkbox-paymentMethod').length ;i++)
+        {  
+            if ($('.checkbox-paymentMethod').eq(i).prop('checked')==true){ 
+                checked.push($('.checkbox-paymentMethod').eq(i).val());
+            }
+        }
+        console.log(checked);
+        $.post(
+            "{{url('api/payment/add-paymentMethod')}}", 
+            {
+                "_token": "{{ csrf_token() }}",
+                id: checked
+            }, 
+            function(result){
+                console.log(result.length)
+                $('.method').remove();
+                for(var i=0; i<result.length; i++)
+                {
+                    var div = $(`<div class="form-group row method"><label class="col-lg-3 col-form-label">`+result[i].name+`</label>
+                                    <div class="col-lg-9">
+                                        <input name="no_rek[]" type="text"
+                                        placeholder="Nomor rekening"
+                                        class="form-control">
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <input name="payment_methods[]" type="hidden"
+                                        value="`+result[i].id+`"
+                                        class="form-control">
+                                    </div>
+                                </div>`);
+
+                    $('#row-paymentMethod').append(div);
+                }
+                
+            }
+        )
+    }
+
+    function otherKostFacility() {
+        $(".row-kostFacility").toggle(this.checked);
+    }
+
+    function otherRoomFacility() {
+        $(".row-roomFacility").toggle(this.checked);
+    }
+
     function convert(data, id) {
         var convert = convertRupiah(data.value, "Rp. ");
         $('#duration_price'+id).val(convert)
@@ -676,6 +798,32 @@
 
     function delPriceClone(data) {
         if ($('.row-optional').length > 1) data.closest('.row-optional').remove();
+    }
+
+    function kostFacilityClone() {
+        $("#row-kostFacility")
+            .eq(0)
+            .clone()
+            .find("input").val("").end() // ***
+            .show()
+            .insertAfter(".row-kostFacility:last");
+    }
+
+    function delKostFacilityClone(data) {
+        if ($('.row-kostFacility').length > 1) data.closest('.row-kostFacility').remove();
+    }
+
+    function roomFacilityClone() {
+        $("#row-roomFacility")
+            .eq(0)
+            .clone()
+            .find("input").val("").end() // ***
+            .show()
+            .insertAfter(".row-roomFacility:last");
+    }
+
+    function delRoomFacilityClone(data) {
+        if ($('.row-roomFacility').length > 1) data.closest('.row-roomFacility').remove();
     }
 
     function fileValidation() {

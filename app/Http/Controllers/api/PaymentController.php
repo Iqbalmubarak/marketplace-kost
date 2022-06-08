@@ -12,12 +12,19 @@ use App\Models\RoomType;
 use App\Models\PriceList;
 use App\Models\Booking;
 use App\Models\KostSeeker;
+use App\Models\PaymentMethod;
 use Helper;
 use DB;
 use Carbon\Carbon;
 
 class PaymentController extends Controller
 {
+  public function addPaymentMethod(Request $request){
+    $data = PaymentMethod::whereIn('id', $request->id)->get();
+
+    return response()->json($data);
+  }
+
   public function rentPayment($id){
     $booking = Booking::find($id);
     $kostSeeker = KostSeeker::find($booking->kost_seeker_id);

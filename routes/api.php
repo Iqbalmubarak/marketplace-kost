@@ -50,6 +50,7 @@ Route::get('/select/rentRange/{id}',[SelectController::class, 'rentRange']);
 
 //Select
 Route::get('/payment/rent-payment/{id}',[PaymentController::class, 'rentPayment'])->name('payment.rent-payment');
+Route::post('/payment/add-paymentMethod',[PaymentController::class, 'addPaymentMethod'])->name('payment.addPaymentMethod');
 
 //Delete Image
 Route::delete('/kost/{id}/destroy-image', [KostController::class, 'destroy_image'])->name('kost.destroy-image');

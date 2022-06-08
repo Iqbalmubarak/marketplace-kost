@@ -12,7 +12,9 @@ use App\Models\RuleUpload;
 use App\Models\KostType; 
 use App\Models\KostImage; 
 use App\Models\KostFacilityDetail; 
+use App\Models\OtherKostFacility; 
 use App\Models\RoomFacilityDetail; 
+use App\Models\OtherRoomFacility; 
 use App\Models\FacilityType; 
 use App\Models\Facility;
 use App\Models\Room;
@@ -21,6 +23,8 @@ use App\Models\RoomImage;
 use App\Models\RentDuration;
 use App\Models\PriceList;
 use App\Models\OptionalPrice;
+use App\Models\PaymentMethod;
+use App\Models\PaymentMethodDetail;
 use App\Http\Resources\KostList;
 use App\Http\Resources\RoomList;
 use App\Http\Resources\RoomTypeList;
@@ -65,8 +69,9 @@ class KostController extends Controller
             $facility_types1 = FacilityType::whereIn('id', [1, 2])->get();
             $facility_types2 = FacilityType::whereIn('id', [3, 4])->get();
             $rent_durations = RentDuration::all();
+            $payment_methods = PaymentMethod::all();
 
-            return view('backend.kostOwner.manageKost.create', compact('kost_type','rules','facility_types1','facility_types2','rent_durations'));
+            return view('backend.kostOwner.manageKost.create', compact('kost_type','rules','facility_types1','facility_types2','rent_durations','payment_methods'));
         } catch (\Exception $e) {
             return redirect()->back()->with('error', __('toast.index.failed.message'));
         }
@@ -84,10 +89,8 @@ class KostController extends Controller
             $kost->manager_handphone = $request->handphone;
             $kost->latitude = $request->latitude;
             $kost->longitude = $request->longitude;
-            $kost->no_rek = $request->no_rek;
             $kost->kost_type_id = $request->kost_type;
             $kost->kost_owner_id = Auth::user()->kostOwner->id;
-            $kost->no_rek = "248919371";
             $kost->save();
             
             if($kost->id){
@@ -141,6 +144,29 @@ class KostController extends Controller
                         $kostFacilityDetail->status = 2;
                         $kostFacilityDetail->save();
                     }
+                }
+
+                //Payment method
+                if($request->payment_methods){
+                    for($i=0; $i < count($request->payment_methods); $i++){
+                        $paymentMethodDetail = new PaymentMethodDetail;
+                        $paymentMethodDetail->kost_id = $kost->id;
+                        $paymentMethodDetail->payment_method_id = $request->payment_methods[$i];
+                        $paymentMethodDetail->no_rek = $request->no_rek[$i];
+                        $paymentMethodDetail->save();
+                    }
+                }
+
+                //Other kost facility
+                if($request->other_kost_facility[0] != NULL)
+                {
+                    for($i=0; $i < count($request->other_kost_facility); $i++){
+                        $otherKostFacility = new OtherKostFacility;
+                        $otherKostFacility->name = $request->other_kost_facility[$i];
+                        $otherKostFacility->kost_id = $kost->id;
+                        $otherKostFacility->save();
+                    }
+                    
                 }
 
                 //Foto bangunan dari depan
@@ -228,21 +254,6 @@ class KostController extends Controller
                         }
                     }
                 }
-                
-                //Create Optional Price
-                if($request->price_name)
-                {
-                    if(count($request->price_name) > 0){
-                        for ($i=0; $i < count($request->price_name); $i++) {
-                            $price = preg_replace("/[^0-9]/", "", $request->price[$i]);
-                            $price = (int) $price;
-                            $optional_price = new OptionalPrice;
-                            $optional_price->name = $request->price_name[$i];
-                            $optional_price->price = $price;
-                            $optional_price->price_list_id = $price_list->id;
-                        }
-                    }
-                }
 
                 $facilities = Facility::whereIn('facility_type_id', [3, 4])->get();
                 foreach($facilities as $facility){
@@ -262,6 +273,16 @@ class KostController extends Controller
                     }
                 }
                 
+                //Other Room facility
+                if($request->other_room_facility[0] != NULL)
+                {
+                    for($i=0; $i < count($request->other_room_facility); $i++){
+                        $otherRoomFacility = new OtherRoomFacility;
+                        $otherRoomFacility->name = $request->other_room_facility[$i];
+                        $otherRoomFacility->room_type_id = $room_type->id;
+                        $otherRoomFacility->save();
+                    }
+                }
 
                 //Foto bagian depan kamar
                 $dir = storage_path().'/app/public/images/room';
@@ -415,8 +436,9 @@ class KostController extends Controller
             $room_images4 = RoomImage::where('room_type_id', $room_type->id)
             ->where('section_id', 7)->get();
             $kost_id = $room_type->room[0]->kost_id;
+            $payment_methods = PaymentMethod::all();
 
-            return view('backend.kostOwner.manageKost.edit', compact('kost','kost_type','rule_details','kost_facility_details','rule_upload','kost_images1','kost_images2','kost_images3','data','room_type','kost_id','room_images1','room_images2','room_images3','room_images4','room_total','room_facility_details','price_lists','rent_durations'));
+            return view('backend.kostOwner.manageKost.edit', compact('kost','kost_type','rule_details','kost_facility_details','rule_upload','kost_images1','kost_images2','kost_images3','data','room_type','kost_id','room_images1','room_images2','room_images3','room_images4','room_total','room_facility_details','price_lists','rent_durations','payment_methods'));
         } catch (\Exception $e) {
             return redirect()->back()->with('error', __('toast.index.failed.message'));
         }

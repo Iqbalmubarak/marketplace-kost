@@ -72,6 +72,8 @@ return array(
     'App\\Models\\KostSeeker' => $baseDir . '/app/Models/KostSeeker.php',
     'App\\Models\\KostType' => $baseDir . '/app/Models/KostType.php',
     'App\\Models\\OptionalPrice' => $baseDir . '/app/Models/OptionalPrice.php',
+    'App\\Models\\OtherKostFacility' => $baseDir . '/app/Models/OtherKostFacility.php',
+    'App\\Models\\OtherRoomFacility' => $baseDir . '/app/Models/OtherRoomFacility.php',
     'App\\Models\\PriceList' => $baseDir . '/app/Models/PriceList.php',
     'App\\Models\\Rent' => $baseDir . '/app/Models/Rent.php',
     'App\\Models\\RentDetail' => $baseDir . '/app/Models/RentDetail.php',

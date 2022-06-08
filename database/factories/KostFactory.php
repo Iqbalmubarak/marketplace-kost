@@ -25,7 +25,6 @@ class KostFactory extends Factory
             'kost_type_id' => $this->faker->numberBetween(1, 3),
             'status' => $this->faker->numberBetween(1,3),
             'note' => $this->faker->realText(),
-            'no_rek' => $this->faker->creditCardNumber(),
         ];
     }
 }
