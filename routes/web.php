@@ -29,7 +29,7 @@ use App\Http\Controllers\ChatController;
 */
 
 Route::get('/admin', function () {
-    return view('auth.login');
+    return view('auth.login2');
 });
 
 
@@ -65,7 +65,7 @@ Route::prefix('admin')->middleware(['auth', 'auth.isAdmin'])->name('admin.')->gr
     Route::get('/kost/{id}/show-index', [KostController::class, 'showIndex'])->name('kost.show-index');
     Route::get('/kost/admin-index', [KostController::class, 'adminIndex'])->name('kost.admin-index');
     Route::patch('/kost/{id}/confirm', [KostController::class, 'confirm'])->name('kost.confirm');
-    Route::patch('/kost/{id}/reject', [KostController::class, 'reject'])->name('kost.reject');
+    Route::post('/kost/reject', [KostController::class, 'reject'])->name('kost.reject');
 
     Route::resource('/booking', BookingController::class);
     Route::resource('/rent', RentController::class);
@@ -100,6 +100,7 @@ Route::prefix('owner')->middleware(['auth', 'auth.isOwner'])->name('owner.')->gr
     Route::resource('/booking', BookingController::class);
     Route::post('/booking/{id}/accept', [BookingController::class, 'accept'])->name('booking.accept');
     Route::patch('/booking/{id}/reject', [BookingController::class, 'reject'])->name('booking.reject');
+    Route::get('/booking/{id}/show', [BookingController::class, 'show'])->name('booking.show');
 
     //Rent Detail
     Route::post('/rentDetail', [RentDetailController::class, 'index'])->name('rentDetail.index');

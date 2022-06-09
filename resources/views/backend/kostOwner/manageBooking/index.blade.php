@@ -166,11 +166,16 @@
                     var base = "{{url('/')}}";
                     if(full.this_status == 1){
                         return `` +
+                        ` <a class="btn btn-white btn-sm" href="/owner/booking/` +
+                        data + `/show"><i class="fa fa-folder"></i> Detail </a>` +
+
                         ` <a class="btn btn-white btn-sm" onclick="accept(` + data + `,` + full.room_type_id + `)" href="javascript::void(0)" data-toggle="modal" data-target="#acceptModal"><i class="fa fa-check"></i> Terima</a>` +
 
                         ` <a class="btn btn-white btn-sm" onclick="reject(` +
                         data +
                         `)" href="javascript::void(0)"><i class="fa fa-times"></i> Tolak</a>` +
+
+                        
                         ``;
                     }else{
                         return ``;

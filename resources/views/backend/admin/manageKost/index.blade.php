@@ -19,6 +19,7 @@
 
 <div class="wrapper wrapper-content animated fadeInRight">
     <div class="row">
+        @include('backend.admin.manageKost.reject')
         <div class="col-lg-12">
             <div class="ibox ">
                 <div class="ibox-title">
@@ -198,7 +199,7 @@
 
                         ` <a class="btn btn-white btn-sm" onclick="reject(` +
                         data +
-                        `)" href="javascript::void(0)"><i class="fa fa-times"></i> Tolak </a>` +
+                        `)" href="javascript:void(0)"><i class="fa fa-times"></i> Tolak </a>` +
                         ``;
                 },
             }, ],
@@ -375,26 +376,8 @@
     }
 
     function reject(id) {
-        swal({
-                title: "Apakah kamu yakin?",
-                text: "Permohonan kos ini akan ditolak dan pemilik kos akan diminta untuk melengkapi datanya kembali",
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#DD6B55",
-                confirmButtonText: "Ya, Tolak!",
-                cancelButtonText: "Tidak, batalkan!",
-                closeOnConfirm: false,
-                closeOnCancel: false
-            },
-            function (isConfirm) {
-                if (isConfirm) {
-                    swal("Ditolak!", "Pemilik kos akan diminta untuk melengkapi data kosnya kembali.", "success");
-                    $('#reject').attr('action', "/admin/kost/" + id + "/reject");
-                    $('#reject').submit();
-                } else {
-                    swal("Batal", "Kamu batal melakukan konfirmasi kos", "error");
-                }
-            });
+        $('#reject-kost').toggle();
+        $('#kost_id').val(id).change();
     }
 
 </script>

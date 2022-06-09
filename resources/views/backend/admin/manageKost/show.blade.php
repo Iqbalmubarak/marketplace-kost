@@ -1,4 +1,4 @@
-@extends('layouts.kostOwner.main')
+@extends('layouts.admin.main')
 
 @section('css')
 <link href="{{ asset('templates/css/plugins/slick/slick.css') }}" rel="stylesheet">
@@ -32,8 +32,20 @@
     <div class="col-lg-3">
 
     </div>
-</div>
+</div> <br>
 
+@if ($kost->status == 2)
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-12" style="color:red; text-align:center;">
+        <h2>Permohonan Kost Ditolak !</h2>
+        @if($kost->reject_note != NULL)
+            <h4>{{$kost->reject_note}}</h4>
+        @else
+            <h4>Mohon Lengkapi Kembali Data Kost Anda</h4>
+        @endif
+    </div>
+</div>
+@endif
 
 
 <div class="row wrapper wrapper-content animated fadeInRight justify-content-md-center">
@@ -60,14 +72,31 @@
                                 <strong>{{$kost->exist}}</strong></h2>
                         </div>
                         <hr>
-                        <h4>Deskripsi kos</h4>
-                        <div class="small text-muted">
-                            @if ($kost->note)
-                            <?php echo nl2br(htmlspecialchars($kost->note)); ?>
-                            @else
-                            Belum ada deskripsi kos
-                            @endif
+                        <div class="row">
+                            <div class="col-8">
+                                <h4>Deskripsi kos</h4>
+                                <div class="small text-muted">
+                                    @if ($kost->note)
+                                    <?php echo nl2br(htmlspecialchars($kost->note)); ?>
+                                    @else
+                                    Belum ada deskripsi kos
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <h4>Metode Pembayaran</h4>
+                                <div class="small text-muted">
+                                    @foreach ($kost->paymentMethodDetail as $paymentMethodDetail)
+                                        <div>
+                                            <i class="fa fa-credit-card-alt"></i>
+                                                {{$paymentMethodDetail->paymentMethod->name}} <b>( 
+                                                {{$paymentMethodDetail->no_rek}} )</b> 
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
                         </div>
+                        
                         <dl class="small m-t-md">
                             <dt><i class="fa fa-user"></i> Nama pengelola</dt>
                             <dd>@if ($kost->manager_name)
@@ -85,10 +114,13 @@
                             <dd><?php echo nl2br(htmlspecialchars($kost->address)); ?> </dd>
                             <dt>
                                 <div class="row">
-                                    <div class="col-lg-6">
-                                        <i class="fa fa-map-marker"></i> Fasilitas
+                                    <div class="col-lg-3">
+                                        <i class="fa fas fa-plus-square"></i> Fasilitas
                                     </div>
-                                    @if (!$kost->rule_upload)
+                                    <div class="col-lg-3">
+                                        <i class="fa fas fa-plus-square"></i> Fasilitas Lainnya
+                                    </div>
+                                    @if ($kost->rule_detail)
                                     <div class="col-lg-6">
                                         <i class="fa fa-file-text"></i> Peraturan
                                     </div>
@@ -98,31 +130,44 @@
                         </dl>
                         <div class="text-muted">
                             <div class="row">
-                                <div class="col-lg-6">
+                                <div class="col-lg-3">
                                     <div class="row">
                                         @foreach ($kost->kostFacilityDetail as $kostFacilityDetail)
-                                        <div class="col-lg-6">
+                                        @if ($kostFacilityDetail->status == 2)
+                                        <div class="col-lg-12">
                                             @if ($kostFacilityDetail->facility->icon)
                                             <div class="row">
-                                                <div class="col-lg-1">
+                                                <div class="col-lg-10">
                                                     <abbr title="{{$kostFacilityDetail->facility->name}}"><i
                                                             class="{{$kostFacilityDetail->facility->icon}}"></i> </abbr>
-                                                </div>
-                                                <div class="col-lg-10">
-                                                    {{$kostFacilityDetail->facility->name}}
+                                                            {{$kostFacilityDetail->facility->name}}
                                                 </div>
                                             </div>
                                             @else
                                             <div class="row">
-                                                <div class="col-lg-1">
-                                                    <abbr title="{{$kostFacilityDetail->facility->name}}"><i
-                                                            class="fa fa-question"></i></abbr>
-                                                </div>
                                                 <div class="col-lg-10">
-                                                    {{$kostFacilityDetail->facility->name}}
+                                                    <abbr title="{{$kostFacilityDetail->facility->name}}"><i
+                                                            class="fa fas fa-plus"></i></abbr>
+                                                            {{$kostFacilityDetail->facility->name}}
                                                 </div>
                                             </div>
                                             @endif
+                                        </div>
+                                        @endif
+                                        @endforeach
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="row">
+                                        @foreach ($kost->otherKostFacility as $otherKostFacility )
+                                        <div class="col-lg-12">
+                                            <div class="row">
+                                                <div class="col-lg-10">
+                                                    <abbr title="{{$otherKostFacility->name}}"><i
+                                                            class="fa fas fa-plus"></i> </abbr>
+                                                            {{$otherKostFacility->name}}
+                                                </div>
+                                            </div>
                                         </div>
                                         @endforeach
                                     </div>
@@ -131,7 +176,9 @@
                                     <div class="row">
                                         <div class="col-lg-6">
                                             @foreach ($kost->rule_detail as $rule_detail)
+                                            @if ($rule_detail->status == 2)
                                             <i class="fa fa-check"> {{$rule_detail->rule->name}}</i><br>
+                                            @endif
                                             @endforeach
                                         </div>
                                         <div class="col-lg-6">
@@ -163,18 +210,6 @@
                         </div>
                         <br>
                         <hr>
-                        <div>
-                            <div class="btn-group">
-                                <!-- <a href="{{route('owner.kost.edit', $kost->id)}}"><button
-                                        class="btn btn-primary btn-sm"><i class="fa fa-pencil"></i> Perbaharui
-                                        data</button></a>
-                                @if ($kost->status == 0 || $kost->status == 3)
-                                <a href="javascript:void(0)" onclick="request({{$kost->id}})" class="btn btn-white btn-sm"><i
-                                        class="fa fa-envelope"></i> Ajukan permohonan pada admin
-                                </a>
-                                @endif -->
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>

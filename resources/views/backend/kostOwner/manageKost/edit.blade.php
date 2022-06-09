@@ -29,8 +29,20 @@
     <div class="col-lg-3">
 
     </div>
-</div>
+</div><br>
 
+@if ($kost->status == 2)
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-12" style="color:red; text-align:center;">
+        <h2>Permohonan Kost Ditolak !</h2>
+        @if($kost->reject_note != NULL)
+            <h4>{{$kost->reject_note}}</h4>
+        @else
+            <h4>Mohon Lengkapi Kembali Data Kost Anda</h4>
+        @endif
+    </div>
+</div>
+@endif
 
 <div class="row wrapper wrapper-content animated fadeInRight">
     <div class="col-lg-12">

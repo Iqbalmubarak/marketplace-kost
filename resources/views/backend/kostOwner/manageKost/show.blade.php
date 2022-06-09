@@ -13,7 +13,7 @@
 <script type="text/javascript"
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCdGrzi3vv43yyxfcFiBRoGVqvtZcJ2lIM"></script>
 <div class="row wrapper border-bottom white-bg page-heading">
-    <div class="col-lg-9">
+    <div class="col-lg-12">
         <h2>Detail Kost</h2>
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
@@ -29,12 +29,7 @@
             </li>
         </ol>
     </div>
-    <div class="col-lg-3">
-
-    </div>
 </div>
-
-
 
 <div class="row wrapper wrapper-content animated fadeInRight justify-content-md-center">
     <div class="col-lg-12">

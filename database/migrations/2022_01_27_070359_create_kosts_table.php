@@ -20,6 +20,7 @@ class CreateKostsTable extends Migration
             $table->string('exist')->nullable();
             $table->string('manager_name')->nullable();
             $table->string('manager_handphone')->nullable();
+            $table->string('reject_note')->nullable();
             $table->text('note')->nullable();
             $table->float('latitude', 10,9);
             $table->float('longitude', 200,9);

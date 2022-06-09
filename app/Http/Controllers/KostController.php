@@ -812,15 +812,17 @@ class KostController extends Controller
         }
     }
 
-    public function reject($id)
+    public function reject(Request $request)
     {
         try {
-            $kost = Kost::find($id);
+            $kost = Kost::find($request->kost_id);
+            $kost->reject_note = $request->reject_note;
             $kost->status = 2;
             $kost->save();
 
             return redirect()->route('admin.kost.admin-index')->with('success', __('toast.reject.success.message'));     
         } catch (\Exception $e) {
+            dd($e);
             return redirect()->back()->with('error', __('toast.reject.failed.message'));
         }
     }

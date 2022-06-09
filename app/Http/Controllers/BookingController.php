@@ -61,9 +61,17 @@ class BookingController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function show($id)
     {
-        //
+        try {       
+            $booking = Booking::find($id);
+
+            return view('backend.kostOwner.manageBooking.show', compact('booking'));
+
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', __('toast.index.failed.message'));
+        }
+
     }
 
     /**

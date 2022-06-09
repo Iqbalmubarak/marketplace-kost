@@ -22,6 +22,9 @@ class BookingList extends JsonResource
         }else{
             $status = '<p><span class="badge badge-danger">Ditolak</span></p>';
         }
+
+        $total_price = "Rp. ".number_format($this->total_price, 0, ',', '.'). ",00";
+
         return [
             'id' => $this->id,
             'room_type' => $this->roomType->name,
@@ -32,7 +35,7 @@ class BookingList extends JsonResource
             'ended_at' => $this->ended_at,
             'status' => $status,
             'this_status' => $this->status,
-            'total_price' => $this->total_price
+            'total_price' => $total_price
         ];
     }
 }
