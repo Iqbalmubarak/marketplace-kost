@@ -29,6 +29,7 @@ class CommerceController extends Controller
     public function show($id){
         try {    
             $roomType = RoomType::find($id);
+            
             $duration = PriceList::select('price_lists.id as id', 'rent_durations.name as name')
             ->join('rent_durations', 'price_lists.rent_duration_id', '=', 'rent_durations.id')
             ->where('price_lists.room_type_id', $roomType->id)
@@ -54,6 +55,7 @@ class CommerceController extends Controller
             $booking->total_price = $total_price;
             $booking->started_at = Carbon::create($request->start)->format('Y-m-d');
             $booking->ended_at = Carbon::create($request->end)->format('Y-m-d');
+            $booking->payment_method_detail_id = $request->payment_method_detail;
 
             //Payment upload
             $dir = storage_path().'/app/public/images/payment';

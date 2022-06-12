@@ -38,6 +38,12 @@ class PaymentController extends Controller
     return response()->json($datas);
   }
 
+  public function getPaymentMethod(Request $request){
+    $data = PaymentMethodDetail::find($request->id);
+
+    return response()->json($data);
+  }
+
   public function rentPayment($id){
     $booking = Booking::find($id);
     $kostSeeker = KostSeeker::find($booking->kost_seeker_id);

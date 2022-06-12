@@ -11,8 +11,8 @@
                 <div class="form-group row">
                     <label class="col-lg-3 col-form-label">Durasi penyewaan</label>
                     <div class="col-lg-9">
-                        {!! Form::select('duration', $duration, null, ['class' => 'form-control selectpicker',
-                        'data-live-search'=>'true', 'required'=>'required', 'id'=>'c_duration', 'title' => 'Pilih durasi']) !!}
+                        {!! Form::select('duration', $duration, null, ['class' => 'form-control selectpicker', 'title' => "Choose one of the following...",
+                        'data-live-search'=>'true', 'required'=>'required', 'id'=>'c_duration']) !!}
                         @error('duration')
                         <div class="form-text text-danger">{{$message}}</div>
                         @enderror
@@ -54,6 +54,18 @@
                             <input type="text" id="c_start" class="form-control-sm form-control" name="start" value="{{$today}}"/>
                             <span class="input-group-addon">hingga</span>
                             <input type="text" id="c_end" class="form-control-sm form-control" name="end" value="" readonly/>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row" id="data_5">
+                    <label class="col-lg-3 col-form-label">Pilih Metode pembayaran</label>
+                    <div class="col-lg-9">
+                        <div class="row">
+                            @foreach ($paymentMethodDetails as $paymentMethodDetail)
+                                <div class="col-md-3">
+                                    <div class="i-checks"><label> <input type="radio"  value="{{$paymentMethodDetail->id}}" name="payment_method_detail" required> <i></i> {{$paymentMethodDetail->paymentMethod->name}} </label></div>
+                                </div>
+                            @endforeach
                         </div>
                     </div>
                 </div>

@@ -115,21 +115,6 @@ class BookingController extends Controller
 
             $room = Room::find($booking->room_id);
             $kostSeeker = KostSeeker::find($booking->kost_seeker_id);
-
-            $tenant = new Tenant;
-            $tenant->name = $kostSeeker->first_name.' '.$kostSeeker->last_name;
-            $tenant->handphone = $kostSeeker->handphone;
-            $tenant->avatar = $kostSeeker->avatar;
-            $tenant->gender = $kostSeeker->gender;
-            $tenant->birth_place = $kostSeeker->birth_place;
-            $tenant->birth_day = $kostSeeker->birth_day;
-            $tenant->emergency = $kostSeeker->emergency;
-            $tenant->job = $kostSeeker->job;
-            $tenant->job_name = $kostSeeker->job_name;
-            $tenant->job_description = $kostSeeker->job_description;
-            $tenant->kost_id = $room->kost_id;
-            $tenant->save();
-                
             
             return redirect()->back()->with('success', __('toast.confirm.success.message')) ;
         } catch (\Exception $e) {
@@ -159,12 +144,7 @@ class BookingController extends Controller
             $rentDetail->price_list_id = $booking->price_list_id;
             $rentDetail->payment = $booking->payment;
             $rentDetail->save();
-
-            $history = new History;
-            $history->kost_seeker_id = $booking->kost_seeker_id;
-            $history->rent_id = $rent->id;
-            $history->save();
-
+            
             $room = Room::find($request->room);
             $kostSeeker = KostSeeker::find($booking->kost_seeker_id);
 

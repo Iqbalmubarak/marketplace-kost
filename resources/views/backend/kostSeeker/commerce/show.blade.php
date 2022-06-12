@@ -304,6 +304,7 @@
 <script src="{{ asset('templates/js/plugins/datapicker/bootstrap-datepicker.js') }}"></script>
 <script src="{{ asset('templates/js/plugins/jasny/jasny-bootstrap.min.js') }}"></script>
 <script>
+
     function fileValidation() {
         var fileInput = document.getElementById('payment');
         var filePath = fileInput.value;

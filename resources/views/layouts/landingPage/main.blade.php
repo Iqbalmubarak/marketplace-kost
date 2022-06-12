@@ -114,7 +114,6 @@
     <script src="{{ asset('templateLandings/assets/js/bootstrap-slider.min.js') }}"></script>
     <script src="{{ asset('templateLandings/assets/js/jquery.rateit.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('templateLandings/assets/js/lightbox.min.js') }}"></script>
-    <script src="{{ asset('templateLandings/assets/js/bootstrap-select.min.js') }}"></script>
     <script src="{{ asset('templateLandings/assets/js/wow.min.js') }}"></script>
     <script src="{{ asset('templateLandings/assets/js/scripts.js') }}"></script>
     <!-- Sweet alert -->

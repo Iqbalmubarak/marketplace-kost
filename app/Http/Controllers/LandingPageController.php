@@ -8,6 +8,7 @@ use App\Models\RoomType;
 use App\Models\PriceList; 
 use App\Models\Booking; 
 use App\Models\Chat; 
+use App\Models\PaymentMethodDetail; 
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use DB;
@@ -23,7 +24,7 @@ class LandingPageController extends Controller
             $kost_id = collect([]);;
             foreach($kosts as $kost){
                 $kost_id->push($kost->id);
-            }
+            }   
             $newRoomTypes = RoomType::whereIn('kost_id', $kost_id)->take(8)->get();
             $newKosts = Kost::where('status', 1)->orderby('created_at', 'desc')->take(8)->get();
             
@@ -45,7 +46,7 @@ class LandingPageController extends Controller
     public function info(Request $request){
         try {
             $kosts = Kost::select('id')->where('status', 1)->get();
-            $kost_id = collect([]);;
+            $kost_id = collect([]);
             foreach($kosts as $kost){
                 $kost_id->push($kost->id);
             }
@@ -227,6 +228,7 @@ class LandingPageController extends Controller
             ->where('price_lists.room_type_id', $roomType->id)
             ->get()
             ->pluck('name', 'id');
+            $paymentMethodDetails = PaymentMethodDetail::where('kost_id', $roomType->kost_id)->get();
             $today = Carbon::today();
             $today = $today->format('m/d/Y');
             
@@ -237,7 +239,7 @@ class LandingPageController extends Controller
                             ->where('kost_id', $roomType->kost->id)
                             ->first();
             }
-            return view('backend.landingPage.show', compact('roomType','others','duration','today', 'chat'));
+            return view('backend.landingPage.show', compact('roomType','others','duration','today', 'chat', 'paymentMethodDetails'));
         } catch (\Exception $e) {
             dd($e);
             return redirect()->back();

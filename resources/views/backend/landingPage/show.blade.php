@@ -1,12 +1,15 @@
 @extends('layouts.landingPage.main')
 
 @section('css')
-<link href="{{ asset('templates/css/plugins/datapicker/datepicker3.css') }}" rel="stylesheet">
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
+<link href="{{ asset('templates/css/plugins/datapicker/datepicker3.css') }}" rel="stylesheet">
+<link href="{{ asset('templates/css/plugins/iCheck/custom.css') }}" rel="stylesheet">
+<!-- Latest compiled and minified CSS -->
 <link href="{{ asset('templates/css/plugins/jasny/jasny-bootstrap.min.css') }}" rel="stylesheet">
 <link href="{{ asset('templates/css/plugins/blueimp/css/blueimp-gallery.min.css') }}" rel="stylesheet">
 <style>
+
     .small-chat-box {
         display: none;
         position: fixed;
@@ -656,6 +659,30 @@
 @endsection
 
 @section('script')
+<!-- iCheck -->
+<script src="{{ asset('templates/js/plugins/iCheck/icheck.min.js') }}"></script>
+<script>
+    $(document).ready(function () {
+        $('.i-checks').iCheck({
+            checkboxClass: 'icheckbox_square-green',
+            radioClass: 'iradio_square-green',
+        });
+
+        $('input[name="payment_method_detail"]').on('ifClicked', function (event) {
+            $.post(
+            "{{url('api/payment/get-paymentMethod')}}", 
+            {
+                "_token": "{{ csrf_token() }}",
+                id: this.value
+            }, 
+            function(result){
+                console.log(result.no_rek);
+                $('#c_rek').val(result.no_rek).change();
+            }
+        )
+        });
+    });
+</script>
 <!-- Latest compiled and minified JavaScript -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
 <!-- Data picker -->

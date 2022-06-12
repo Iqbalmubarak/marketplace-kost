@@ -23,6 +23,9 @@ use App\Models\PriceList;
 use App\Models\KostImage;
 use App\Models\RoomImage;
 use App\Models\RuleUpload;
+use App\Models\PaymentMethod;
+use App\Models\PaymentMethodDetail;
+use App\Models\RentPayment;
 use Faker\Generator as Faker;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 use Carbon\Carbon;
@@ -40,7 +43,7 @@ class FactorySeeder extends Seeder
             ->has(Admin::factory()->count(1), 'admin')
             ->create();
         $kost = Kost::factory(4)
-                ->has(RoomType::factory()->count(3)
+                ->has(RoomType::factory(rand(1,3))
                     ->state(function (array $attributes, Kost $kost) {
                         $faker = resolve(Faker::class);
                         $nameCollection = 
@@ -49,12 +52,37 @@ class FactorySeeder extends Seeder
                             2 => ['Tipe Standar', 'Tipe Eksklusif', 'Tipe Premium', 'Tipe Superior', 'Tipe Deluxe']
                         ]);
                         if($kost->id %2 ==1){
-                            return ['name' => $faker->randomElement($nameCollection[1], $count = 1, $allowDuplicates = false)];
+                            $randomElement = $faker->randomElement($nameCollection[1], $count = 1, $allowDuplicates = false);
+                            $roomType = RoomType::where('kost_id', $kost->id)->where('name', $randomElement)->first();
+                            while($roomType){
+                                $randomElement = $faker->randomElement($nameCollection[1], $count = 1, $allowDuplicates = false);
+                                $roomType = RoomType::where('kost_id', $kost->id)->where('name', $randomElement)->first();
+                            }
+                            return ['name' => $randomElement];
                         }else{
-                            return ['name' => $faker->randomElement($nameCollection[2], $count = 1, $allowDuplicates = false)];
+                            $randomElement = $faker->randomElement($nameCollection[2], $count = 1, $allowDuplicates = false);
+                            $roomType = RoomType::where('kost_id', $kost->id)->where('name', $randomElement)->first();
+                            while($roomType){
+                                $randomElement = $faker->randomElement($nameCollection[2], $count = 1, $allowDuplicates = false);
+                                $roomType = RoomType::where('kost_id', $kost->id)->where('name', $randomElement)->first();
+                            }
+                            return ['name' => $randomElement];
                         }
                     })
-                    ->has(PriceList::factory()->count(1)
+                    ->has(PriceList::factory(rand(1,3))
+                    ->state(function (array $attributes, RoomType $roomType) {
+                        $random_number = rand(2,5);
+                        $priceList = PriceList::where('room_type_id', $roomType->id)
+                                                ->where('rent_duration_id', $random_number)
+                                                ->first();
+                        while($priceList){
+                            $random_number = rand(2,5);
+                            $priceList = PriceList::where('room_type_id', $roomType->id)
+                                                    ->where('rent_duration_id', $random_number)
+                                                    ->first();
+                        }
+                        return ['rent_duration_id' => $random_number];
+                    })
                     , 'priceList')
                 , 'roomType')
         ->create([
@@ -64,7 +92,7 @@ class FactorySeeder extends Seeder
         $user = User::factory(10)
         ->has(KostOwner::factory()->count(1)
                 ->has(Kost::factory()->count(4)
-                        ->has(RoomType::factory()->count(random_int(1, 3))
+                        ->has(RoomType::factory(rand(1,3))
                             ->state(function (array $attributes, Kost $kost) {
                                 $faker = resolve(Faker::class);
                                 $nameCollection = 
@@ -73,12 +101,37 @@ class FactorySeeder extends Seeder
                                     2 => ['Tipe Standar', 'Tipe Eksklusif', 'Tipe Premium', 'Tipe Superior', 'Tipe Deluxe']
                                 ]);
                                 if($kost->id %2 ==1){
-                                    return ['name' => $faker->randomElement($nameCollection[1], $count = 1, $allowDuplicates = false)];
+                                    $randomElement = $faker->randomElement($nameCollection[1], $count = 1, $allowDuplicates = false);
+                                    $roomType = RoomType::where('kost_id', $kost->id)->where('name', $randomElement)->first();
+                                    while($roomType){
+                                        $randomElement = $faker->randomElement($nameCollection[1], $count = 1, $allowDuplicates = false);
+                                        $roomType = RoomType::where('kost_id', $kost->id)->where('name', $randomElement)->first();
+                                    }
+                                    return ['name' => $randomElement];
                                 }else{
-                                    return ['name' => $faker->randomElement($nameCollection[2], $count = 1, $allowDuplicates = false)];
+                                    $randomElement = $faker->randomElement($nameCollection[2], $count = 1, $allowDuplicates = false);
+                                    $roomType = RoomType::where('kost_id', $kost->id)->where('name', $randomElement)->first();
+                                    while($roomType){
+                                        $randomElement = $faker->randomElement($nameCollection[2], $count = 1, $allowDuplicates = false);
+                                        $roomType = RoomType::where('kost_id', $kost->id)->where('name', $randomElement)->first();
+                                    }
+                                    return ['name' => $randomElement];
                                 }
                             })
-                            ->has(PriceList::factory()->count(4)
+                            ->has(PriceList::factory(rand(1,3))
+                            ->state(function (array $attributes, RoomType $roomType) {
+                                $random_number = rand(2,5);
+                                $priceList = PriceList::where('room_type_id', $roomType->id)
+                                                        ->where('rent_duration_id', $random_number)
+                                                        ->first();
+                                while($priceList){
+                                    $random_number = rand(2,5);
+                                    $priceList = PriceList::where('room_type_id', $roomType->id)
+                                                            ->where('rent_duration_id', $random_number)
+                                                            ->first();
+                                }
+                                return ['rent_duration_id' => $random_number];
+                            })
                             , 'priceList')
                         , 'roomType')
                     , 'kost')
@@ -182,7 +235,6 @@ class FactorySeeder extends Seeder
         }
 
         foreach($kosts as $kost){
-            
 
             foreach($rules as $rule){
                 $ruleDetail = RuleDetail::factory()
@@ -207,6 +259,29 @@ class FactorySeeder extends Seeder
                                         ))
                                         ->create();
             }     
+            
+
+            $paymentMethod = PaymentMethod::all();
+            for($i=1; $i<=rand(1,3); $i++)
+            {
+                $rand_number = rand(1, $paymentMethod->count());
+                $paymentMethodDetail = PaymentMethodDetail::where('kost_id', $kost->id)
+                                                            ->where('payment_method_id', $rand_number)
+                                                            ->first();
+
+                while($paymentMethodDetail)
+                {
+                    $rand_number = rand(1, $paymentMethod->count());
+                    $paymentMethodDetail = PaymentMethodDetail::where('kost_id', $kost->id)
+                                                                ->where('payment_method_id', $rand_number)
+                                                                ->first();
+                }
+                $paymentMethodDetail = new PaymentMethodDetail;
+                $paymentMethodDetail->kost_id = $kost->id;
+                $paymentMethodDetail->payment_method_id = $rand_number;
+                $paymentMethodDetail->no_rek = $faker->creditCardNumber();
+                $paymentMethodDetail->save();
+            }
             
             for($section=1; $section<=3; $section++){
                 $n = rand(1,3);

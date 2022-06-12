@@ -165,8 +165,8 @@ img[src="assets/images/blank.gif"] {
   float: none;
 }
 .inner {
-  padding-top: 120px;
-  padding-bottom: 120px;
+  padding-top: auto;
+  padding-bottom: auto;
 }
 .inner-md {
   padding-top: 100px;

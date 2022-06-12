@@ -679,6 +679,8 @@ class ComposerStaticInit842fd563e6a53a61272998a3711cfde8
         'App\\Models\\OptionalPrice' => __DIR__ . '/../..' . '/app/Models/OptionalPrice.php',
         'App\\Models\\OtherKostFacility' => __DIR__ . '/../..' . '/app/Models/OtherKostFacility.php',
         'App\\Models\\OtherRoomFacility' => __DIR__ . '/../..' . '/app/Models/OtherRoomFacility.php',
+        'App\\Models\\PaymentMethod' => __DIR__ . '/../..' . '/app/Models/PaymentMethod.php',
+        'App\\Models\\PaymentMethodDetail' => __DIR__ . '/../..' . '/app/Models/PaymentMethodDetail.php',
         'App\\Models\\PriceList' => __DIR__ . '/../..' . '/app/Models/PriceList.php',
         'App\\Models\\Rent' => __DIR__ . '/../..' . '/app/Models/Rent.php',
         'App\\Models\\RentDetail' => __DIR__ . '/../..' . '/app/Models/RentDetail.php',
