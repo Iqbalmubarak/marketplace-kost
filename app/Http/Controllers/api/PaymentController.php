@@ -40,8 +40,19 @@ class PaymentController extends Controller
 
   public function getPaymentMethod(Request $request){
     $data = PaymentMethodDetail::find($request->id);
-
+    
     return response()->json($data);
+  }
+
+  public function bookingPayment($id){
+    $booking = Booking::find($id);
+    $datas = PaymentMethodDetail::where('kost_id', $booking->roomType->kost_id)->get();
+    foreach($datas as $data){
+      $data->payment_method_name = $data->paymentMethod->name;
+      $data->count_down = $booking->created_at;
+    }
+
+    return response()->json($datas);
   }
 
   public function rentPayment($id){

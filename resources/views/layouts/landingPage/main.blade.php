@@ -123,6 +123,7 @@
     <!-- Data tables -->
     <script src="{{ asset('templates/js/plugins/dataTables/datatables.min.js') }}"></script>
     <script src="{{ asset('templates/js/plugins/dataTables/dataTables.bootstrap4.min.js') }}"></script>
+    
     <script type="text/javascript">
         function logout() {
             event.preventDefault();

@@ -26,7 +26,6 @@
                 </div>
                 @endforeach
 
-
                 <div class="clearfix blog-pagination filters-container  wow fadeInUp"
                     style="padding:0px; background:none; box-shadow:none; margin-top:15px; border:none">
 

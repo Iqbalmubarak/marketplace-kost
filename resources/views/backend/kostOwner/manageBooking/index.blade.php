@@ -164,7 +164,7 @@
                 orderable: false,
                 render: function (data, type, full, meta) {
                     var base = "{{url('/')}}";
-                    if(full.this_status == 1){
+                    if(full.payment == 1){
                         return `` +
                         ` <a class="btn btn-white btn-sm" href="/owner/booking/` +
                         data + `/show"><i class="fa fa-folder"></i> Detail </a>` +
@@ -178,7 +178,10 @@
                         
                         ``;
                     }else{
-                        return ``;
+                        return `` +
+                        ` <a class="btn btn-white btn-sm" href="/owner/booking/` +
+                        data + `/show"><i class="fa fa-folder"></i> Detail </a>` +
+                        '';
                     }
                 },
             }, ],

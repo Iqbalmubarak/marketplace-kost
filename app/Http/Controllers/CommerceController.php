@@ -7,8 +7,12 @@ use App\Models\Kost;
 use App\Models\RoomType; 
 use App\Models\PriceList; 
 use App\Models\Booking; 
+use App\Models\BookingPayment; 
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use Twilio\Rest\Client;
+use App\Mail\NotifyMail;
+use Mail;
 
 class CommerceController extends Controller
 {
@@ -55,21 +59,57 @@ class CommerceController extends Controller
             $booking->total_price = $total_price;
             $booking->started_at = Carbon::create($request->start)->format('Y-m-d');
             $booking->ended_at = Carbon::create($request->end)->format('Y-m-d');
-            $booking->payment_method_detail_id = $request->payment_method_detail;
+            // $booking->payment_method_detail_id = $request->payment_method_detail;
 
-            //Payment upload
-            $dir = storage_path().'/app/public/images/payment';
-            $filePayment = $request->file('payment');                
+            // //Payment upload
+            // $dir = storage_path().'/app/public/images/payment';
+            // $filePayment = $request->file('payment');                
 
-            $fileName = Time().".".$filePayment->getClientOriginalName();
-            $filePayment->move($dir, $fileName);
+            // $fileName = Time().".".$filePayment->getClientOriginalName();
+            // $filePayment->move($dir, $fileName);
 
-            if($filePayment){
-                $booking->payment = $fileName;
-            }
-
+            // if($filePayment){
+            //     $booking->payment = $fileName;
+            // }
+            $today = Carbon::now();
+            $today = $today->format('dmyhis');
+            $booking->token = (string)$booking->id.$request->room_type.$request->price_list_id.$today;
             $booking->save();
+
+            Mail::to('iqbalmubarak212@gmail.com')->send(new NotifyMail());
+            
             return redirect()->route('customer.booking.indexCustomer', $request->room_type)->with('success', __('Berhasil melakukan penyewaan kamar')); 
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', __('Gagal melakukan penyewaan kamar'));
+        }
+    }
+
+    public function payment(Request $request){
+        try {   
+            $booking = Booking::find($request->booking_id);
+            if(Carbon::now() <= Carbon::parse($booking->created_at)->addHour())
+            {
+                $bookingPayment = new BookingPayment;
+                $bookingPayment->booking_id = $request->booking_id;
+                $bookingPayment->payment_method_detail_id = $request->payment_method_detail;
+
+                //Payment upload
+                $dir = storage_path().'/app/public/images/payment';
+                $filePayment = $request->file('payment');                
+
+                $fileName = Time().".".$filePayment->getClientOriginalName();
+                $filePayment->move($dir, $fileName);
+
+                if($filePayment){
+                    $bookingPayment->payment = $fileName;
+                }
+                $bookingPayment->save();
+
+                return redirect()->route('customer.booking.indexCustomer', $request->room_type)->with('success', __('Berhasil melakukan penyewaan kamar')); 
+            }else{
+                return redirect()->back()->with('error', __('Melebihi batas waktu pembayaran'));
+            }
+            
         } catch (\Exception $e) {
             dd($e);
             return redirect()->back()->with('error', __('Gagal melakukan penyewaan kamar'));

@@ -1,7 +1,7 @@
 @extends('layouts.landingPage.main')
 
 @section('content')
-
+<script src="http://maps.googleapis.com/maps/api/js"></script>
 <!-- /.breadcrumb -->
 <div class="body-content outer-top-xs">
     <div class='container'>
@@ -544,6 +544,20 @@
 
                 </div>
                 <!-- /.search-result-container -->
+                                                
+                <div class="category-carousel hidden-xs">
+                    <div class="item">
+                        <div class="image"> 
+                        </div>
+                    </div>
+                </div>
+                <div class="category-carousel hidden-xs">
+                    <div class="item">
+                        <div class="image"> 
+                            <div id="map" style="width:100%;height:380px;"></div>
+                        </div>
+                    </div>
+                </div>
 
             </div>
             <!-- /.col -->
@@ -604,13 +618,247 @@
         <!-- ============================================== BRANDS CAROUSEL : END ============================================== -->
     </div>
     <!-- /.container -->
-
+<?php 
+    if(Route::currentRouteName()=='landingPage.info'){
+        $kosts = \App\Models\Kost::select('id')->where('status', 1)->get();
+        $kost_id = collect([]);
+        foreach($kosts as $kost){
+            $kost_id->push($kost->id);
+        }
+        $roomTypes = \App\Models\RoomType::inRandomOrder('2')->whereIn('kost_id', $kost_id)->orderby('created_at', 'desc')->get();
+    }
+    $room_type_id = collect([]);;
+    foreach($roomTypes as $roomType){
+        $room_type_id->push($roomType->id);
+    }
+?>
 </div>
 <!-- /.body-content -->
 @endsection
 
 @section('script')
 <script>
+    google.maps.event.addDomListener(window, 'load', init);
+
+    let map;
+    let infoWindow;
+    let mapOptions;
+    let bounds;
+    
+    function init() {
+        infoWindow = new google.maps.InfoWindow;
+        var mapOptions1 = {
+            zoom: 13,
+            center: new google.maps.LatLng(-0.9111111111111111, 100.34972222222221),
+            // Style for Google Maps
+            styles: [{
+                "featureType": "water",
+                "stylers": [{
+                    "saturation": 43
+                }, {
+                    "lightness": -11
+                }, {
+                    "hue": "#0088ff"
+                }]
+            }, {
+                "featureType": "road",
+                "elementType": "geometry.fill",
+                "stylers": [{
+                    "hue": "#ff0000"
+                }, {
+                    "saturation": -100
+                }, {
+                    "lightness": 99
+                }]
+            }, {
+                "featureType": "road",
+                "elementType": "geometry.stroke",
+                "stylers": [{
+                    "color": "#808080"
+                }, {
+                    "lightness": 54
+                }]
+            }, {
+                "featureType": "landscape.man_made",
+                "elementType": "geometry.fill",
+                "stylers": [{
+                    "color": "#ece2d9"
+                }]
+            }, {
+                "featureType": "poi.park",
+                "elementType": "geometry.fill",
+                "stylers": [{
+                    "color": "#ccdca1"
+                }]
+            }, {
+                "featureType": "road",
+                "elementType": "labels.text.fill",
+                "stylers": [{
+                    "color": "#767676"
+                }]
+            }, {
+                "featureType": "road",
+                "elementType": "labels.text.stroke",
+                "stylers": [{
+                    "color": "#ffffff"
+                }]
+            }, {
+                "featureType": "poi",
+                "stylers": [{
+                    "visibility": "off"
+                }]
+            }, {
+                "featureType": "landscape.natural",
+                "elementType": "geometry.fill",
+                "stylers": [{
+                    "visibility": "on"
+                }, {
+                    "color": "#b8cb93"
+                }]
+            }, {
+                "featureType": "poi.park",
+                "stylers": [{
+                    "visibility": "on"
+                }]
+            }, {
+                "featureType": "poi.sports_complex",
+                "stylers": [{
+                    "visibility": "on"
+                }]
+            }, {
+                "featureType": "poi.medical",
+                "stylers": [{
+                    "visibility": "on"
+                }]
+            }, {
+                "featureType": "poi.business",
+                "stylers": [{
+                    "visibility": "simplified"
+                }]
+            }]
+        };
+        // Get all html elements for map
+        var mapElement1 = document.getElementById('map');
+
+        // Create the Google Map using elements
+        var map = new google.maps.Map(mapElement1, mapOptions1);
+
+
+        // Variabel untuk menyimpan batas kordinat
+        bounds = new google.maps.LatLngBounds();
+        var room_type_id = {{$room_type_id}};
+
+        $.post(
+            "{{url('api/map/get-kost')}}", 
+            {
+                "_token": "{{ csrf_token() }}",
+                room_type_id: {{$room_type_id}}
+            }, 
+            function(result){
+                for(var i=0; i<result.length; i++)
+                {
+                    var pos = {
+                        lat: parseFloat(result[i].latitude),
+                        lng: parseFloat(result[i].longitude)
+                    };
+                    var content = `<div>
+                                        <a href="/info/`+result[i].room_type+`">
+                                        <h5>`+result[i].name+`</h5>
+                                        </a>
+                                        <img width="150px" heigth="150px" src="{{asset('storage/images/kost/`+result[i].image+`')}}" alt="">
+                                    </div>`;
+                    addMarker(result[i].latitude, result[i].longitude, content);
+                }
+                var location;
+                var marker;
+                function addMarker(lat, lng, info){
+                    location = new google.maps.LatLng(lat, lng);
+                    bounds.extend(location);
+                    marker = new google.maps.Marker({
+                        map: map,
+                        position: location,
+                        icon: '{{asset("marker/kost.png")}}',
+                        animation: google.maps.Animation.DROP
+                    });       
+                    map.fitBounds(bounds);
+                    bindInfoWindow(marker, map, infoWindow, info);
+                }
+                // Proses ini dapat menampilkan informasi lokasi Kota/Kab ketika diklik dari masing-masing markernya
+                function bindInfoWindow(marker, map, infoWindow, html){
+                    google.maps.event.addListener(marker, 'click', function() {
+                        infoWindow.setContent(html);
+                        infoWindow.open(map, marker);
+                    });
+                }
+            }
+        )
+        // $.ajax({
+        //     url: "{{url('api/map/get-kost')}}",
+        //     dataType: 'json',
+        //     cache: false,
+        //     dataSrc: '',
+
+        //     success: function (data) {
+        //         var latitude = data.map(function (item) {
+        //             return item.latitude;
+        //         });
+        //         var longitude = data.map(function (item) {
+        //             return item.longitude;
+        //         });
+        //         var name = data.map(function (item) {
+        //             return item.name;
+        //         });
+        //         var image = data.map(function (item) {
+        //             return item.image;
+        //         });
+        //         var room_type = data.map(function (item) {
+        //             return item.room_type;
+        //         });
+        //         var latlng = new google.maps.LatLng(parseFloat(latitude), parseFloat(longitude));
+        //         for (i = 0; i < data.length; i++) {
+        //             var pos = {
+        //                 lat: parseFloat(latitude[i]),
+        //                 lng: parseFloat(longitude[i])
+        //             };
+        //             var content = `<div>
+        //                                 <a href="/info/`+room_type[i]+`">
+        //                                 <h5>`+name[i]+`</h5>
+        //                                 </a>
+        //                                 <img width="150px" heigth="150px" src="{{asset('storage/images/kost/`+image[i]+`')}}" alt="">
+        //                             </div>`;
+        //             addMarker(latitude[i], longitude[i], content);
+        //             // for(i=0; i<arrays.length; i++){
+        //             //     var data = arrays
+        //             //     console.log(data.properties.center['latitude']);
+        //             // }                   
+        //         }
+        //         var location;
+        //         var marker;
+        //         function addMarker(lat, lng, info){
+        //             location = new google.maps.LatLng(lat, lng);
+        //             bounds.extend(location);
+        //             marker = new google.maps.Marker({
+        //                 map: map,
+        //                 position: location,
+        //                 icon: '{{asset("marker/kost.png")}}',
+        //                 animation: google.maps.Animation.DROP
+        //             });       
+        //             map.fitBounds(bounds);
+        //             bindInfoWindow(marker, map, infoWindow, info);
+        //         }
+        //         // Proses ini dapat menampilkan informasi lokasi Kota/Kab ketika diklik dari masing-masing markernya
+        //         function bindInfoWindow(marker, map, infoWindow, html){
+        //             google.maps.event.addListener(marker, 'click', function() {
+        //                 infoWindow.setContent(html);
+        //                 infoWindow.open(map, marker);
+        //             });
+        //         }
+        //     }
+
+        // });
+
+    }
+
     // Open close small chat
     $('#sortPrice').on('click', function (e) {
         let text = $('#priceRange').val()

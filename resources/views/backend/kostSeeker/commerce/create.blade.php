@@ -1,4 +1,4 @@
-{{ Form::open(array('method'=>'POST', 'url' => route('customer.commerce.store'), 'files' => true)) }}
+{{ Form::open(array('method'=>'POST', 'url' => route('customer.commerce.store'))) }}
 <div class="modal inmodal" id="bookingModal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content animated flipInY">
@@ -11,7 +11,7 @@
                 <div class="form-group row">
                     <label class="col-lg-3 col-form-label">Durasi penyewaan</label>
                     <div class="col-lg-9">
-                        {!! Form::select('duration', $duration, null, ['class' => 'form-control selectpicker', 'title' => "Choose one of the following...",
+                        {!! Form::select('duration', $duration, null, ['class' => 'form-control selectpicker', 'title' => "Pilih Durasi",
                         'data-live-search'=>'true', 'required'=>'required', 'id'=>'c_duration']) !!}
                         @error('duration')
                         <div class="form-text text-danger">{{$message}}</div>
@@ -57,7 +57,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="form-group row" id="data_5">
+                <!-- <div class="form-group row" id="data_5">
                     <label class="col-lg-3 col-form-label">Pilih Metode pembayaran</label>
                     <div class="col-lg-9">
                         <div class="row">
@@ -93,10 +93,9 @@
                             <a href="#" class="close fileinput-exists" data-dismiss="fileinput" style="float: none"
                                 onclick="removeImage()">×</a>
                         </div>
-                        <!-- Image preview -->
                         <div id="imagePreview"></div>
                     </div>
-                </div>
+                </div> -->
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>

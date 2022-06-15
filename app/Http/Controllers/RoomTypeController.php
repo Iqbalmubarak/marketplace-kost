@@ -406,8 +406,16 @@ class RoomTypeController extends Controller
         return $data;
     }
 
-    public function roomTypeDestroy($id){
-        dd($id);
+    public function roomTypeDestroy($id)
+    {
+        try {
+            $roomType = RoomType::find($id);
+            $roomType->delete();
+            return redirect()->back()->with('success', __('toast.delete.success.message'));
+            
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', __('toast.delete.failed.message'));
+        }
     }
 
     

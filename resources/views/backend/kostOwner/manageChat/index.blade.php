@@ -35,7 +35,7 @@
                             <div class="chat-discussion" id="chat-content">
                                 @if ($chat)
                                     @foreach($chat->chatDetail as $chatDetail)
-                                    @if ($chatDetail->sender == Auth::user()->kostOwner->id)
+                                    @if ($chatDetail->sender == Auth::user()->id)
                                     <div class="chat-message right">
                                         <img class="message-avatar" src="@if ($chat->kostOwner->avatar)
                                                     {{ asset('storage/images/avatar/'.$chat->kostOwner->avatar) }}
@@ -110,7 +110,7 @@
                                 <div class="form-group">
                                     @if ($chat)
                                         <button class="btn btn-primary" type="button"
-                                        onclick="sendMessage({{$chat->kostSeeker->id}},{{Auth::user()->kostOwner->id}} , {{$chat->kost->id}})">Send</button>
+                                        onclick="sendMessage({{Auth::user()->id}}, {{$chat->kostSeeker->user->id}}, {{$chat->kostSeeker->id}}, {{Auth::user()->kostOwner->id}}, {{$chat->kost->id}})">Send</button>
                                     @else
                                         <button class="btn btn-primary send" type="button">Send</button>
                                     @endif
@@ -153,7 +153,7 @@
         toastr.warning("Penerima pesan belum dipilih");
     });
 
-    function sendMessage(kostSeeker, kostOwner, kost) {
+    function sendMessage(sender, receiver,kostSeeker, kostOwner, kost) {
         let message = $('#send-message').val();
         console.log(kostSeeker);
         console.log(kostOwner);
@@ -161,7 +161,7 @@
 
         let base_url = "{{URL('api/message/send_message')}}";
         $.ajax({
-            url: base_url + "?kostSeeker=" + kostSeeker + "&kostOwner=" + kostOwner + "&kost=" + kost +  "&message=" + message,
+            url: base_url + "?sender="+sender+ "&receiver="+receiver+"&kostSeeker=" + kostSeeker + "&kostOwner=" + kostOwner + "&kost=" + kost +  "&message=" + message,
             dataType: 'json',
             cache: false,
             dataSrc: '',

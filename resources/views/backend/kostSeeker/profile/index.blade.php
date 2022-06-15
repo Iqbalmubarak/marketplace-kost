@@ -112,6 +112,7 @@
                             </div>
                             <ul id="product-tabs" class="nav nav-tabs nav-tab-cell">
                                 <li class="active"><a data-toggle="tab" href="#description">Profil</a></li>
+                                <li><a data-toggle="tab" href="#password">Ubah Password</a></li>
                                 <li><a data-toggle="tab" href="#booking">PEMESANAN KAMAR</a></li>
                                 <li><a data-toggle="tab" href="#rent">PENYEWAAN KAMAR</a></li>
                             </ul><!-- /.nav-tabs #product-tabs -->
@@ -277,6 +278,36 @@
                                                 @enderror</span></label>
                                         <textarea name="address" id="address"
                                             class="form-control unicase-form-control text-input @error('handphone') is-invalid @enderror">{{$user->kostSeeker->address}}</textarea>
+                                    </div>
+                                    <div class="form-group col-md-12 col-sm-12">
+                                        <button type="submit"
+                                            class="btn-upper btn btn-primary checkout-page-button">Simpan</button>
+                                    </div>
+                                    {!! Form::close() !!}
+                                </div><!-- /.tab-pane -->
+                                <div id="password" class="tab-pane in active">
+                                    {{ Form::open(array('method'=>'POST', 'url' => route('customer.auth.changePassword.store'))) }}
+                                    <div class="form-group col-md-12 col-sm-12">
+                                        <label class="info-title" for="password">New Password
+                                            <span>@error('password')
+                                                <div class="invalid-feedback">
+                                                    {{$message}}
+                                                </div>
+                                                @enderror</span></label>
+                                        <input name="password" type="password"
+                                            class="form-control @error('password') is-invalid @enderror"> <span
+                                            class="form-text m-b-none"></span>
+                                    </div>
+                                    <div class="form-group col-md-12 col-sm-12">
+                                        <label class="info-title" for="password_confirmation">Confirm Password
+                                            <span>@error('password_confirmation')
+                                                <div class="invalid-feedback">
+                                                    {{$message}}
+                                                </div>
+                                                @enderror</span></label>
+                                        <input name="password_confirmation" type="password"
+                                            class="form-control @error('password_confirmation') is-invalid @enderror"> <span
+                                            class="form-text m-b-none"></span>
                                     </div>
                                     <div class="form-group col-md-12 col-sm-12">
                                         <button type="submit"

@@ -22,32 +22,39 @@ class ChatController extends Controller
                 ->orderby('updated_at','desc')
                 ->get();
 
-                $chat = Chat::where('kost_seeker_id', Auth::user()->kostSeeker->id)
-                ->orderby('updated_at','desc')
-                ->first();
+                if($chats->count() > 0){
+                    $chat = Chat::where('kost_seeker_id', Auth::user()->kostSeeker->id)
+                    ->orderby('updated_at','desc')
+                    ->first();
 
-                if($chat){
-                    $chat->seeker_status = 1;
-                    $chat->save();
-                }
+                    if($chat){
+                        $chat->seeker_status = 1;
+                        $chat->save();
+                    }
 
                 return view('backend.kostSeeker.chat.index', compact('chats', 'chat'));
+                }else{
+                    return redirect()->back()->with('warning', __('Anda belum memiliki obrolan'));
+                }
             }else{
                 $chats = Chat::where('kost_owner_id', Auth::user()->kostOwner->id)
                 ->orderby('updated_at','desc')
                 ->get();
 
-                $chat = Chat::where('kost_owner_id', Auth::user()->kostOwner->id)
-                ->orderby('updated_at','desc')
-                ->first();
+                if($chats->count() > 0){
+                    $chat = Chat::where('kost_owner_id', Auth::user()->kostOwner->id)
+                    ->orderby('updated_at','desc')
+                    ->first();
 
-                if($chat){
-                    $chat->owner_status = 1;
-                    $chat->save();
+                    if($chat){
+                        $chat->owner_status = 1;
+                        $chat->save();
+                    }
+                    return view('backend.kostOwner.manageChat.index', compact('chats', 'chat'));
+                }else{
+                    return redirect()->back()->with('warning', __('Anda belum memiliki obrolan'));
                 }
                 
-
-                return view('backend.kostOwner.manageChat.index', compact('chats', 'chat'));
             }
 
             

@@ -11,7 +11,7 @@
     </a>
     <ul class="dropdown-menu animated fadeInRight m-t-xs">
         <li><a class="dropdown-item" href="{{route('profile.index')}}">Profile</a></li>
-        <li><a class="dropdown-item" href="{{route('profile.index')}}">Ubah Password</a></li>
+        <li><a class="dropdown-item" href="{{route('owner.auth.changePassword')}}">Ubah Password</a></li>
         <li class="dropdown-divider"></li>
         <li><a class="dropdown-item" onclick="logout()">Logout</a></li>
         <form id="logout-form" action="{{route('logout')}}" method="POST">@csrf</form>

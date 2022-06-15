@@ -5,13 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ChatDetail extends Model
+class Location extends Model
 {
     use HasFactory;
 
-    public function chat()
+    public function locationCategory()
     {
-        return $this->hasOne(Chat::class, 'id', 'chat_id');
+        return $this->hasOne(LocationCategory::class, 'id', 'location_category_id');
     }
-
 }

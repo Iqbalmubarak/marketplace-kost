@@ -553,7 +553,7 @@
                         ` <a class="btn btn-success btn-sm" onclick="editRoomType(` + data +
                         `)" href="javascript::void(0)">Edit</a>` +
 
-                        ` <a class="btn btn-danger btn-sm" onclick="confirm_delete(` +
+                        ` <a class="btn btn-danger btn-sm" onclick="delete_room_type(` +
                         data + `)" href="javascript::void(0)">Delate</a>` +
                         ``;
                 },
@@ -829,7 +829,7 @@
             function (isConfirm) {
                 if (isConfirm) {
                     swal("Terhapus!", "Data kamu telah terhapus.", "success");
-                    $('#deleted_room_type').attr('action', "{{route('owner.kost.index')}}/" + id);
+                    $('#deleted_room_type').attr('action', "{{route('owner.kost.index')}}/"+id+"/room_type-destroy");
                     $('#deleted_room_type').submit();
                 } else {
                     swal("Dibatalkan", "Data kamu aman :)", "error");

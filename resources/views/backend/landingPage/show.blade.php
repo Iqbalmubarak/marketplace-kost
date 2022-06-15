@@ -103,8 +103,7 @@
 @endsection
 
 @section('content')
-<script type="text/javascript"
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCdGrzi3vv43yyxfcFiBRoGVqvtZcJ2lIM"></script>
+<script src="http://maps.googleapis.com/maps/api/js"></script>
 <div class="breadcrumb">
     <div class="container">
         <div class="breadcrumb-inner">
@@ -393,16 +392,6 @@
                                 <div id="review" class="tab-pane">
                                     <div class="product-tab">
 
-                                        <div class="product-reviews">
-
-                                            <div class="reviews">
-
-
-
-
-                                            </div><!-- /.reviews -->
-                                        </div><!-- /.product-reviews -->
-
 
 
                                         <div class="product-add-review"><br>
@@ -426,7 +415,7 @@
                                             <br><br>
                                             <h4 class="title">Peta lokasi :</h4>
                                             <div class="review-table">
-                                                <div style="width: 100%" class="google-map" id="map"></div>
+                                                <div id="map" style="width:100%;height:380px;"></div>
                                             </div><!-- /.review-table -->
 
 
@@ -615,10 +604,10 @@
     <div class="content" id="chat-content">
         @if ($chat)
             @foreach ($chat->chatDetail as $chatDetail)
-                @if($chatDetail->sender == Auth::user()->kostSeeker->id)
+                @if($chatDetail->sender == Auth::user()->id)
                     <div class="right">
                         <div class="author-name">
-                            {{$chatDetail->kostSeeker->first_name}} {{$chatDetail->kostSeeker->last_name}}
+                            {{$chatDetail->chat->kostSeeker->first_name}} {{$chatDetail->chat->kostSeeker->last_name}}
                             <br>
                             <small class="chat-date">
                                 {{$chatDetail->created_at->format('d M Y h.i A')}}
@@ -647,15 +636,34 @@
     </div>
     <div class="form-chat">
         <div class="input-group input-group-sm"><input type="text" id="send-message" class="form-control"> <span class="input-group-btn">
-                <button class="btn btn-primary" type="button" onclick="sendMessage({{Auth::user()->kostSeeker->id}}, {{$roomType->kost->kostOwner->id}}, {{$roomType->kost->id}}, {{Auth::user()->isCustomer()}})">Send
+                <button class="btn btn-primary" type="button" onclick="sendMessage({{Auth::user()->id}}, {{$roomType->kost->kostOwner->user->id}}, {{Auth::user()->kostSeeker->id}}, {{$roomType->kost->kostOwner->id}}, {{$roomType->kost->id}}, {{Auth::user()->isCustomer()}})">Send
                 </button> </span>
         </div>
     </div>
     
 
 </div>
+
 @endif
 
+    <!-- Menyisipkan library Google Maps -->
+    <script src="http://maps.googleapis.com/maps/api/js"></script>
+
+    <script>
+        // fungsi initialize untuk mempersiapkan peta
+        function initialize() {
+        var propertiPeta = {
+            center:new google.maps.LatLng(-8.5830695,116.3202515),
+            zoom:9,
+            mapTypeId:google.maps.MapTypeId.ROADMAP
+        };
+        
+        var peta = new google.maps.Map(document.getElementById("googleMap"), propertiPeta);
+        }
+
+        // event jendela di-load  
+        google.maps.event.addDomListener(window, 'load', initialize);
+    </script>
 @endsection
 
 @section('script')
@@ -693,7 +701,6 @@
 <script src="{{ asset('templates/js/plugins/metisMenu/jquery.metisMenu.js') }}"></script>
 
 <script>
-    // When the window has finished loading google map
     google.maps.event.addDomListener(window, 'load', init);
 
     function init() {
@@ -797,19 +804,133 @@
 
         // Variabel untuk menyimpan batas kordinat
         bounds = new google.maps.LatLngBounds();
-        
+
+        $.ajax({
+            url: "{{url('api/kost/get-location')}}?id={{$roomType->kost->id}}",
+            dataType: 'json',
+            cache: false,
+            dataSrc: '',
+
+            success: function (data) {
+                var latitude = data.map(function (item) {
+                    return item.latitude;
+                });
+                var longitude = data.map(function (item) {
+                    return item.longitude;
+                });
+                var latlng = new google.maps.LatLng(parseFloat(latitude), parseFloat(longitude));
+                for (i = 0; i < data.length; i++) {
+                    var pos = {
+                        lat: parseFloat(latitude[i]),
+                        lng: parseFloat(longitude[i])
+                    };
+                    var marker = new google.maps.Marker({
+                        position: pos,
+                        map: map,
+                        title: 'Lokasi Anda',
+                        icon: '{{asset("marker/kost.png")}}',
+                        draggable: true,
+                        animation: google.maps.Animation.DROP
+                    });
+                    marker.setMap(map);
+                    map.setCenter(latlng);
+                    // for(i=0; i<arrays.length; i++){
+                    //     var data = arrays
+                    //     console.log(data.properties.center['latitude']);
+                    // }                   
+                }
+            }
+
+        });
+        $.ajax({
+            url: "{{url('api/map/get-around')}}?latitude={{$roomType->kost->latitude}}&&longitude={{$roomType->kost->longitude}}",
+            dataType: 'json',
+            cache: false,
+            dataSrc: '',
+
+            success: function (data) {
+                console.log(data);
+                var latitude = data.map(function (item) {
+                    return item.latitude;
+                });
+                var longitude = data.map(function (item) {
+                    return item.longitude;
+                });
+                var latlng = new google.maps.LatLng(parseFloat(latitude), parseFloat(longitude));
+                for (i = 0; i < data.length; i++) {
+                    var pos = {
+                        lat: parseFloat(latitude[i]),
+                        lng: parseFloat(longitude[i])
+                    };
+                    var marker = new google.maps.Marker({
+                        position: pos,
+                        map: map,
+                        title: 'Lokasi Anda',
+                        icon: 'https://img.icons8.com/external-kmg-design-outline-color-kmg-design/32/000000/external-map-map-and-navigation-kmg-design-outline-color-kmg-design-3.png',
+                        draggable: true,
+                        animation: google.maps.Animation.DROP
+                    });
+                    marker.setMap(map);
+                    map.setCenter(latlng);
+                    // for(i=0; i<arrays.length; i++){
+                    //     var data = arrays
+                    //     console.log(data.properties.center['latitude']);
+                    // }                   
+                }
+            }
+
+        });
+
+        // $.post(
+        //     "{{url('api/map/get-around')}}", 
+        //     {
+        //         "_token": "{{ csrf_token() }}",
+        //         latitude: {{$roomType->kost->latitude}},
+        //         longitude: {{$roomType->kost->longitude}}
+        //     }, 
+        //     function(result){
+        //         for(var i=0; i<result.length; i++)
+        //         {
+        //             var pos = {
+        //                 lat: parseFloat(result[i].latitude),
+        //                 lng: parseFloat(result[i].longitude)
+        //             };
+        //             var content = `<div>
+        //                                 <h5>`+result[i].name+`</h5>
+        //                             </div>`;
+        //             addMarker(result[i].latitude, result[i].longitude, content);
+        //         }
+        //         var location;
+        //         var marker;
+        //         function addMarker(lat, lng, info){
+        //             location = new google.maps.LatLng(lat, lng);
+        //             bounds.extend(location);
+        //             marker = new google.maps.Marker({
+        //                 map: map,
+        //                 position: location,
+        //                 icon: '{{asset("marker/kost.png")}}',
+        //                 animation: google.maps.Animation.DROP
+        //             });       
+        //             map.fitBounds(bounds);
+        //             bindInfoWindow(marker, map, infoWindow, info);
+        //         }
+        //         // Proses ini dapat menampilkan informasi lokasi Kota/Kab ketika diklik dari masing-masing markernya
+        //         function bindInfoWindow(marker, map, infoWindow, html){
+        //             google.maps.event.addListener(marker, 'click', function() {
+        //                 infoWindow.setContent(html);
+        //                 infoWindow.open(map, marker);
+        //             });
+        //         }
+        //     }
+        // )
     }
-    
-    function sendMessage(kostSeeker, kostOwner, kost, status) {
+    function sendMessage(sender, receiver, kostSeeker, kostOwner, kost, status) {
         let message = $('#send-message').val();
-        console.log(kostSeeker);
-        console.log(kostOwner);
-        console.log(kost);
 
         let base_url = "{{URL('api/message/send_message')}}";
         $.ajax({
             
-            url: base_url + "?kostSeeker=" + kostSeeker + "&kostOwner=" + kostOwner + "&kost=" + kost +  "&message=" + message + "&status=" + status,
+            url: base_url + "?sender="+sender+ "&receiver="+receiver+"&kostSeeker=" + kostSeeker + "&kostOwner=" + kostOwner + "&kost=" + kost +  "&message=" + message + "&status=" + status,
             dataType: 'json',
             cache: false,
             dataSrc: '',

@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Carbon\Carbon;
 
 class BookingList extends JsonResource
 {
@@ -15,18 +16,29 @@ class BookingList extends JsonResource
     public function toArray($request)
     {
         $name = $this->kostSeeker->first_name." ".$this->kostSeeker->last_name;
-        if($this->status == 1){
-            $status = '<p><span class="badge badge-plain">Sedang Diajukan</span></p>';
-        }elseif($this->status == 2){
-            $status = '<p><span class="badge badge-success">Diterima</span></p>';
+        $payment = 0;
+        if($this->bookingPayment){
+            if($this->status == 1){
+                $payment = 1;
+                $status = '<p><span class="badge badge-warning">Telah melakukan pembayaran</span></p>';
+            }elseif($this->status == 2){
+                $status = '<p><span class="badge badge-success">Diterima</span></p>';
+            }else{
+                $status = '<p><span class="badge badge-danger">Ditolak</span></p>';
+            }
         }else{
-            $status = '<p><span class="badge badge-danger">Ditolak</span></p>';
+            if(Carbon::now() <= Carbon::parse($this->created_at)->addHour()){
+                $status = '<p><span class="badge badge-plain">Menunggu pembayaran</span></p>';
+            }else{
+                $status = '<p><span class="badge badge-danger">Expired</span></p>';
+            }
         }
 
         $total_price = "Rp. ".number_format($this->total_price, 0, ',', '.'). ",00";
 
         return [
             'id' => $this->id,
+            'payment' => $payment,
             'room_type' => $this->roomType->name,
             'room_type_id' => $this->room_type_id,
             'kost' => $this->roomType->kost->name,

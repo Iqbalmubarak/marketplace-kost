@@ -77,7 +77,6 @@ class ProfileController extends Controller
                 return redirect()->route('profile.index')->with('success', __('toast.update.success.message')); 
             }
         } catch (\Exception $e) {
-            dd($e);
             return redirect()->back();
         }
     }

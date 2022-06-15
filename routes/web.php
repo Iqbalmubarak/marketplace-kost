@@ -16,6 +16,7 @@ use App\Http\Controllers\LandingPageController;
 use App\Http\Controllers\RentDetailController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ChatController;
+use App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -72,6 +73,10 @@ Route::prefix('admin')->middleware(['auth', 'auth.isAdmin'])->name('admin.')->gr
 });
 
 Route::prefix('owner')->middleware(['auth', 'auth.isOwner'])->name('owner.')->group(function () {
+    //Auth
+    Route::get('/change-password', [AuthController::class, 'changePassword'])->name('auth.changePassword');
+    Route::post('/change-password/store', [AuthController::class, 'storeChangePassword'])->name('auth.changePassword.store');
+
     //Kost
     Route::resource('/kost', KostController::class);
     Route::post('/kost/{id}/request', [KostController::class, 'request'])->name('kost.request');
@@ -81,7 +86,7 @@ Route::prefix('owner')->middleware(['auth', 'auth.isOwner'])->name('owner.')->gr
     Route::post('/kost/{id}/room_type-store', [RoomTypeController::class, 'roomTypeStore'])->name('kost.room_type.store');
     Route::get('/kost/{id}/room_type-edit', [RoomTypeController::class, 'roomTypeEdit'])->name('kost.room_type.edit');
     Route::patch('/kost/{id}/room_type-update', [RoomTypeController::class, 'roomTypeUpdate'])->name('kost.room_type.update');
-    Route::patch('/kost/{id}/room_type-destroy', [RoomTypeController::class, 'roomTypeDestroy'])->name('kost.room_type.destroy');
+    Route::delete('/kost/{id}/room_type-destroy', [RoomTypeController::class, 'roomTypeDestroy'])->name('kost.room_type.destroy');
     
     //Room
     Route::resource('/room', RoomController::class);
@@ -112,11 +117,17 @@ Route::prefix('owner')->middleware(['auth', 'auth.isOwner'])->name('owner.')->gr
 });
 
 Route::prefix('customer')->middleware(['auth', 'auth.isCustomer'])->name('customer.')->group(function () {
+    //Auth
+    Route::get('/change-password', [AuthController::class, 'changePassword'])->name('auth.changePassword');
+    Route::post('/change-password/store', [AuthController::class, 'storeChangePassword'])->name('auth.changePassword.store');
+    
     //Commerce
     Route::resource('/commerce', CommerceController::class);
+    Route::post('/commerce/payment', [CommerceController::class, 'payment'])->name('commerce.payment');
 
     //Booking
     Route::get('/booking/customer', [BookingController::class, 'indexCustomer'])->name('booking.indexCustomer');
+    Route::get('/booking/customer/{id}', [BookingController::class, 'showCustomer'])->name('booking.showCustomer');
     Route::post('/booking/customer/payment', [BookingController::class, 'payment'])->name('booking.payment');
 
     Route::resource('/history', HistoryController::class);

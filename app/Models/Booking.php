@@ -23,4 +23,11 @@ class Booking extends Model
     {
         return $this->hasOne(RoomType::class, 'id', 'room_type_id');
     }
+
+    public function bookingPayment()
+    {
+        return $this->hasOne(bookingPayment::class, 'booking_id', 'id');
+    }
+
+
 }

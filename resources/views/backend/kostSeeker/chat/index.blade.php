@@ -35,11 +35,11 @@
                         <div class="ibox-content">
 
                             <div class="row">
-
+                                @if($chat)
                                 <div class="col-md-9 ">
                                     <div class="chat-discussion" id="chat-content">
                                         @foreach($chat->chatDetail as $chatDetail)
-                                        @if ($chatDetail->sender == Auth::user()->kostSeeker->id)
+                                        @if ($chatDetail->sender == Auth::user()->id)
                                         <div class="chat-message right">
                                             <img class="message-avatar" src="@if ($chat->kostSeeker->avatar)
                                                 {{ asset('storage/images/avatar/'.$chat->kostSeeker->avatar) }}
@@ -74,6 +74,7 @@
                                     </div>
 
                                 </div>
+                                @endif
                                 <div class="col-md-3">
                                     <div class="chat-users">
                                         @foreach ($chats as $chatList)
@@ -106,7 +107,7 @@
                                                 placeholder="Enter message text" id="send-message"></textarea>
                                         </div>
                                         <div class="form-group">
-                                            <button class="btn btn-primary" type="button" onclick="sendMessage({{Auth::user()->kostSeeker->id}}, {{$chat->kostOwner->id}}, {{$chat->kost->id}}, {{Auth::user()->isCustomer()}})">Send</button>
+                                            <button class="btn btn-primary" type="button" onclick="sendMessage({{Auth::user()->id}}, {{$chat->kostOwner->user->id}}, {{Auth::user()->kostSeeker->id}}, {{$chat->kostOwner->id}}, {{$chat->kost->id}}, {{Auth::user()->isCustomer()}})">Send</button>
                                         </div>
                                     </div>
                                     
@@ -128,15 +129,11 @@
 
 @section('script')
 <script>
-    function sendMessage(kostSeeker, kostOwner, kost, status) {
+    function sendMessage(sender, receiver, kostSeeker, kostOwner, kost, status) {
         let message = $('#send-message').val();
-        console.log(kostSeeker);
-        console.log(kostOwner);
-        console.log(kost);
-
         let base_url = "{{URL('api/message/send_message')}}";
         $.ajax({
-            url: base_url + "?kostSeeker=" + kostSeeker + "&kostOwner=" + kostOwner + "&kost=" + kost +  "&message=" + message + "&status=" + status,
+            url: base_url + "?sender="+sender+ "&receiver="+receiver+"&kostSeeker=" + kostSeeker + "&kostOwner=" + kostOwner + "&kost=" + kost +  "&message=" + message + "&status=" + status,
             dataType: 'json',
             cache: false,
             dataSrc: '',

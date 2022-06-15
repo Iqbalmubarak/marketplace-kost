@@ -212,7 +212,6 @@ class LandingPageController extends Controller
             $roomTypes = RoomType::whereIn('id', $room_type_id)->orderby('name', 'asc')->paginate(8);
             return view('backend.landingPage.info', compact('roomTypes'));
         } catch (\Exception $e) {
-            dd($e);
             return redirect()->back();
         }
     }
@@ -241,7 +240,6 @@ class LandingPageController extends Controller
             }
             return view('backend.landingPage.show', compact('roomType','others','duration','today', 'chat', 'paymentMethodDetails'));
         } catch (\Exception $e) {
-            dd($e);
             return redirect()->back();
         }
     }

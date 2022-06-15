@@ -12,6 +12,7 @@ use App\Http\Controllers\api\SelectController;
 use App\Http\Controllers\api\PaymentController;
 use App\Http\Controllers\api\MessageController;
 use App\Http\Controllers\api\ChartController;
+use App\Http\Controllers\api\MapController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\RentController;
 use App\Http\Controllers\HistoryController;
@@ -50,6 +51,7 @@ Route::get('/select/rentRange/{id}',[SelectController::class, 'rentRange']);
 
 //Select
 Route::get('/payment/rent-payment/{id}',[PaymentController::class, 'rentPayment'])->name('payment.rent-payment');
+Route::get('/payment/booking-payment/{id}',[PaymentController::class, 'bookingPayment'])->name('payment.booking-payment');
 Route::post('/payment/add-paymentMethod',[PaymentController::class, 'addPaymentMethod'])->name('payment.addPaymentMethod');
 Route::post('/payment/get-paymentMethod',[PaymentController::class, 'getPaymentMethod'])->name('payment.getPaymentMethod');
 
@@ -59,7 +61,12 @@ Route::delete('/kost/{id}/destroy-roomTypeImage', [RoomTypeController::class, 'd
 
 //Message
 Route::get('/message/send_message',[MessageController::class, 'sendMessage'])->name('message.sendMessage');
+Route::get('/message/notification',[MessageController::class, 'notification'])->name('message.notification');
 
 //Chart
 Route::get('/chart/chart_income',[ChartController::class, 'chartIncome'])->name('chart.chartIncome');
+
+//Map
+Route::post('/map/get-kost', [MapController::class, 'getKost'])->name('map.getKost');
+Route::get('/map/get-around', [MapController::class, 'getAround'])->name('map.getAround');
 

@@ -40,7 +40,6 @@ class BookingController extends Controller
             }
             
         } catch (\Exception $e) {
-            dd($e);
             return redirect()->back();
         }
     }
@@ -52,7 +51,19 @@ class BookingController extends Controller
             $bookings = Booking::where('kost_seeker_id', Auth::user()->kostSeeker->id)->orderby('id','desc')->get();
             return view('backend.kostSeeker.manageBooking.index', compact('bookings'));
         } catch (\Exception $e) {
+            dd($e);
             return redirect()->back();
+        }
+    }
+
+    public function showCustomer($id)
+    {
+        try {       
+            $booking = Booking::find($id);
+            return view('backend.kostSeeker.manageBooking.show', compact('booking'));
+
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', __('toast.index.failed.message'));
         }
     }
 
@@ -63,10 +74,11 @@ class BookingController extends Controller
      */
     public function show($id)
     {
-        try {       
+        try {
+            $room = Room::pluck('name', 'id');       
             $booking = Booking::find($id);
 
-            return view('backend.kostOwner.manageBooking.show', compact('booking'));
+            return view('backend.kostOwner.manageBooking.show', compact('booking','room'));
 
         } catch (\Exception $e) {
             return redirect()->back()->with('error', __('toast.index.failed.message'));
@@ -190,7 +202,7 @@ class BookingController extends Controller
         }
         //?data=all
         if($request->data=="owner"){
-            $kosts = Kost::where('kost_owner_id', Auth::user()->kostOwner->id)->get();
+            $kosts = Kost::where('kost_owner_id', 1)->get();
             $kost_id = collect([]);
             foreach($kosts as $kost){
                 $kost_id->push($kost->id);

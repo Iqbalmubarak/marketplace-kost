@@ -9,6 +9,7 @@ use App\Models\Chat;
 use App\Models\ChatDetail;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use Twilio\Rest\Client;
 
 class MessageController extends Controller
 {
@@ -21,11 +22,11 @@ class MessageController extends Controller
       $chatDetail = new ChatDetail;
       $chatDetail->chat_id = $chat->id;
       if($request->status){
-        $chatDetail->sender = $request->kostSeeker;
-        $chatDetail->receiver = $request->kostOwner;
+        $chatDetail->sender = $request->sender;
+        $chatDetail->receiver = $request->receiver;
       }else{
-        $chatDetail->sender = $request->kostOwner;
-        $chatDetail->receiver = $request->kostSeeker;
+        $chatDetail->sender = $request->sender;
+        $chatDetail->receiver = $request->receiver;
       }
       $chatDetail->message = $request->message;
       $chatDetail->save();
@@ -43,18 +44,18 @@ class MessageController extends Controller
       $chatDetail = new ChatDetail;
       $chatDetail->chat_id = $chat->id;
       if($request->status){
-        $chatDetail->sender = $request->kostSeeker;
-        $chatDetail->receiver = $request->kostOwner;
+        $chatDetail->sender = $request->sender;
+        $chatDetail->receiver = $request->receiver;
       }else{
-        $chatDetail->sender = $request->kostOwner;
-        $chatDetail->receiver = $request->kostSeeker;
+        $chatDetail->sender = $request->sender;
+        $chatDetail->receiver = $request->receiver;
       }
       $chatDetail->message = $request->message;
       $chatDetail->save();
     }
     $data = [
-      "name" => $chatDetail->kostSeeker->first_name." ".$chatDetail->kostSeeker->last_name,
-      "avatar" => $chatDetail->kostSeeker->avatar,
+      "name" => $chatDetail->chat->kostSeeker->first_name." ".$chatDetail->chat->kostSeeker->last_name,
+      "avatar" => $chatDetail->chat->kostSeeker->avatar,
       "message" => $request->message,
       "created_at" =>$chatDetail->created_at->format('d M Y h.i A'),
       "created_atV2" =>$chatDetail->created_at->format('D M d Y - H:i:s')
