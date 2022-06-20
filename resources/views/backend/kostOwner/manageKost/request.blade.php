@@ -31,7 +31,6 @@
     </div>
 </div>
 
-
 <div class="row wrapper wrapper-content animated fadeInRight">
     <div class="col-lg-12">
         <div class="ibox">
@@ -497,28 +496,6 @@
         });
     }
 
-    // $(document).on("click", ".delete", function() { 
-    //     var $ele = $(this).parent().parent();
-    //     //var id= $(this).val();
-    //     var id= 20;
-    //     var url = "{{URL('owner/kost')}}";
-    //     var dltUrl = url+"/"+id+"/destroy-image";
-    // 	$.ajax({
-    // 		url: dltUrl,
-    // 		type: "DELETE",
-    // 		cache: false,
-    // 		data:{
-    // 			_token:'{{ csrf_token() }}'
-    // 		},
-    // 		success: function(dataResult){
-    // 			var dataResult = JSON.parse(dataResult);
-    // 			if(dataResult.statusCode==200){
-    // 				$ele.fadeOut().remove();
-    // 			}
-    // 		}
-    // 	});
-    // });
-
     function check() {
         $("#row-manager").toggle(this.checked);
         $("#row-handphone").toggle(this.checked);
@@ -550,43 +527,7 @@
         var preview = document.getElementById('imagePreview');
         preview.removeChild(image);
     }
-    // Dropzone.options.myDropzone = {
-
-    //     // Prevents Dropzone from uploading dropped files immediately
-    //     autoProcessQueue: false,
-    //     uploadMultiple: true,
-    //     maxFilesize: 10,
-    //     maxFiles: 2,
-    //     addRemoveLinks: true,
-    //     acceptedFiles: ".png, .jpg",
-
-    //     init: function () {
-    //         var submitButton = document.querySelector("#submit-all")
-    //         myDropzone = this; // closure
-
-    //         submitButton.addEventListener("click", function (e) {
-    //             console.log(myDropzone.processQueue());
-    //             e.preventDefault();
-    //             e.stopPropagation();
-    //             myDropzone.processQueue(); // Tell Dropzone to process all queued files.
-    //         });
-
-    //         // You might want to show the submit button only when 
-    //         // files are dropped here:
-    //         // this.on("addedfile", function() {
-    //         //   // Show submit button here and/or inform user to click it.
-    //         //   alert("se agrego un archivo");
-    //         // });
-
-    //         this.on("complete", function (file) {
-    //             myDropzone.removeFile(file);
-    //         });
-
-    //     }
-    // };
-
-
-
+    
     function myclone() {
         $("#repet")
             .eq(0)

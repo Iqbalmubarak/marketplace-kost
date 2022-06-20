@@ -1,5 +1,4 @@
 @extends('layouts.admin.main')
-
 @section('css')
 <link href="{{ asset('templates/css/plugins/slick/slick.css') }}" rel="stylesheet">
 <link href="{{ asset('templates/css/plugins/slick/slick-theme.css') }}" rel="stylesheet">
@@ -8,7 +7,6 @@
 <link href="{{ asset('templates/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css') }}"
     rel="stylesheet">
 @endsection
-
 @section('content')
 <script type="text/javascript"
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCdGrzi3vv43yyxfcFiBRoGVqvtZcJ2lIM"></script>
@@ -33,7 +31,6 @@
 
     </div>
 </div> <br>
-
 @if ($kost->status == 2)
 <div class="row wrapper border-bottom white-bg page-heading">
     <div class="col-lg-12" style="color:red; text-align:center;">
@@ -46,8 +43,6 @@
     </div>
 </div>
 @endif
-
-
 <div class="row wrapper wrapper-content animated fadeInRight justify-content-md-center">
     <div class="col-lg-12">
         <div class="ibox product-detail">

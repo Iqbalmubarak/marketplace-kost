@@ -16,6 +16,8 @@ use App\Models\RentDetail;
 use App\Models\KostSeeker; 
 use App\Http\Resources\BookingList;
 use Illuminate\Support\Facades\Auth;
+use App\Mail\NotifyMail;
+use Mail;
 
 class BookingController extends Controller
 {
@@ -130,7 +132,6 @@ class BookingController extends Controller
             
             return redirect()->back()->with('success', __('toast.confirm.success.message')) ;
         } catch (\Exception $e) {
-            dd($e);
             return redirect()->back()->with('error', __('toast.confirm.failed.message'));
         }
     }
@@ -174,8 +175,29 @@ class BookingController extends Controller
             $tenant->kost_id = $room->kost_id;
             $tenant->save();
 
+            $time = strtotime($rentDetail->started_at);
+            $started_at = date('d M Y',$time);
+
+            $time = strtotime($rentDetail->ended_at);
+            $ended_at = date('d M Y',$time);
+            $details = [
+                'customer_name' => $booking->kostSeeker->first_name.' '.$booking->kostSeeker->last_name,
+                'started_at' => $started_at,
+                'token' => $booking->token,
+                'created_at' => $booking->created_at->format('d M Y - H.i.s'),
+                'kost_name' => $rent->room->kost->name,
+                'room_type' => $rent->room->roomType->name,
+                'room_name' => $rent->room->name,
+                'duration' => $booking->priceList->rentDuration->name,
+                'ended_at' => $ended_at,
+                'total_price' => $rentDetail->total_price,
+            ];
+
+            Mail::to('iqbalmubarak212@gmail.com')->send(new NotifyMail($details));
+
             return redirect()->route('owner.booking.index')->with('success', __('toast.confirm.success.message'));     
         } catch (\Exception $e) {
+            dd($e);
             return redirect()->back()->with('error', __('toast.confirm.failed.message'));
         }
     }

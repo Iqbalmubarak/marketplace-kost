@@ -19,6 +19,11 @@ class Booking extends Model
         return $this->hasOne(KostSeeker::class, 'id', 'kost_seeker_id');
     }
 
+    public function priceList()
+    {
+        return $this->hasOne(PriceList::class, 'id', 'price_list_id');
+    }
+
     public function roomType()
     {
         return $this->hasOne(RoomType::class, 'id', 'room_type_id');

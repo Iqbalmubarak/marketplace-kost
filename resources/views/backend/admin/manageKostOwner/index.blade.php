@@ -122,9 +122,7 @@
                 },
             ],
         });
-
     });
-
     function confirm_delete(id){
         swal({
             title: "Are you sure?",
@@ -146,13 +144,9 @@
             }
         });
     }
-
     function edit(id){
         $('#edit_kost_owner').attr('action', "{{route('admin.kost-owner.index' )}}/"+id+"/edit");
         $('#edit_kost_owner').submit();
     }
 </script>
-
-
-
 @endsection

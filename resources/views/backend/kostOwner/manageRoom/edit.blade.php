@@ -1,7 +1,7 @@
 <div class="col-lg-12 animated fadeInRight" id="room-edit" style="display:none">
     <div class="ibox">
         <div class="ibox-title">
-            <h5>Menambah kost</h5>
+            <h5>Mengedit kamar</h5>
         </div>
         <div class="ibox-content">
             {{ Form::open(array('method'=>'PATCH', 'url' => route('owner.kost.room.update', 0), 'id'=>'room-update')) }}

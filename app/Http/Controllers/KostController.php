@@ -76,7 +76,6 @@ class KostController extends Controller
             return redirect()->back()->with('error', __('toast.index.failed.message'));
         }
     }
-
     public function store(Request $request)
     {
         try {
@@ -91,8 +90,15 @@ class KostController extends Controller
             $kost->longitude = $request->longitude;
             $kost->kost_type_id = $request->kost_type;
             $kost->kost_owner_id = Auth::user()->kostOwner->id;
-            $kost->save();
-            
+            //IMB upload
+            $dir = storage_path().'/app/public/images/imb';
+            $fileImbUpload = $request->file('imb');                
+            if($fileImbUpload){
+                $fileName = Time().".".$fileImbUpload->getClientOriginalName();
+                $fileImbUpload->move($dir, $fileName);
+                $kost->imb = $fileName;
+            }
+            $kost->save();            
             if($kost->id){
                 $rules = Rule::all();
                 foreach($rules as $rule){
@@ -101,7 +107,6 @@ class KostController extends Controller
                     $ruleDetail->rule_id = $rule->id;
                     $ruleDetail->save();
                 }
-
                 //Rule detail
                 if($request->rule){
                     for($i=0; $i < count($request->rule); $i++){
@@ -112,12 +117,9 @@ class KostController extends Controller
                         $ruleDetail->save();
                     }
                 }
-                
-
                 //Rule upload
                 $dir = storage_path().'/app/public/images/rule';
                 $fileRuleUpload = $request->file('rule_upload');                
-
                 if($fileRuleUpload){
                     $fileName = Time().".".$fileRuleUpload->getClientOriginalName();
                     $fileRuleUpload->move($dir, $fileName);
@@ -127,7 +129,6 @@ class KostController extends Controller
                     $ruleUplaod->kost_id = $kost->id;
                     $ruleUplaod->save();
                 }
-
                 $facilities = Facility::whereIn('facility_type_id', [1, 2])->get();
                 foreach($facilities as $facility){
                     $kostFacilityDetail = new KostFacilityDetail;
@@ -492,6 +493,34 @@ class KostController extends Controller
             if($request->data == 'request'){
                 $kost->status = 0;
             }
+            if($request->file('imb')){
+                //Rule upload
+                if($kost->imb){
+                    if(File::exists(storage_path('images/imb/'.$kost->imb))){
+                        File::delete(storage_path('images/imb/'.$kost->imb));
+                    }
+
+                    $dir = storage_path().'/app/public/images/imb';
+                    $fileImbUpload = $request->file('imb');
+
+                    $fileName = Time().".".$fileImbUpload->getClientOriginalName();
+                    $fileImbUpload->move($dir, $fileName);
+
+                    if($fileImbUpload){
+                        $kost->imb = $fileName;
+                    }
+                }else{
+                    $dir = storage_path().'/app/public/images/imb';
+                    $fileImbUpload = $request->file('imb');
+
+                    $fileName = Time().".".$fileImbUpload->getClientOriginalName();
+                    $fileImbUpload->move($dir, $fileName);
+
+                    if($fileImbUpload){
+                        $kost->imb = $fileName;
+                    }
+                }
+            }
             $kost->save();
             
             if($kost->id){
@@ -794,7 +823,6 @@ class KostController extends Controller
 
             return redirect()->route('owner.kost.show', $id)->with('success', __('toast.update.success.message'));     
         } catch (\Exception $e) {
-            dd($e);
             return redirect()->back()->with('error', __('toast.update.failed.message'));
         }
     }
@@ -858,12 +886,29 @@ class KostController extends Controller
         }
     }
 
-    
+    public function destroy_image_rule($id)
+    {
+        try {
+            $file = RuleUpload::find($id);
+            if(Storage::exists('public/images/rule/'.$file->image)){
+                Storage::delete('public/images/rule/'.$file->image);
+            }
+            $file->delete();
+        
+            return json_encode(array('statusCode'=>200));
+            // return response()->json([
+            //     'status' => 200,
+            // ]);
+            
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', __('toast.delete.failed.message'));
+        }
+    }
 
     public function getLocation(Request $request)
     {
         $data = [];
-        $data = Kost::select(['latitude', 'longitude'])
+        $data = Kost::select(['latitude', 'longitude', 'name'])
         ->where('id', $request->id)
         ->get();
 

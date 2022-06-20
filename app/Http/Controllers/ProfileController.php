@@ -16,7 +16,7 @@ class ProfileController extends Controller
         try {
             if(Auth::user()->isCustomer()){
                 $user = Auth::user();
-                $cities = City::pluck('city_name','city_id');
+                $cities = City::pluck('cities_name','cities_id');
                 $job = [];
                 $job = ['1' => 'Mahasiswa', '2' => 'Karyawan', '3' => 'Lainnya'];
                 $histories = History::where('kost_seeker_id', Auth::user()->kostSeeker->id)->get();

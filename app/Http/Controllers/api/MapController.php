@@ -43,18 +43,14 @@ class MapController extends Controller
                     WHERE ( POW( ( 69.1 * ( longitude - -0.914518 ) * cos( 40.711676 / 57.3 ) ) , 2 ) + 
 								POW( ( 69.1 * ( latitude - 100.459526 ) ) , 2 ) ) < ( 1 *1 )");
 
-        $data = Location::select("locations.id", \DB::raw("6371 * acos(cos(radians(" . $request->latitude . "))
+        $datas = Location::select("locations.id", \DB::raw("6371 * acos(cos(radians(" . $request->latitude . "))
         * cos(radians(locations.latitude)) 
         * cos(radians(locations.longitude) - radians(" . $request->longitude . ")) 
         + sin(radians(" .$request->latitude. ")) 
-        * sin(radians(locations.latitude))) AS distance, locations.name, locations.latitude, locations.longitude"))
+        * sin(radians(locations.latitude))) AS distance, locations.name, locations.latitude, locations.longitude, locations.location_category_id"))
         ->having('distance', '<', 1)
         ->get();
-
-        foreach($data as $result){
-            $result->category = $result->locationCategory;
-        }
-
-        return response()->json($data);
+        
+        return response()->json($datas);
     }
 }

@@ -11,8 +11,6 @@ use App\Models\BookingPayment;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use Twilio\Rest\Client;
-use App\Mail\NotifyMail;
-use Mail;
 
 class CommerceController extends Controller
 {
@@ -76,10 +74,11 @@ class CommerceController extends Controller
             $booking->token = (string)$booking->id.$request->room_type.$request->price_list_id.$today;
             $booking->save();
 
-            Mail::to('iqbalmubarak212@gmail.com')->send(new NotifyMail());
+            
             
             return redirect()->route('customer.booking.indexCustomer', $request->room_type)->with('success', __('Berhasil melakukan penyewaan kamar')); 
         } catch (\Exception $e) {
+            dd($e);
             return redirect()->back()->with('error', __('Gagal melakukan penyewaan kamar'));
         }
     }
@@ -111,7 +110,6 @@ class CommerceController extends Controller
             }
             
         } catch (\Exception $e) {
-            dd($e);
             return redirect()->back()->with('error', __('Gagal melakukan penyewaan kamar'));
         }
     }

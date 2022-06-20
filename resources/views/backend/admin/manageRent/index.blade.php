@@ -35,8 +35,7 @@
                 <div class="ibox-content">
 
                     <div class="table-responsive">
-                        <table class="table table-striped table-bordered table-hover dataTables-rent"
-                            id="tbl_rent">
+                        <table class="table table-striped table-bordered table-hover dataTables-rent" id="tbl_rent">
                             <thead>
                                 <tr>
                                     <th>No</th>
@@ -141,13 +140,13 @@
                 orderable: false,
                 render: function (data, type, full, meta) {
                     var base = "{{url('/')}}";
-                    if(full.this_status == 1){
+                    if (full.this_status == 1) {
                         return `` +
-                        ` <a class="btn btn-white btn-sm" <i class="fa fa-check"></i> Terima</a>` +
+                            ` <a class="btn btn-white btn-sm" <i class="fa fa-check"></i> Terima</a>` +
 
-                        ` <a class="btn btn-white btn-sm"<i class="fa fa-times"></i> Tolak</a>` +
-                        ``;
-                    }else{
+                            ` <a class="btn btn-white btn-sm"<i class="fa fa-times"></i> Tolak</a>` +
+                            ``;
+                    } else {
                         return ``;
                     }
                 },
@@ -158,4 +157,3 @@
 
 </script>
 @endsection
-

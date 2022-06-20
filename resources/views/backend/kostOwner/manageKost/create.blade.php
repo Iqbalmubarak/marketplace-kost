@@ -1,11 +1,9 @@
 @extends('layouts.kostOwner.main')
-
 @section('css')
 <link href="{{ asset('templates/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css') }}"
     rel="stylesheet">
 <link href="{{ asset('templates/css/plugins/jasny/jasny-bootstrap.min.css') }}" rel="stylesheet">
 @endsection
-
 @section('content')
 <script type="text/javascript"
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCdGrzi3vv43yyxfcFiBRoGVqvtZcJ2lIM"></script>
@@ -30,8 +28,6 @@
 
     </div>
 </div>
-
-
 <div class="row wrapper wrapper-content animated fadeInRight">
     <div class="col-lg-12">
         <div class="ibox">
@@ -86,6 +82,21 @@
                             </div>
                             <!-- Image preview -->
                             <div id="imagePreview"></div>
+                        </div>
+                    </div>
+                    <div class="form-group row"><label class="col-lg-3 col-form-label">Upload surat IMB</label>
+                        <div class="col-lg-9">
+                            <div class="fileinput fileinput-new" data-provides="fileinput">
+                                <span class="btn btn-block btn-outline btn-primary btn-file"><span
+                                        class="fileinput-new">Upload surat IMB</span>
+                                    <span class="fileinput-exists">Change</span><input type="file" id="imb"
+                                        name="imb" onchange="return fileValidationIMB()" required/></span>
+                                <span class="fileinput-filename"></span>
+                                <a href="#" class="close fileinput-exists" data-dismiss="fileinput" style="float: none"
+                                    onclick="removeImageIMB()">×</a>
+                            </div>
+                            <!-- Image preview -->
+                            <div id="imagePreviewIMB"></div>
                         </div>
                     </div>
                     <div class="form-group row"><label class="col-lg-3 col-form-label">Tahun berdiri</label>
@@ -812,42 +823,33 @@
         var preview = document.getElementById('imagePreview');
         preview.removeChild(image);
     }
-    // Dropzone.options.myDropzone = {
 
-    //     // Prevents Dropzone from uploading dropped files immediately
-    //     autoProcessQueue: false,
-    //     uploadMultiple: true,
-    //     maxFilesize: 10,
-    //     maxFiles: 2,
-    //     addRemoveLinks: true,
-    //     acceptedFiles: ".png, .jpg",
+    function fileValidationIMB() {
+        var fileInput = document.getElementById('imb');
+        var filePath = fileInput.value;
+        var allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+        if (!allowedExtensions.exec(filePath)) {
+            alert('Please upload file having extensions .jpeg/.jpg/.png/.gif only.');
+            fileInput.value = '';
+            return false;
+        } else {
+            //Image preview
+            if (fileInput.files && fileInput.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    document.getElementById('imagePreviewIMB').innerHTML = '<img id="image" src="' + e.target.result +
+                        '" style="width: 200px; height: 150px;"/>';
+                };
+                reader.readAsDataURL(fileInput.files[0]);
+            }
+        }
+    }
 
-    //     init: function () {
-    //         var submitButton = document.querySelector("#submit-all")
-    //         myDropzone = this; // closure
-
-    //         submitButton.addEventListener("click", function (e) {
-    //             console.log(myDropzone.processQueue());
-    //             e.preventDefault();
-    //             e.stopPropagation();
-    //             myDropzone.processQueue(); // Tell Dropzone to process all queued files.
-    //         });
-
-    //         // You might want to show the submit button only when 
-    //         // files are dropped here:
-    //         // this.on("addedfile", function() {
-    //         //   // Show submit button here and/or inform user to click it.
-    //         //   alert("se agrego un archivo");
-    //         // });
-
-    //         this.on("complete", function (file) {
-    //             myDropzone.removeFile(file);
-    //         });
-
-    //     }
-    // };
-
-
+    function removeImageIMB() {
+        var image = document.getElementById('image');
+        var preview = document.getElementById('imagePreviewIMB');
+        preview.removeChild(image);
+    }
 
     function myclone() {
         $("#repet")

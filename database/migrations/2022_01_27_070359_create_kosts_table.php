@@ -17,6 +17,7 @@ class CreateKostsTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('address');
+            $table->string('imb')->nullable();
             $table->string('exist')->nullable();
             $table->string('manager_name')->nullable();
             $table->string('manager_handphone')->nullable();

@@ -131,8 +131,8 @@
                             <li class="@if(Route::currentRouteName()=='landingPage.info') active  @endif  dropdown"> <a
                                     href="{{ route('landingPage.info') }}">Daftar Kamar</a> </li>
 
-                            <li class="@if(Route::currentRouteName()=='landingPage.listKost') active  @endif  dropdown"> <a
-                                    href="{{ route('landingPage.listKost') }}">Info Kos</a> </li>
+                            <!-- <li class="@if(Route::currentRouteName()=='landingPage.listKost') active  @endif  dropdown"> <a
+                                    href="{{ route('landingPage.listKost') }}">Info Kos</a> </li> -->
 
                             <!-- <li class="@if(Route::currentRouteName()=='landingPage.home') active  @endif  dropdown"> <a href="about.php">Tentang</a> </li>
                             <li class="@if(Route::currentRouteName()=='landingPage.home') active  @endif  dropdown"> <a href="berita.php">Berita</a> </li>
@@ -152,8 +152,6 @@
                             @endif
 
 
-
-                            <li class="dropdown  navbar-right special-menu"> <a href="#">Dapatkan diskon 30% </a> </li>
                         </ul>
                         <!-- /.navbar-nav -->
                         <div class="clearfix"></div>

@@ -77,7 +77,7 @@
                                 <div class="m-b-md">
                                     <a href="javascript:void(0)" onclick="$('#detail-create').toggle(500);$('#detail-edit').hide(500);" class="btn btn-white btn-xs float-right">Perpanjang sewa</a>
                                     <a href="javascript:void(0)" onclick="stopRent({{$rent->id}})" class="btn btn-white btn-xs float-right">Berhenti sewa</a>
-                                    <h2>{{$rent->room->name}} - {{$rent->room->kost->name}}</h2>
+                                    <h2>{{$rent->room->roomType->name}} / {{$rent->room->name}} - {{$rent->room->kost->name}}</h2>
                                 </div>
 
                             </div>

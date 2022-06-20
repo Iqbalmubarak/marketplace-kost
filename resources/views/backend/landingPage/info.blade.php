@@ -199,7 +199,7 @@
                                                 Sorting <span class="caret"></span> </button>
                                             <ul role="menu" class="dropdown-menu">
                                                 <li role="presentation"><a
-                                                        href="{{ route('landingPage.priceAsc') }}">Price:Lowest
+                                                        href="{{ route('landingPage.priceAsc') }}?data=1">Price:Lowest
                                                         first</a></li>
                                                 <li role="presentation"><a
                                                         href="{{ route('landingPage.priceDesc') }}">Price:Highest

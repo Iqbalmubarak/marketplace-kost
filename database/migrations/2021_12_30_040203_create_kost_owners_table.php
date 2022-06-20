@@ -20,6 +20,7 @@ class CreateKostOwnersTable extends Migration
             $table->string('handphone', 40);
             $table->string('address')->nullable();
             $table->string('avatar')->nullable();
+            $table->string('ktp')->nullable();
             $table->integer('user_id')->unsigned();
             $table->timestamps();
 

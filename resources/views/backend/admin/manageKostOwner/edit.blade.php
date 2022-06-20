@@ -19,7 +19,6 @@
         </ol>
     </div>
     <div class="col-lg-2">
-
     </div>
 </div>
 <br>
@@ -28,71 +27,79 @@
         <h5>Edit Data Owner</h5>
     </div>
     <div class="ibox-content">
-      {{ Form::open(array('method'=>'PATCH','url' => route('admin.kost-owner.update', $kost_owner->id), 'files' => true)) }} 
-          <div class="form-group row"><label class="col-lg-2 col-form-label">Name</label>
-              <div class="col-lg-5">
-                <input id="first_name" value="{{$kost_owner->first_name}}" name="first_name" type="type" placeholder="First Name" class="form-control @error('first_name') is-invalid @enderror"> <span class="form-text m-b-none"></span>
+        {{ Form::open(array('method'=>'PATCH','url' => route('admin.kost-owner.update', $kost_owner->id), 'files' => true)) }}
+        <div class="form-group row"><label class="col-lg-2 col-form-label">Name</label>
+            <div class="col-lg-5">
+                <input id="first_name" value="{{$kost_owner->first_name}}" name="first_name" type="type"
+                    placeholder="First Name" class="form-control @error('first_name') is-invalid @enderror"> <span
+                    class="form-text m-b-none"></span>
                 @error('first_name')
-                  <div class="invalid-feedback">
-                      {{$message}}
-                  </div>
-                @enderror 
-              </div>
-              <div class="col-lg-5">
-                <input id="last_name" value="{{$kost_owner->last_name}}" name="last_name" type="type" placeholder="Last Name" class="form-control @error('last_name') is-invalid @enderror"> <span class="form-text m-b-none"></span>
-                @error('last_name')
-                    <div class="invalid-feedback">
-                        {{$message}}
-                    </div>
-                @enderror  
-            </div>
-          </div>
-
-          <div class="form-group row"><label class="col-lg-2 col-form-label">Phone Number</label>
-              <div class="col-lg-10">
-                <input id="handphone" value="{{$kost_owner->handphone}}" name="handphone" type="phone" placeholder="Phone" class="form-control @error('phone') is-invalid @enderror"> <span class="form-text m-b-none"></span>
-                @error('handphone')
-                    <div class="invalid-feedback">
-                        {{$message}}
-                    </div>
-                @enderror  
-              </div>
-          </div>
-
-          <div class="form-group row"><label class="col-lg-2 col-form-label">Email</label>
-              <div class="col-lg-10">
-                <input id="email" name="email" value="{{$kost_owner->user->email}}" type="email" placeholder="Email" class="form-control @error('email') is-invalid @enderror"  disabled="">
-                <span class="form-text m-b-none"></span>
-                  @error('email')
-                    <div class="invalid-feedback">
-                        {{$message}}
-                    </div>
-                  @enderror  
-              </div>
-          </div>
-
-          <div class="form-group row"><label class="col-lg-2 col-form-label">Address</label>
-              <div class="col-lg-10">
-                <textarea class="form-control" name="address" id="address" cols="30" rows="10">{{ $kost_owner->address }}</textarea>
-                @error('address')
-                    <div class="invalid-feedback">
-                        {{$message}}
-                    </div>
+                <div class="invalid-feedback">
+                    {{$message}}
+                </div>
                 @enderror
-              </div>
-          </div>
+            </div>
+            <div class="col-lg-5">
+                <input id="last_name" value="{{$kost_owner->last_name}}" name="last_name" type="type"
+                    placeholder="Last Name" class="form-control @error('last_name') is-invalid @enderror"> <span
+                    class="form-text m-b-none"></span>
+                @error('last_name')
+                <div class="invalid-feedback">
+                    {{$message}}
+                </div>
+                @enderror
+            </div>
+        </div>
 
-          <div class="form-group row">
-              <div class="col-lg-10 d-flex justify-content-center">
+        <div class="form-group row"><label class="col-lg-2 col-form-label">Phone Number</label>
+            <div class="col-lg-10">
+                <input id="handphone" value="{{$kost_owner->handphone}}" name="handphone" type="phone"
+                    placeholder="Phone" class="form-control @error('phone') is-invalid @enderror"> <span
+                    class="form-text m-b-none"></span>
+                @error('handphone')
+                <div class="invalid-feedback">
+                    {{$message}}
+                </div>
+                @enderror
+            </div>
+        </div>
+
+        <div class="form-group row"><label class="col-lg-2 col-form-label">Email</label>
+            <div class="col-lg-10">
+                <input id="email" name="email" value="{{$kost_owner->user->email}}" type="email" placeholder="Email"
+                    class="form-control @error('email') is-invalid @enderror" disabled="">
+                <span class="form-text m-b-none"></span>
+                @error('email')
+                <div class="invalid-feedback">
+                    {{$message}}
+                </div>
+                @enderror
+            </div>
+        </div>
+
+        <div class="form-group row"><label class="col-lg-2 col-form-label">Address</label>
+            <div class="col-lg-10">
+                <textarea class="form-control" name="address" id="address" cols="30"
+                    rows="10">{{ $kost_owner->address }}</textarea>
+                @error('address')
+                <div class="invalid-feedback">
+                    {{$message}}
+                </div>
+                @enderror
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-lg-10 d-flex justify-content-center">
                 <a href="{{ route('admin.kost-owner.index') }}">
-                  <button class="btn btn-lg btn-white" type="button">Back</button>
+                    <button class="btn btn-lg btn-white" type="button">Back</button>
                 </a>
                 &nbsp;&nbsp;
                 <button class="btn btn-lg btn-primary" type="submit">Save</button>
-              </div>
-          </div>
-      
-      {!! Form::close() !!}
+            </div>
+        </div>
+
+        {!! Form::close() !!}
 
     </div>
 </div>

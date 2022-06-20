@@ -394,24 +394,10 @@
 
 
 
-                                        <div class="product-add-review"><br>
+                                        <div class="product-add-review" ><br>
                                             <h4 class="title">Berdekatan dengan :</h4>
-                                            <a class="button btn btn-primary" data-toggle="tooltip"
-                                                data-placement="right" title="Add to Compare" href="#">
-                                                <i class="fa fa-location"></i> UNAND
-                                            </a>
-                                            <a class="button btn btn-primary" data-toggle="tooltip"
-                                                data-placement="right" title="Add to Compare" href="#">
-                                                <i class="fa fa-location"></i> UNP
-                                            </a>
-                                            <a class="button btn btn-primary" data-toggle="tooltip"
-                                                data-placement="right" title="Add to Compare" href="#">
-                                                <i class="fa fa-location"></i> Budiman Bypass
-                                            </a>
-                                            <a class="button btn btn-primary" data-toggle="tooltip"
-                                                data-placement="right" title="Add to Compare" href="#">
-                                                <i class="fa fa-location"></i> SMK 10 Padang
-                                            </a>
+                                            <div id="around">
+                                            </div>
                                             <br><br>
                                             <h4 class="title">Peta lokasi :</h4>
                                             <div class="review-table">
@@ -701,12 +687,18 @@
 <script src="{{ asset('templates/js/plugins/metisMenu/jquery.metisMenu.js') }}"></script>
 
 <script>
+
     google.maps.event.addDomListener(window, 'load', init);
 
+    let map;
+    let infoWindow;
+    let mapOptions;
+    let bounds;
     function init() {
+        infoWindow = new google.maps.InfoWindow;
         // More info see: https://developers.google.com/maps/documentation/javascript/reference#MapOptions
         var mapOptions1 = {
-            zoom: 13,
+            zoom: 20,
             center: new google.maps.LatLng(-0.9111111111111111, 100.34972222222221),
             // Style for Google Maps
             styles: [{
@@ -811,34 +803,40 @@
             cache: false,
             dataSrc: '',
 
-            success: function (data) {
-                var latitude = data.map(function (item) {
-                    return item.latitude;
-                });
-                var longitude = data.map(function (item) {
-                    return item.longitude;
-                });
-                var latlng = new google.maps.LatLng(parseFloat(latitude), parseFloat(longitude));
-                for (i = 0; i < data.length; i++) {
+            success: function (result) {
+                for(var i=0; i<result.length; i++)
+                {
                     var pos = {
-                        lat: parseFloat(latitude[i]),
-                        lng: parseFloat(longitude[i])
+                        lat: parseFloat(result[i].latitude),
+                        lng: parseFloat(result[i].longitude)
                     };
-                    var marker = new google.maps.Marker({
-                        position: pos,
-                        map: map,
-                        title: 'Lokasi Anda',
-                        icon: '{{asset("marker/kost.png")}}',
-                        draggable: true,
-                        animation: google.maps.Animation.DROP
-                    });
-                    marker.setMap(map);
-                    map.setCenter(latlng);
-                    // for(i=0; i<arrays.length; i++){
-                    //     var data = arrays
-                    //     console.log(data.properties.center['latitude']);
-                    // }                   
+                    var content = `<div>
+                                        <h5>`+result[i].name+`</h5>
+                                    </div>`;
+                    addMarker(result[i].latitude, result[i].longitude, content);
                 }
+                var location;
+                var marker;
+                function addMarker(lat, lng, info){
+                    location = new google.maps.LatLng(lat, lng);
+                    bounds.extend(location);
+                    marker = new google.maps.Marker({
+                        map: map,
+                        position: location,
+                        title: "Lokasi kos",
+                        animation: google.maps.Animation.BOUNCE
+                    });       
+                    map.fitBounds(bounds);
+                    bindInfoWindow(marker, map, infoWindow, info);
+                }
+                // Proses ini dapat menampilkan informasi lokasi Kota/Kab ketika diklik dari masing-masing markernya
+                function bindInfoWindow(marker, map, infoWindow, html){
+                    google.maps.event.addListener(marker, 'click', function() {
+                        infoWindow.setContent(html);
+                        infoWindow.open(map, marker);
+                    });
+                }
+                
             }
 
         });
@@ -848,81 +846,108 @@
             cache: false,
             dataSrc: '',
 
-            success: function (data) {
-                console.log(data);
-                var latitude = data.map(function (item) {
-                    return item.latitude;
-                });
-                var longitude = data.map(function (item) {
-                    return item.longitude;
-                });
-                var latlng = new google.maps.LatLng(parseFloat(latitude), parseFloat(longitude));
-                for (i = 0; i < data.length; i++) {
+            success: function (result) {
+                $('#aroud').remove();
+                for(var i=0; i<result.length; i++)
+                {
                     var pos = {
-                        lat: parseFloat(latitude[i]),
-                        lng: parseFloat(longitude[i])
+                        lat: parseFloat(result[i].latitude),
+                        lng: parseFloat(result[i].longitude)
                     };
-                    var marker = new google.maps.Marker({
-                        position: pos,
+                    var content = `<div>
+                                        <h5>`+result[i].name+`</h5>
+                                    </div>`;
+                    addMarker(result[i].latitude, result[i].longitude, content, result[i].location_category_id);
+
+                    var div = `<button class="button btn btn-primary" data-toggle="tooltip"
+                                                    data-placement="right" style="margin-right:5px;margin-bottom:5px">
+                                                    <i class="fa fa-location"></i> `+result[i].name+`
+                                                </button>`;
+                    
+                    $('#around').append(div);
+                }
+                var location;
+                var marker;
+                function addMarker(lat, lng, info, category){
+                    location = new google.maps.LatLng(lat, lng);
+                    bounds.extend(location);
+                    if(category == 1){
+                        marker = new google.maps.Marker({
                         map: map,
-                        title: 'Lokasi Anda',
-                        icon: 'https://img.icons8.com/external-kmg-design-outline-color-kmg-design/32/000000/external-map-map-and-navigation-kmg-design-outline-color-kmg-design-3.png',
-                        draggable: true,
+                        position: location,
+                        icon: '{{asset("marker/kampus.png")}}',
                         animation: google.maps.Animation.DROP
+                        });       
+                        map.fitBounds(bounds);
+                        bindInfoWindow(marker, map, infoWindow, info);
+                    }else if(category == 2){
+                        marker = new google.maps.Marker({
+                            map: map,
+                            position: location,
+                            icon: '{{asset("marker/sekolah.png")}}',
+                            animation: google.maps.Animation.DROP
+                        });       
+                        map.fitBounds(bounds);
+                        bindInfoWindow(marker, map, infoWindow, info);
+                    }else if(category == 3){
+                        marker = new google.maps.Marker({
+                            map: map,
+                            position: location,
+                            icon: '{{asset("marker/resto.png")}}',
+                            animation: google.maps.Animation.DROP
+                        });       
+                        map.fitBounds(bounds);
+                        bindInfoWindow(marker, map, infoWindow, info);
+                    }else if(category == 4){
+                        marker = new google.maps.Marker({
+                            map: map,
+                            position: location,
+                            icon: '{{asset("marker/wisata.png")}}',
+                            animation: google.maps.Animation.DROP
+                        });       
+                        map.fitBounds(bounds);
+                        bindInfoWindow(marker, map, infoWindow, info);
+                    }else if(category == 5){
+                        marker = new google.maps.Marker({
+                            map: map,
+                            position: location,
+                            icon: '{{asset("marker/belanja.png")}}',
+                            animation: google.maps.Animation.DROP
+                        });       
+                        map.fitBounds(bounds);
+                        bindInfoWindow(marker, map, infoWindow, info);
+                    }else if(category == 6){
+                        marker = new google.maps.Marker({
+                            map: map,
+                            position: location,
+                            icon: '{{asset("marker/bank.png")}}',
+                            animation: google.maps.Animation.DROP
+                        });       
+                        map.fitBounds(bounds);
+                        bindInfoWindow(marker, map, infoWindow, info);
+                    }else if(category == 7){
+                        marker = new google.maps.Marker({
+                            map: map,
+                            position: location,
+                            icon: '{{asset("marker/kue.png")}}',
+                            animation: google.maps.Animation.DROP
+                        });       
+                        map.fitBounds(bounds);
+                        bindInfoWindow(marker, map, infoWindow, info);
+                    }
+                    
+                }
+                // Proses ini dapat menampilkan informasi lokasi Kota/Kab ketika diklik dari masing-masing markernya
+                function bindInfoWindow(marker, map, infoWindow, html){
+                    google.maps.event.addListener(marker, 'click', function() {
+                        infoWindow.setContent(html);
+                        infoWindow.open(map, marker);
                     });
-                    marker.setMap(map);
-                    map.setCenter(latlng);
-                    // for(i=0; i<arrays.length; i++){
-                    //     var data = arrays
-                    //     console.log(data.properties.center['latitude']);
-                    // }                   
                 }
             }
-
         });
-
-        // $.post(
-        //     "{{url('api/map/get-around')}}", 
-        //     {
-        //         "_token": "{{ csrf_token() }}",
-        //         latitude: {{$roomType->kost->latitude}},
-        //         longitude: {{$roomType->kost->longitude}}
-        //     }, 
-        //     function(result){
-        //         for(var i=0; i<result.length; i++)
-        //         {
-        //             var pos = {
-        //                 lat: parseFloat(result[i].latitude),
-        //                 lng: parseFloat(result[i].longitude)
-        //             };
-        //             var content = `<div>
-        //                                 <h5>`+result[i].name+`</h5>
-        //                             </div>`;
-        //             addMarker(result[i].latitude, result[i].longitude, content);
-        //         }
-        //         var location;
-        //         var marker;
-        //         function addMarker(lat, lng, info){
-        //             location = new google.maps.LatLng(lat, lng);
-        //             bounds.extend(location);
-        //             marker = new google.maps.Marker({
-        //                 map: map,
-        //                 position: location,
-        //                 icon: '{{asset("marker/kost.png")}}',
-        //                 animation: google.maps.Animation.DROP
-        //             });       
-        //             map.fitBounds(bounds);
-        //             bindInfoWindow(marker, map, infoWindow, info);
-        //         }
-        //         // Proses ini dapat menampilkan informasi lokasi Kota/Kab ketika diklik dari masing-masing markernya
-        //         function bindInfoWindow(marker, map, infoWindow, html){
-        //             google.maps.event.addListener(marker, 'click', function() {
-        //                 infoWindow.setContent(html);
-        //                 infoWindow.open(map, marker);
-        //             });
-        //         }
-        //     }
-        // )
+        
+            map.setCenter({{$roomType->kost->latitude}}, {{$roomType->kost->longitude}}, 20);
     }
     function sendMessage(sender, receiver, kostSeeker, kostOwner, kost, status) {
         let message = $('#send-message').val();

@@ -1,7 +1,7 @@
 <div class="col-lg-12 animated fadeInRight" id="room-create" style="display:none">
     <div class="ibox">
         <div class="ibox-title">
-            <h5>Menambah kost</h5>
+            <h5>Menambah kamar</h5>
         </div>
         <div class="ibox-content">
             {{ Form::open(array('method'=>'POST', 'url' => route('owner.kost.room.store', $kost->id))) }}

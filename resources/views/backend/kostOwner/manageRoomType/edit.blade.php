@@ -23,7 +23,7 @@
             </li>
             <li class="breadcrumb-item">
                 <strong>
-                    <a>Tambah Kamar</a>
+                    <a>Edit tipe Kamar</a>
                 </strong>
             </li>
         </ol>
@@ -38,7 +38,7 @@
     <div class="col-lg-12">
         <div class="ibox">
             <div class="ibox-title">
-                <h5>Menambah kost</h5>
+                <h5>Mengedit tipe kamar kost</h5>
             </div>
             <div class="ibox-content">
                 {{ Form::open(array('method'=>'PATCH', 'url' => route('owner.kost.room_type.update', $room_type->id),'class' => 'wizard-big', 'files' => true, 'id'=>'form', 'enctype' => 'multipart/form-data')) }}

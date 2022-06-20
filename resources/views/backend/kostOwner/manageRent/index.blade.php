@@ -50,6 +50,7 @@
                     <span class="label label-primary float-right">NEW</span>
                     @endif
                     <h5>{{$rent->room->name}} - {{$rent->room->kost->name}}</h5>
+                    <a style="float:right;" class="btn btn-xs btn-white" href="{{ route('owner.rent.show', $rent->id) }}" ><i class="fa fa-eye"></i> Detail</a>
                 </div>
                 <div class="ibox-content">
                     <div class="team-members">

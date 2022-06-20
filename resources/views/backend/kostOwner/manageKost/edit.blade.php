@@ -114,6 +114,31 @@
                             </div>
                         </div>
                     </div>
+                    <div class="form-group row"><label class="col-lg-3 col-form-label">Upload surat IMB</label>
+                        <div class="col-lg-9">
+                            <div @if ($kost->imb) class="fileinput fileinput-exists" @else
+                                class="fileinput fileinput-new" @endif data-provides="fileinput">
+                                <span class="btn btn-block btn-outline btn-primary btn-file"><span
+                                        class="fileinput-new">Upload Peraturan</span>
+                                    <span class="fileinput-exists">Change</span><input type="file" id="imb"
+                                        name="imb" onchange="return fileValidation()" @if ($rule_upload)
+                                        value="{{$kost->imb}}" file="{{$kost->imb}}" @endif /></span>
+                                <span class="fileinput-filename">
+                                    @if ($kost->imb)
+                                    {{$kost->imb}}
+                                    @endif
+                                </span>
+                                <a href="#" class="close fileinput-exists" data-dismiss="fileinput" style="float: none"
+                                    onclick="removeImage()">×</a>
+                            </div>
+                            <!-- Image preview -->
+                            <div id="imagePreview">
+                                @if ($kost->imb)
+                                <img id="image" src="{{ asset('storage/images/imb/'.$kost->imb) }}" alt="" style="width: 200px; height: 150px;">
+                                @endif
+                            </div>
+                        </div>
+                    </div>
                     <div class="form-group row"><label class="col-lg-3 col-form-label">Tahun berdiri</label>
                         <div class="col-lg-9">
                             <select name="exist" class="form-control selectpicker" id="e_exist" data-live-search="true">

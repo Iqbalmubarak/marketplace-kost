@@ -111,7 +111,7 @@
                 <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
                     <tr>
                         <td align="center" valign="top" style="padding: 40px 10px 20px 10px;"> 
-                            <img src="https://imgur.com/a/XgiZuRI" width="150" height="130" style="display: block; border: 0px;" />
+                            <img src="logo.png" width="150" height="130" style="display: block; border: 0px;" />
                         </td>
                     </tr>
                 </table>
@@ -124,7 +124,7 @@
                 <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
                     <tr>
                         <td bgcolor="#ffffff" align="center" valign="top" style="padding: 40px 20px 20px 20px; border-radius: 4px 4px 0px 0px; color: #111111; font-family: 'Lato', Arial;  line-height: 48px; margin: 2;">
-                            <h1 style="font-size: 48px; font-weight: 400; ">Hallo, {{$details['customer_name']}} !</h1>
+                            <h1 style="font-size: 48px; font-weight: 700; ">Hallo, Customer Satu !</h1>
                         </td>
                     </tr>
                 </table>
@@ -134,9 +134,8 @@
             <td bgcolor="#f4f4f4" align="center" style="padding: 0px 10px 0px 10px;">
                 <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
                     <tr>
-                        <td bgcolor="#ffffff" style="padding: 20px 30px 10px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; line-height: 25px;">
-                            <p style="margin: 0; font-weight: 800; text-align:center;font-size: 18px;" >Permohonan pemesanan kamar anda telah diterima !</p>
-                            <p style="margin: 0; text-align:center;font-size: 15px;" >Anda telah dapat memulai menyewa kamar mulai tanggal {{$details['started_at']}}</p>
+                        <td bgcolor="#ffffff" style="padding: 20px 30px 10px 30px; color: #f51616; font-family: 'Lato', Helvetica, Arial, sans-serif; line-height: 25px;">
+                            <p style="margin: 0; font-weight: 800; text-align:center;font-size: 18px;" >Penyewaan anda hampir mendekati batas durasi yang akan berakhir pada tanggal 15 Juli 2022</p>
                             <hr>
                         </td>
                     </tr>
@@ -147,9 +146,10 @@
                                     <td bgcolor="#ffffff" align="center" style="">
                                         <table border="0" cellspacing="0" cellpadding="0">
                                             <tr>
-                                            <div class="wrap">
-                                                <td align="center" style="font-weight: 800;color: #666666; text-align:center;font-size: 18px;font-family: 'Lato', Helvetica, Arial, sans-serif;"> Rincian Pemesanan</td>
-                                            </div>
+                                                <td bgcolor="#ffffff" style="padding: 20px 30px 10px 30px; color: #f51616; font-family: 'Lato', Helvetica, Arial, sans-serif; line-height: 25px;">
+                                                    <p style="margin: 0; font-weight: 800; text-align:center;font-size: 18px;" >Harap segera melakukan perpanjangan sewa jika akan memperpanjang penyewaan kamar kost ini</p>
+                                                    <hr>
+                                                </td>
                                             </tr>
                                         </table>
                                     </td>
@@ -161,40 +161,39 @@
                         <td bgcolor="#ffffff" align="left">
                             <table width="100%" border="0" cellspacing="0" cellpadding="0">
                                 <tr>
-                                    <td bgcolor="#ffffff" align="left" style="padding: 20px 30px 20px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 15px; font-weight: 200; line-height: 25px;">
+                                    <td bgcolor="#ffffff" align="left" style="padding: 5px 30px 20px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 15px; font-weight: 200; line-height: 25px;">
                                         <table>
                                             <tr align="left">
-                                                <th>No. Pesanan</th>
-                                                <th>: {{$details['token']}} </th>
+                                                <th>Rincian Pemesanan</th>
+                                                <th></th>
                                             </tr>
                                             <tr align="left">
-                                                <th>Tanggal Pesanan</th>
-                                                <th>: {{$details['created_at']}} </th>
+                                                <th>No. Pesanan</th>
+                                                <th>: 9438901744 </th>
                                             </tr>
-                                        
                                             <tr align="left">
                                                 <th>Nama Kost</th>
-                                                <th>: {{$details['kost_name']}} </th>
+                                                <th>: Kost Putra </th>
                                             </tr>
                                             <tr align="left">
                                                 <th>Tipe Kamar</th>
-                                                <th>: {{$details['room_type']}} </th>
+                                                <th>: Tipe A </th>
                                             </tr>
                                             <tr align="left">
                                                 <th>Nama Kamar</th>
-                                                <th>: {{$details['room_name']}} </th>
+                                                <th>: 401 </th>
                                             </tr>
                                             <tr align="left">
                                                 <th>Durasi Penyewaan</th>
-                                                <th>: {{$details['duration']}} </th>
+                                                <th>: Per bulan </th>
                                             </tr>
                                             <tr align="left">
                                                 <th>Jarak Penyewaan</th>
-                                                <th>: {{$details['started_at']}} - {{$details['ended_at']}} </th>
+                                                <th>: 15 Juni 2022 - 15 Juli 2022</th>
                                             </tr>
                                             <tr align="left">
                                                 <th>Total Biaya</th>
-                                                <th>: {{$details['total_price']}} </th>
+                                                <th>: Rp 500.000,00 </th>
                                             </tr>
                                         </table>
                                     </td>
@@ -202,12 +201,7 @@
                             </table>
                         </td>
                     </tr> <!-- COPY -->
-                    <tr>
-                        <td bgcolor="#ffffff" style="padding: 5px 30px 40px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; line-height: 25px;">
-                            <p><hr></p>
-                            <p style="margin: 0; font-weight: 800; text-align:center;font-size: 15px;" >Harap melakukan pengecekan pada aplikasi dan menghubungi kami jika ada kesalahan dalam rincian pesanan</p>
-                        </td>
-                    </tr>
+                    
                 </table>
                 
                 
@@ -217,10 +211,9 @@
             <td bgcolor="#f4f4f4" align="center" style="padding: 30px 10px 0px 10px;">
                 <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
                     <tr>
-                        <td bgcolor="#0FB08F" align="center" style="padding: 30px 30px 30px 30px; border-radius: 4px 4px 
-                        4px 4px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">
+                        <td bgcolor="#0FB08F" align="center" style="padding: 30px 30px 30px 30px; border-radius: 4px 4px 4px 4px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">
                             <h2 style="font-size: 20px; font-weight: 400; color: #111111; margin: 0;">Terima kasih telah mempercayakan kost kami</h2><br>
-                            <img src="https://imgur.com/a/XgiZuRI" width="150" height="130" style="display: block; border: 0px;" />
+                            <img src="logo.png" width="150" height="130" style="display: block; border: 0px;" />
                         </td>
                     </tr>
                 </table>
