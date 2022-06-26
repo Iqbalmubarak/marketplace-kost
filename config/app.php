@@ -163,6 +163,7 @@ return [
         Illuminate\View\ViewServiceProvider::class,
         Stevebauman\Location\LocationServiceProvider::class,
         Arcanedev\LogViewer\LogViewerServiceProvider::class,
+        Barryvdh\DomPDF\ServiceProvider::class,
 
         /*
          * Package Service Providers...
@@ -235,6 +236,7 @@ return [
         'Helper' => App\Helpers\helper::class,
         'Input' => Illuminate\Support\Facades\Input::class,
         'Location' => 'Stevebauman\Location\Facades\Location',
+        'PDF' => Barryvdh\DomPDF\Facade::class,
     ],
 
 ];

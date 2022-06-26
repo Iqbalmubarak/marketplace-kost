@@ -17,6 +17,7 @@ use App\Http\Controllers\RentDetailController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ReportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -114,6 +115,10 @@ Route::prefix('owner')->middleware(['auth', 'auth.isOwner'])->name('owner.')->gr
 
     //Chat
     Route::resource('/chat', ChatController::class);
+
+    //Report
+    Route::get('report', [ReportController::class, 'index'])->name('report.index');
+    Route::post('report/print', [ReportController::class, 'print'])->name('report.print');
 });
 
 Route::prefix('customer')->middleware(['auth', 'auth.isCustomer'])->name('customer.')->group(function () {

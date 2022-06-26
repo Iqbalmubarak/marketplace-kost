@@ -32,7 +32,7 @@ class Chat extends Model
 
     public function newMessage(){
         $result = ChatDetail::where('chat_id', $this->id)
-                            ->where('receiver', Auth::user()->kostOwner->id)
+                            ->where('receiver', Auth::user()->id)
                             ->orderby('created_at', 'desc')
                             ->first();
         return $result;

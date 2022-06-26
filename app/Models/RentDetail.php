@@ -13,4 +13,9 @@ class RentDetail extends Model
     {
         return $this->hasOne(Rent::class, 'id', 'rent_id');
     }
+
+    public function priceList()
+    {
+        return $this->hasOne(PriceList::class, 'id', 'price_list_id');
+    }
 }

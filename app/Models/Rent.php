@@ -60,4 +60,12 @@ class Rent extends Model
         $day = $priceList->rentDuration->day;
         return $day;
     }
+
+    public function printDuration()
+    {
+        $rentDetail = RentDetail::find($this->detail_id);
+        $priceList = PriceList::find($rentDetail->price_list_id);
+        $name = $priceList->rentDuration->name;
+        return $name;
+    }
 }

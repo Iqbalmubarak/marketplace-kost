@@ -175,6 +175,11 @@ class BookingController extends Controller
             $tenant->kost_id = $room->kost_id;
             $tenant->save();
 
+            $tenant_detail = new TenantDetail;
+            $tenant_detail->tenant_id = $tenant->id;
+            $tenant_detail->rent_id = $rent->id;
+            $tenant_detail->save();
+
             $time = strtotime($rentDetail->started_at);
             $started_at = date('d M Y',$time);
 

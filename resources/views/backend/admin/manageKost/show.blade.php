@@ -49,6 +49,63 @@
             <div class="ibox-content">
                 <div class="row">
                     <div class="col-md-5">
+                        <div class="imb" id="imb" >
+                            <center>
+                                <h2 class="font-bold m-b-xs">
+                                    Surat IMB Kost
+                                </h2>
+                                <img id="myImg" src="{{ asset('templates/img/input_image.png') }}"
+                                                alt="Snow" style="width:100%;max-width:300px;max-height:300px;">
+                            </center>
+                        </div>
+                    </div>
+                    <div class="col-md-7">
+                        <h2 class="font-bold m-b-xs">
+                            Kost Owner
+                        </h2>
+                        <h2 class="product-main-price"><small class="text-muted">Mulai registrasi pada 
+                            <strong>{{$kost->kostOwner->created_at}}</strong> </small>
+                        </h2>
+                        <hr>
+                        <dl class="small m-t-md">
+                            <dt>
+                                <i class="fa fa-user"></i> Nama pemilik kost
+                            </dt>
+                            <dd>
+                                {{$kost->kostOwner->first_name}} {{$kost->kostOwner->last_name}}
+                            </dd>
+                            <dt>
+                                <i class="fa fa-address-card"></i> Nomor KTP
+                            </dt>
+                            <dd>
+                                {{$kost->kostOwner->ktp}}
+                            </dd>
+                            <dt>
+                                <i class="fa fa-map-marker"></i> Alamat
+                            </dt>
+                            <dd>
+                                {{$kost->kostOwner->address}}
+                            </dd>
+                            <dt>
+                                <i class="fa fa-phone"></i> No Handphone
+                            </dt>
+                            <dd>
+                                {{$kost->kostOwner->handphone}}
+                            </dd>
+                        </dl>
+                        <br>
+                        <hr>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    <div class="col-lg-12">
+        <div class="ibox product-detail">
+            <div class="ibox-content">
+                <div class="row">
+                    <div class="col-md-5">
                         <div class="google-map" id="map" style="height:600px"></div>
                     </div>
                     <div class="col-md-7">

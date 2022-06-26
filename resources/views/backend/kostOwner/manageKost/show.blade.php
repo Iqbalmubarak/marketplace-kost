@@ -30,7 +30,23 @@
         </ol>
     </div>
 </div>
-
+<div class="modal inmodal" id="imbModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content animated flipInY">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+                class="sr-only">Close</span></button>
+                <h4 class="modal-title">Surat IMB Kos</h4>
+            </div>
+            <div class="modal-body">
+                <center>
+                    <img  src="{{ asset('templates/img/input_image.png') }}"
+                    alt="Snow" style="width:100%;max-width:300px;max-height:300px;">
+                </center>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="row wrapper wrapper-content animated fadeInRight justify-content-md-center">
     <div class="col-lg-12">
         <div class="ibox product-detail">
@@ -51,8 +67,12 @@
                             @endif
                         </h2>
                         <div class="m-t-md">
-                            <h2 class="product-main-price"><small class="text-muted">Berdiri sejak tahun</small>
-                                <strong>{{$kost->exist}}</strong></h2>
+                            <h2 class="product-main-price">
+                                <small float="right" ><button class="btn-upper btn btn-primary" data-toggle="modal" data-target="#imbModal">Surat IMB</button></small>
+                                <small class="text-muted">Berdiri sejak tahun</small>
+                                <strong>{{$kost->exist}}</strong>
+                            </h2>
+                            
                         </div>
                         <hr>
                         <div class="row">

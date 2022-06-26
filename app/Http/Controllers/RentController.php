@@ -63,7 +63,6 @@ class RentController extends Controller
                 }
             
         } catch (\Exception $e) {
-            dd($e);
             return redirect()->back()->with('error', __('toast.index.failed.message'));
         }
     }

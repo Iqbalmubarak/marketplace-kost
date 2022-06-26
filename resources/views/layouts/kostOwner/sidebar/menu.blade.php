@@ -19,4 +19,7 @@
 <li @if(Route::currentRouteName()=="owner.chat.index") class="active" @endif>
     <a href="{{ route('owner.chat.index') }}"><i class="fa fa-comments"></i> <span class="nav-label">Chat</span></a>
 </li>
+<li @if(Route::currentRouteName()=="owner.report.index") class="active" @endif>
+    <a href="{{ route('owner.report.index') }}"><i class="fa fa-comments"></i> <span class="nav-label">Catak Laporan</span></a>
+</li>
 
