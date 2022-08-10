@@ -1,6 +1,7 @@
 @extends('layouts.kostOwner.main')
 
 @section('css')
+<link href="{{ asset('templates/css/plugins/jasny/jasny-bootstrap.min.css') }}" rel="stylesheet">
 <style>
     .avatar-wrapper {
         position: relative;
@@ -145,6 +146,32 @@
                             @enderror
                         </div>
                     </div>
+                    <div class="form-group row">
+                        <label class="col-lg-2 col-form-label">Upload KTP</label>
+                        <div class="col-lg-10">
+                            <div @if ($user->ktp) class="fileinput fileinput-exists" @else
+                                class="fileinput fileinput-new" @endif data-provides="fileinput">
+                                <span class="btn btn-block btn-outline btn-primary btn-file"><span
+                                        class="fileinput-new">Upload KTP</span>
+                                    <span class="fileinput-exists">Change</span><input type="file" id="ktp"
+                                        name="ktp" onchange="return fileValidation()" @if ($user->ktp)
+                                        value="{{$user->ktp}}" file="{{$user->ktp}}" @endif /></span>
+                                <span class="fileinput-filename">
+                                    @if ($user->ktp)
+                                    {{$user->ktp}}
+                                    @endif
+                                </span>
+                                <a href="#" class="close fileinput-exists" data-dismiss="fileinput" style="float: none"
+                                    onclick="removeImage()">×</a>
+                            </div>
+                            <!-- Image preview -->
+                            <div id="imagePreview">
+                                @if ($user->ktp)
+                                <img id="image" src="{{ asset('storage/images/ktp/'.$user->ktp) }}" alt="" style="width: 200px; height: 150px;">
+                                @endif
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="form-group row">
                     <div class="col-lg-6 col-form-label">
@@ -160,6 +187,33 @@
 
 @section('script')
 <script>
+    function fileValidation() {
+        var fileInput = document.getElementById('ktp');
+        var filePath = fileInput.value;
+        var allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+        if (!allowedExtensions.exec(filePath)) {
+            alert('Please upload file having extensions .jpeg/.jpg/.png/.gif only.');
+            fileInput.value = '';
+            return false;
+        } else {
+            //Image preview
+            if (fileInput.files && fileInput.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    document.getElementById('imagePreview').innerHTML = '<img id="image" src="' + e.target.result +
+                        '" style="width: 200px; height: 150px;"/>';
+                };
+                reader.readAsDataURL(fileInput.files[0]);
+            }
+        }
+    }
+
+    function removeImage() {
+        var image = document.getElementById('image');
+        var preview = document.getElementById('imagePreview');
+        preview.removeChild(image);
+    }
+
     $('#c_job').on('change', function (e) {
         let job = $('#c_job').val();
         if (job == 3) {

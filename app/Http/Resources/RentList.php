@@ -14,7 +14,6 @@ class RentList extends JsonResource
      */
     public function toArray($request)
     {
-        $name = $this->kostSeeker->first_name." ".$this->kostSeeker->last_name;
         if($this->status == 1){
             $status = '<p><span class="badge badge-plain">Sedang Diajukan</span></p>';
         }elseif($this->status == 2){
@@ -24,12 +23,9 @@ class RentList extends JsonResource
         }
         return [
             'id' => $this->id,
-            'kostSeeker' => $name,
             'kost' => $this->room->roomType->kost->name,
             'room' => $this->room->name,
-            'started_at' => $this->rentDetail->started_at,
-            'ended_at' => $this->rentDetail->ended_at,
-            'total_price' => $this->rentDetail->total_price,
+            'type' => $this->room->roomType->name,
             'status' => $status
         ];
     }

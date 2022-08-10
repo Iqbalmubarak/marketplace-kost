@@ -53,6 +53,12 @@
                 </ol>
             </div>
             <div class="col-lg-2 d-flex justify-content-end">
+                @if ($rent->history)
+                <a href="#" onclick="notify({{$rent->id}})">
+                    <button class="btn btn-success btn-sm btn-outline" type=" button">Ingatkan perpanjangan sewa</button>
+                </a>
+                &nbsp;
+                @endif
                 <a href="{{ route('owner.rent.edit', $rent->id) }}">
                     <button class="btn btn-primary btn-sm btn-outline" type=" button">Ubah Penyewaan</button>
                 </a>
@@ -290,6 +296,9 @@
         </div>
     </div>
 </div>
+{!! Form::open(['method'=>'POST', 'route' => ['owner.rent.notify', 0], 'style' =>
+'display:none','id'=>'notify']) !!}
+{!! Form::close() !!}
 {!! Form::open(['method'=>'POST', 'route' => ['owner.rentDetail.accept', 0], 'style' =>
 'display:none','id'=>'accept_detail']) !!}
 {!! Form::close() !!}
@@ -458,6 +467,29 @@
 
 </script>
 <script>
+    function notify(id) {
+        swal({
+                title: "Apakah kamu ingin mengingatkan penyewa ini?",
+                text: "Pesan akan dikirim ke email penyewa!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Ya, terima!",
+                cancelButtonText: "Tidak, batalkan!",
+                closeOnConfirm: false,
+                closeOnCancel: false
+            },
+            function (isConfirm) {
+                if (isConfirm) {
+                    swal("Berhasil!", "Pesan telah terkirim.", "success");
+                    $('#notify').attr('action', "{{route('owner.rent.index')}}/"+ id +"/notify");
+                    $('#notify').submit();
+                } else {
+                    swal("Dibatalkan", "Kamu batal mengirim pesan", "error");
+                }
+            });
+    }
+
     function acceptDetail(id) {
         swal({
                 title: "Apakah kamu yakin?",

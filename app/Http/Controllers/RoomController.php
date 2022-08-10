@@ -104,9 +104,17 @@ class RoomController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function roomDestroy($id)
     {
         //
+        try {
+            $room = Room::find($id);
+            $room->delete();
+            return redirect()->back()->with('success', __('toast.delete.success.message'));
+            
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', __('toast.delete.failed.message'));
+        }
     }
 
     public function getData(Request $request)

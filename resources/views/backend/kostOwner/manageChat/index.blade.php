@@ -108,6 +108,7 @@
                                         placeholder="Enter message text" id="send-message"></textarea>
                                 </div>
                                 <div class="form-group">
+                                    <?php $name = Auth::user()->kostOwner->first_name.' '.Auth::user()->kostOwner->last_name; ?>
                                     @if ($chat)
                                         <button class="btn btn-primary" type="button"
                                         onclick="sendMessage({{Auth::user()->id}}, {{$chat->kostSeeker->user->id}}, {{$chat->kostSeeker->id}}, {{Auth::user()->kostOwner->id}}, {{$chat->kost->id}})">Send</button>
@@ -134,6 +135,7 @@
 
 @section('script')
 <script>
+    
     $('.send').on('click', function (e) {
         toastr.options = {
             "closeButton": true,
@@ -153,12 +155,14 @@
         toastr.warning("Penerima pesan belum dipilih");
     });
 
-    function sendMessage(sender, receiver,kostSeeker, kostOwner, kost) {
+    function sendMessage(sender, receiver,kostSeeker, kostOwner, kost, name, avatar) {
         let message = $('#send-message').val();
+        console.log(sender);
+        console.log(receiver);
         console.log(kostSeeker);
         console.log(kostOwner);
         console.log(kost);
-
+        console.log(message);
         let base_url = "{{URL('api/message/send_message')}}";
         $.ajax({
             url: base_url + "?sender="+sender+ "&receiver="+receiver+"&kostSeeker=" + kostSeeker + "&kostOwner=" + kostOwner + "&kost=" + kost +  "&message=" + message,
@@ -166,7 +170,7 @@
             cache: false,
             dataSrc: '',
             success: function (data) {
-                console.log(data.avatar)
+                
                 if(data.avatar){
                     var div = $(`<div class="chat-message right">
                                 <img class="message-avatar" src="{{ asset('storage/images/avatar/`+ data.avatar +`') }}" alt="">

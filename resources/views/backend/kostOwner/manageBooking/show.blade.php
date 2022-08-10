@@ -25,10 +25,11 @@
                 </ol>
             </div>
             <div class="col-2 d-flex justify-content-end">
-                <a href="{{ route('admin.admin.create') }}">
-                    <button class="btn btn-primary btn-outline" type="button">Add Data</button>
-                </a>
-                <a class="btn btn-primary btn-outline" onclick="accept({{$booking->id}},{{$booking->room_type_id}})" href="javascript::void(0)" data-toggle="modal" data-target="#acceptModal"><i class="fa fa-check"></i> Terima</a>
+                @if ($booking->status == 1)
+                    @if($booking->bookingPayment && Carbon\Carbon::now() <= Carbon\Carbon::parse($booking->created_at)->addHour())
+                    <a class="btn btn-primary btn-outline" onclick="accept({{$booking->id}},{{$booking->room_type_id}})" href="javascript::void(0)" data-toggle="modal" data-target="#acceptModal"><i class="fa fa-check"></i> Terima</a>
+                    @endif
+                @endif
             </div>
         </div>
     </div>
@@ -45,7 +46,7 @@
                 <div>
                     <div class="ibox-content no-padding border-left-right">
                         @if ($booking->kostSeeker->avatar != NULL)
-                        <img alt="image" src="{{ asset('storage/images/avatar/'.$tenant->avatar) }}" class="img-fluid">
+                        <img alt="image" src="{{ asset('storage/images/avatar/'.$booking->kostSeeker->avatar) }}" class="img-fluid">
                         @else
                         <?php $random = rand(1,5); ?>
                         <img alt="image" src="{{ asset('templates/img/profile/profil'.$random.'.jpeg') }}"
@@ -83,14 +84,6 @@
                         <h5>Phone Emergency</h5>
                         <p><i class="fa fa-phone"></i> {{$booking->kostSeeker->handphone}}</p>
 
-                        <div class="user-button">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <button type="button" class="btn btn-primary btn-sm btn-block"><i
-                                            class="fa fa-envelope"></i> Send Message</button>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>

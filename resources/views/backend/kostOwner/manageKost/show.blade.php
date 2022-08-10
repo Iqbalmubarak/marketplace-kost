@@ -417,6 +417,10 @@
 'display:none','id'=>'deleted_room_type']) !!}
 {!! Form::close() !!}
 
+{!! Form::open(['method'=>'DELETE', 'route' => ['owner.kost.room.destroy', 0], 'style' =>
+'display:none','id'=>'deleted_room']) !!}
+{!! Form::close() !!}
+
 {!! Form::open(['method'=>'GET', 'route' => ['owner.kost.room_type.edit', 0], 'style' =>
 'display:none','id'=>'edit_roomType']) !!}
 {!! Form::close() !!}
@@ -508,8 +512,8 @@
                         `,'` + full.name + `',` + full.room_type_id + `,` + full.e_status +
                         `)" href="javascript:void(0)">Edit</a>` +
 
-                        ` <a class="btn btn-danger btn-sm" onclick="confirm_delete(` +
-                        data + `)" href="javascript:void(0)">Delate</a>` +
+                        ` <a class="btn btn-danger btn-sm" onclick="delete_room(` +
+                        data + `)" href="javascript:void(0)">Delete</a>` +
                         ``;
                 },
             }, ],
@@ -574,7 +578,7 @@
                         `)" href="javascript::void(0)">Edit</a>` +
 
                         ` <a class="btn btn-danger btn-sm" onclick="delete_room_type(` +
-                        data + `)" href="javascript::void(0)">Delate</a>` +
+                        data + `)" href="javascript::void(0)">Delete</a>` +
                         ``;
                 },
             }, ],
@@ -851,6 +855,29 @@
                     swal("Terhapus!", "Data kamu telah terhapus.", "success");
                     $('#deleted_room_type').attr('action', "{{route('owner.kost.index')}}/"+id+"/room_type-destroy");
                     $('#deleted_room_type').submit();
+                } else {
+                    swal("Dibatalkan", "Data kamu aman :)", "error");
+                }
+            });
+    }
+
+    function delete_room(id) {
+        swal({
+                title: "Apakah kamu yakin?",
+                text: "Kamu tidak akan dapat memulihkan datanya kembali!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Ya, hapus!",
+                cancelButtonText: "Tidak, batalkan!",
+                closeOnConfirm: false,
+                closeOnCancel: false
+            },
+            function (isConfirm) {
+                if (isConfirm) {
+                    swal("Terhapus!", "Data kamu telah terhapus.", "success");
+                    $('#deleted_room').attr('action', "{{route('owner.kost.index')}}/"+id+"/room-destroy");
+                    $('#deleted_room').submit();
                 } else {
                     swal("Dibatalkan", "Data kamu aman :)", "error");
                 }

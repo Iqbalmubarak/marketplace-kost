@@ -220,11 +220,15 @@
                                 ->orderby('total_price', 'desc')
                                 ->first();
 
-                                $highest_kost_income_this_month = \App\Models\Kost::find($highest_income_this_month->kost_id);
+                                if($highest_income_this_month){
+                                    $highest_kost_income_this_month = \App\Models\Kost::find($highest_income_this_month->kost_id);
+                                }
                             ?>
+                            @if($highest_income_this_month)
                             <small>Transaksi terbanyak bulan ini terdapat pada: <strong>{{$highest_kost_income_this_month->name}}</strong></small>
                             <br />
                             Total pendapatan: {{Helper::rupiah($highest_income_this_month->total_price)}}
+                            @endif
                         </span>
                         <div id="total_income">
 

@@ -74,18 +74,6 @@
                         <h5>Phone Emergency</h5>
                         <p><i class="fa fa-phone"></i> {{$tenant->handphone}}</p>
 
-                        <div class="user-button">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <button type="button" class="btn btn-primary btn-sm btn-block"><i
-                                            class="fa fa-envelope"></i> Send Message</button>
-                                </div>
-                                <div class="col-md-6">
-                                    <button type="button" class="btn btn-default btn-sm btn-block"><i
-                                            class="fa fa-coffee"></i> Buy a coffee</button>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>

@@ -14,6 +14,13 @@ class KostFactory extends Factory
     public function definition()
     {
         $kost_name = ['Kost Edelweiss','Kost Annisa', 'Kost Amanah', 'Homy Kost','Kost Kamang 18', 'Kost Hendra', 'Kost Oma','Kost Razafa', 'Aranka Kost','Kost Jasmine','Kost Amna','Kost Abbastin','Kost Pemondokan Cemara','Kost Pemondokan Gina','Kost Shaqila','Kost Alaska','Kost Mediva','Kost Tirta Ulya','Kost Fajar','Kost Lili','Kost Syafira','Kost Ummi','Kost Rudi','Kost Kakoto','Kost Marsya','Kost Mawar','Kost Mahasiswa','Kost Kita','Kost Jiwani','Kost Vier','Kost Lalito','Kost Kubik','Kost Rimbun','Kost Pavilon','Kost Hokky','Kost Merjer','Kost Mandys','Kost Safari','Kost Mason','Kost Velocity','Kost Arau','Kost Millenial','Kost Gubuk','Kost Salingka','Kost Alter','Kost Bunbun','Kost Minang','Kost Berok','Kost Nanggalo','Kost Bunda'];
+        $information = [
+                        'Kost yang berada di lokasi strategis dekat dengan kampus dan tempat-tempat lainnya',
+                        'Kost ini memiliki fasilitas yang bermanfaat dan harga yang terjangkau untuk mahasiswa',
+                        'Kost ini berlokasi di tengah pusat kota dan dekat dengan pusat perbelanjaan',
+                        'Kost dengan fasilitas-fasilitas yang lengkap dan kebersihan yang terjaga',
+                        'Kost dengan harga mahasiswa dengan fasilitas yang lengkap untuk mahasiswa',
+                        ];
         return [
             'name' => $this->faker->unique()->randomElement($kost_name),
             'address' => $this->faker->address(),
@@ -24,7 +31,7 @@ class KostFactory extends Factory
             'longitude' => $this->faker->longitude($min = 100.2911111111111, $max = 100.46138888888889),
             'kost_type_id' => $this->faker->numberBetween(1, 3),
             'status' => 1,
-            'note' => $this->faker->realText(),
+            'note' => $this->faker->randomElement($information),
         ];
     }
 }

@@ -9,12 +9,13 @@ use App\Models\Kost;
 use App\Models\Rent;
 use Carbon\Carbon;
 use DB;
+use Illuminate\Support\Facades\Auth;
 
 class ChartController extends Controller
 {
     public function chartIncome(){
         $kosts = Kost::select('id','name')
-                        ->where('kost_owner_id', 1)
+                        ->where('kost_owner_id', Auth::user()->kostOwner->id)
                         ->where('status', 1)
                         ->get();
         $data = new \stdClass();

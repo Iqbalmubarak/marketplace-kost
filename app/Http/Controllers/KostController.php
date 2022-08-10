@@ -701,7 +701,7 @@ class KostController extends Controller
                     }
 
                     for($i=0; $i < count($request->room_facility); $i++){
-                        $roomFacilityDetail = RoomFacilityDetail::where('kost_id', $kost->id)
+                        $roomFacilityDetail = RoomFacilityDetail::where('room_type_id', $room_type->id)
                         ->where('facility_id', $request->room_facility[$i])
                         ->first();
                         $roomFacilityDetail->status = 2;
@@ -823,6 +823,7 @@ class KostController extends Controller
 
             return redirect()->route('owner.kost.show', $id)->with('success', __('toast.update.success.message'));     
         } catch (\Exception $e) {
+            dd($e);
             return redirect()->back()->with('error', __('toast.update.failed.message'));
         }
     }

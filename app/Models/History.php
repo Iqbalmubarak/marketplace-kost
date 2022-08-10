@@ -14,4 +14,9 @@ class History extends Model
         return $this->hasOne(Rent::class, 'id', 'rent_id');
     }
 
+    public function kostSeeker()
+    {
+        return $this->hasOne(KostSeeker::class, 'id', 'kost_seeker_id');
+    }
+
 }

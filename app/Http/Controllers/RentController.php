@@ -19,6 +19,8 @@ use DB;
 use DateTime;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Gate;
+use App\Mail\NotifyRent;
+use Mail;
 
 class RentController extends Controller
 {
@@ -128,7 +130,6 @@ class RentController extends Controller
 
             return redirect()->route('owner.rent.index')->with('success', __('toast.create.success.message'));    
         } catch (\Exception $e) {
-              dd($e);
             return redirect()->back()->with('error', __('toast.create.failed.message'));
         }
     }
@@ -258,6 +259,18 @@ class RentController extends Controller
             $rent = Rent::find($id);
             $rent->status = 2;
             $rent->save();
+
+            return redirect()->route('owner.rent.show', $id)->with('success', __('toast.update.success.message'));      
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', __('toast.update.failed.message'));
+        }
+    }
+
+    public function notify($id){
+        try {    
+            $rent = Rent::find($id);
+
+            Mail::to($rent->history->kostSeeker->user->email)->send(new NotifyRent($rent));
 
             return redirect()->route('owner.rent.show', $id)->with('success', __('toast.update.success.message'));      
         } catch (\Exception $e) {

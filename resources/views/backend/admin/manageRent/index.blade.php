@@ -39,14 +39,9 @@
                             <thead>
                                 <tr>
                                     <th>No</th>
-                                    <th>Nama Penyewa</th>
                                     <th>Nama Kos</th>
+                                    <th>Kamar</th>
                                     <th>Tipe Kamar</th>
-                                    <th>Mulai Dari</th>
-                                    <th>Berakhir</th>
-                                    <th>Total Harga</th>
-                                    <th>Status</th>
-                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -109,48 +104,15 @@
                     data: 'id'
                 },
                 {
-                    data: 'kostSeeker'
-                },
-                {
                     data: 'kost'
                 },
                 {
                     data: 'room'
                 },
                 {
-                    data: 'started_at'
-                },
-                {
-                    data: 'ended_at'
-                },
-                {
-                    data: 'total_price'
-                },
-                {
-                    data: 'status'
-                },
-                {
-                    data: 'id',
-                    responsivePriority: -1
+                    data: 'type'
                 },
             ],
-            columnDefs: [{
-                targets: -1,
-                title: "Action",
-                orderable: false,
-                render: function (data, type, full, meta) {
-                    var base = "{{url('/')}}";
-                    if (full.this_status == 1) {
-                        return `` +
-                            ` <a class="btn btn-white btn-sm" <i class="fa fa-check"></i> Terima</a>` +
-
-                            ` <a class="btn btn-white btn-sm"<i class="fa fa-times"></i> Tolak</a>` +
-                            ``;
-                    } else {
-                        return ``;
-                    }
-                },
-            }, ],
         });
 
     });

@@ -11,6 +11,7 @@ use App\Models\RoomType;
 use App\Models\Kost; 
 use App\Models\History; 
 use App\Models\Tenant; 
+use App\Models\TenantDetail; 
 use App\Models\Rent; 
 use App\Models\RentDetail; 
 use App\Models\KostSeeker; 
@@ -53,7 +54,6 @@ class BookingController extends Controller
             $bookings = Booking::where('kost_seeker_id', Auth::user()->kostSeeker->id)->orderby('id','desc')->get();
             return view('backend.kostSeeker.manageBooking.index', compact('bookings'));
         } catch (\Exception $e) {
-            dd($e);
             return redirect()->back();
         }
     }
@@ -161,24 +161,39 @@ class BookingController extends Controller
             $room = Room::find($request->room);
             $kostSeeker = KostSeeker::find($booking->kost_seeker_id);
 
-            $tenant = new Tenant;
-            $tenant->name = $kostSeeker->first_name.' '.$kostSeeker->last_name;
-            $tenant->handphone = $kostSeeker->handphone;
-            $tenant->avatar = $kostSeeker->avatar;
-            $tenant->gender = $kostSeeker->gender;
-            $tenant->birth_place = $kostSeeker->birth_place;
-            $tenant->birth_day = $kostSeeker->birth_day;
-            $tenant->emergency = $kostSeeker->emergency;
-            $tenant->job = $kostSeeker->job;
-            $tenant->job_name = $kostSeeker->job_name;
-            $tenant->job_description = $kostSeeker->job_description;
-            $tenant->kost_id = $room->kost_id;
-            $tenant->save();
-
-            $tenant_detail = new TenantDetail;
-            $tenant_detail->tenant_id = $tenant->id;
-            $tenant_detail->rent_id = $rent->id;
-            $tenant_detail->save();
+            $tenant = Tenant::where('kost_id', $rent->room->kost->id)->whereRaw("UPPER(name) = '".strtoupper($booking->kostSeeker->first_name)." ".strtoupper($booking->kostSeeker->last_name)."'")->first();
+            
+            if($tenant){
+                $tenant_detail = new TenantDetail;
+                $tenant_detail->tenant_id = $tenant->id;
+                $tenant_detail->rent_id = $rent->id;
+                $tenant_detail->save();
+            }else{
+                $tenant = new Tenant;
+                $tenant->name = $kostSeeker->first_name.' '.$kostSeeker->last_name;
+                $tenant->handphone = $kostSeeker->handphone;
+                $tenant->avatar = $kostSeeker->avatar;
+                $tenant->gender = $kostSeeker->gender;
+                $tenant->birth_place = $kostSeeker->birth_place;
+                $tenant->birth_day = $kostSeeker->birth_day;
+                $tenant->emergency = $kostSeeker->emergency;
+                $tenant->job = $kostSeeker->job;
+                $tenant->job_name = $kostSeeker->job_name;
+                $tenant->job_description = $kostSeeker->job_description;
+                $tenant->kost_id = $room->kost_id;
+                $tenant->save();
+                
+                $tenant_detail = new TenantDetail;
+                $tenant_detail->tenant_id = $tenant->id;
+                $tenant_detail->rent_id = $rent->id;
+                $tenant_detail->save();
+            }
+            
+            
+            $history = new History;
+            $history->kost_seeker_id = $booking->kost_seeker_id;
+            $history->rent_id = $rent->id;
+            $history->save();
 
             $time = strtotime($rentDetail->started_at);
             $started_at = date('d M Y',$time);
@@ -197,12 +212,10 @@ class BookingController extends Controller
                 'ended_at' => $ended_at,
                 'total_price' => $rentDetail->total_price,
             ];
-
-            Mail::to('iqbalmubarak212@gmail.com')->send(new NotifyMail($details));
+            Mail::to($rent->history->kostSeeker->user->email)->send(new NotifyMail($details));
 
             return redirect()->route('owner.booking.index')->with('success', __('toast.confirm.success.message'));     
         } catch (\Exception $e) {
-            dd($e);
             return redirect()->back()->with('error', __('toast.confirm.failed.message'));
         }
     }
@@ -229,7 +242,7 @@ class BookingController extends Controller
         }
         //?data=all
         if($request->data=="owner"){
-            $kosts = Kost::where('kost_owner_id', 1)->get();
+            $kosts = Kost::where('kost_owner_id', Auth::user()->kostOwner->id)->get();
             $kost_id = collect([]);
             foreach($kosts as $kost){
                 $kost_id->push($kost->id);

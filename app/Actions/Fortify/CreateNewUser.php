@@ -68,7 +68,6 @@ class CreateNewUser implements CreatesNewUsers
             ]);
             
             $validator->validate();
-            
             $user = new User;
             $user->email = $input['email'];
             $user->password = Hash::make($input['password']);
@@ -78,6 +77,7 @@ class CreateNewUser implements CreatesNewUsers
             $kost_owner->first_name = $input['first_name'];
             $kost_owner->last_name = $input['last_name'];
             $kost_owner->handphone = $input['handphone'];
+            $kost_owner->address = $input['address'];
             $kost_owner->user_id = $user->id;
             $kost_owner->save();
         }elseif($input['role'] == 'customer'){
@@ -96,18 +96,25 @@ class CreateNewUser implements CreatesNewUsers
             ]);
 
             $validator->validate();
-
             $user = new User;
             $user->email = $input['email'];
             $user->password = Hash::make($input['password']);
             $user->save();
-
-            $kost_seeker = new KostSeeker;
-            $kost_seeker->handphone = $input['handphone'];
-            $kost_seeker->first_name = $input['first_name'];
-            $kost_seeker->last_name = $input['last_name'];
-            $kost_seeker->user_id = $user->id;
-            $kost_seeker->save();
+            
+            $kostSeeker = new KostSeeker;
+            $kostSeeker->first_name = $input['first_name'];
+            $kostSeeker->last_name = $input['last_name'];
+            $kostSeeker->gender = $input['gender'];
+            $kostSeeker->birth_place = $input['cities'];
+            $kostSeeker->birth_day = $input['birth_day'];
+            $kostSeeker->handphone = $input['handphone'];
+            $kostSeeker->emergency = $input['emergency'];
+            $kostSeeker->job = $input['job'];
+            $kostSeeker->job_name = $input['job_name'];
+            $kostSeeker->job_description = $input['job_description'];
+            $kostSeeker->address = $input['address'];
+            $kostSeeker->user_id = $user->id;
+            $kostSeeker->save();
         }
         
         $token = $user->createToken('myapptoken')->plainTextToken;

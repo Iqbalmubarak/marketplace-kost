@@ -111,7 +111,7 @@
                 <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
                     <tr>
                         <td align="center" valign="top" style="padding: 40px 10px 20px 10px;"> 
-                            <img src="logo.png" width="150" height="130" style="display: block; border: 0px;" />
+                            <img src="https://i.postimg.cc/tCXWkMJ4/logo.png" width="150" height="130" style="display: block; border: 0px;" />
                         </td>
                     </tr>
                 </table>
@@ -219,7 +219,7 @@
                     <tr>
                         <td bgcolor="#0FB08F" align="center" style="padding: 30px 30px 30px 30px; border-radius: 4px 4px 4px 4px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">
                             <h2 style="font-size: 20px; font-weight: 400; color: #111111; margin: 0;">Terima kasih telah mempercayakan kost kami</h2><br>
-                            <img src="logo.png" width="150" height="130" style="display: block; border: 0px;" />
+                            <img src="https://i.postimg.cc/tCXWkMJ4/logo.png" width="150" height="130" style="display: block; border: 0px;" />
                         </td>
                     </tr>
                 </table>

@@ -8,6 +8,26 @@
 #myImg:hover {
     opacity: 0.7;
 }
+/* Style the Image Used to Trigger the Modal */
+#img_ktp {
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+#img_ktp:hover {
+    opacity: 0.7;
+}
+/* Style the Image Used to Trigger the Modal */
+#img_imb {
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+#img_imb:hover {
+    opacity: 0.7;
+}
 
 /* The Modal (background) */
 .modal {

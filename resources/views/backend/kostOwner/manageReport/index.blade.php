@@ -29,7 +29,7 @@
 
 <div class="wrapper wrapper-content animated fadeInRight ecommerce">
 
-    {{ Form::open(array('method'=>'POST', 'url' => route('owner.report.print'))) }}
+    {{ Form::open(array('method'=>'POST', 'url' => route('owner.report.preview'))) }}
     <div class="ibox-content m-b-sm border-bottom">
         <div class="row">
             <div class="col-sm-12">
@@ -39,21 +39,14 @@
                             'data-live-search'=>'true', 'multiple' => 'multiple', 'required'=>'required', 'id'=>'c_kosts']) !!}
                 </div>
             </div>
-            <div class="col-sm-4">
-                <div class="form-group">
-                    <label class="col-form-label" for="c_type">Tipe laporan</label>
-                    {!! Form::select('type', $type, null, ['class' => 'form-control selectpicker',
-                            'data-live-search'=>'true', 'required'=>'required', 'id'=>'c_type']) !!}
-                </div>
-            </div>
-            <div class="col-sm-4">
+            <div class="col-sm-6">
                 <div class="form-group">
                     <label class="col-form-label" for="start">Awal</label>
                     <input type="date" id="start" name="start" value="" 
                         class="form-control">
                 </div>
             </div>
-            <div class="col-sm-4">
+            <div class="col-sm-6">
                 <div class="form-group">
                     <label class="col-form-label" for="end">Akhir</label>
                     <input type="date" id="end" name="end" value="" 
@@ -61,7 +54,7 @@
                 </div>
             </div>
         </div>
-        <button type="submit" class="btn btn-success">Cetak</button>
+        <button type="submit" class="btn btn-success">View</button>
     </div>
     {!! Form::close() !!}
 

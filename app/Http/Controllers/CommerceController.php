@@ -78,7 +78,6 @@ class CommerceController extends Controller
             
             return redirect()->route('customer.booking.indexCustomer', $request->room_type)->with('success', __('Berhasil melakukan penyewaan kamar')); 
         } catch (\Exception $e) {
-            dd($e);
             return redirect()->back()->with('error', __('Gagal melakukan penyewaan kamar'));
         }
     }

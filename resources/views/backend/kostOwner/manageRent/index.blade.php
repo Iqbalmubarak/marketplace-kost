@@ -47,7 +47,7 @@
             <div class="ibox">
                 <div class="ibox-title">
                     @if ($today == $started_at)
-                    <span class="label label-primary float-right">NEW</span>
+                    <span class="label label-primary float-right" style="margin-left:900px;"><small>NEW</small></span>
                     @endif
                     <h5>{{$rent->room->name}} - {{$rent->room->kost->name}}</h5>
                     <a style="float:right;" class="btn btn-xs btn-white" href="{{ route('owner.rent.show', $rent->id) }}" ><i class="fa fa-eye"></i> Detail</a>
@@ -72,8 +72,7 @@
                     <p>
                         Ukuran kamar : {{$rent->room->roomType->lenght}}x{{$rent->room->roomType->wide}} <br>
                         Penyewaan yang ke : {{$rent->rentDetail->count()}}
-                    </p>
-                    <div><a class="btn btn-xs btn-white" href="{{ route('owner.rent.show', $rent->id) }}"><i class="fa fa-eye"></i> Detail</a></div>
+                    </p> 
                     <div>
                         <span>Waktu berakhir sewa:</span>
                         <div class="stat-percent">{{$d}} hari</div>

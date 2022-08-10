@@ -103,6 +103,13 @@
 </head>
 
 <body style="background-color: #f4f4f4; margin: 0 !important; padding: 0 !important;">
+
+    <?php 
+    $time = strtotime($rent->ended()->started_at);
+    $started_at = date('d M Y',$time);
+    $time = strtotime($rent->ended()->ended_at);
+    $ended_at = date('d M Y',$time);
+    ?>
     <!-- HIDDEN PREHEADER TEXT -->
     <table border="0" cellpadding="0" cellspacing="0" width="100%">
         <!-- LOGO -->
@@ -111,7 +118,7 @@
                 <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
                     <tr>
                         <td align="center" valign="top" style="padding: 40px 10px 20px 10px;"> 
-                            <img src="logo.png" width="150" height="130" style="display: block; border: 0px;" />
+                            <img src="https://i.postimg.cc/qg5NMQ2P/logo.png" width="150" height="130" style="display: block; border: 0px;" />
                         </td>
                     </tr>
                 </table>
@@ -124,7 +131,7 @@
                 <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
                     <tr>
                         <td bgcolor="#ffffff" align="center" valign="top" style="padding: 40px 20px 20px 20px; border-radius: 4px 4px 0px 0px; color: #111111; font-family: 'Lato', Arial;  line-height: 48px; margin: 2;">
-                            <h1 style="font-size: 48px; font-weight: 700; ">Hallo, Customer Satu !</h1>
+                            <h1 style="font-size: 48px; font-weight: 700; ">Hallo, {{$rent->history->kostSeeker->first_name}} {{$rent->history->kostSeeker->last_name}} !</h1>
                         </td>
                     </tr>
                 </table>
@@ -135,7 +142,7 @@
                 <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
                     <tr>
                         <td bgcolor="#ffffff" style="padding: 20px 30px 10px 30px; color: #f51616; font-family: 'Lato', Helvetica, Arial, sans-serif; line-height: 25px;">
-                            <p style="margin: 0; font-weight: 800; text-align:center;font-size: 18px;" >Penyewaan anda hampir mendekati batas durasi yang akan berakhir pada tanggal 15 Juli 2022</p>
+                            <p style="margin: 0; font-weight: 800; text-align:center;font-size: 18px;" >Penyewaan anda hampir mendekati batas durasi yang akan berakhir pada tanggal {{$ended_at}}</p>
                             <hr>
                         </td>
                     </tr>
@@ -168,32 +175,28 @@
                                                 <th></th>
                                             </tr>
                                             <tr align="left">
-                                                <th>No. Pesanan</th>
-                                                <th>: 9438901744 </th>
-                                            </tr>
-                                            <tr align="left">
                                                 <th>Nama Kost</th>
-                                                <th>: Kost Putra </th>
+                                                <th>: {{$rent->room->kost->name}} </th>
                                             </tr>
                                             <tr align="left">
                                                 <th>Tipe Kamar</th>
-                                                <th>: Tipe A </th>
+                                                <th>: {{$rent->room->roomType->name}} </th>
                                             </tr>
                                             <tr align="left">
                                                 <th>Nama Kamar</th>
-                                                <th>: 401 </th>
+                                                <th>: {{$rent->room->name}} </th>
                                             </tr>
                                             <tr align="left">
                                                 <th>Durasi Penyewaan</th>
-                                                <th>: Per bulan </th>
+                                                <th>: {{$rent->ended()->priceList->rentDuration->name}} </th>
                                             </tr>
                                             <tr align="left">
                                                 <th>Jarak Penyewaan</th>
-                                                <th>: 15 Juni 2022 - 15 Juli 2022</th>
+                                                <th>: {{$started_at}} - {{$ended_at}}</th>
                                             </tr>
                                             <tr align="left">
                                                 <th>Total Biaya</th>
-                                                <th>: Rp 500.000,00 </th>
+                                                <th>: {{Helper::rupiah($rent->ended()->total_price)}} </th>
                                             </tr>
                                         </table>
                                     </td>
@@ -213,7 +216,7 @@
                     <tr>
                         <td bgcolor="#0FB08F" align="center" style="padding: 30px 30px 30px 30px; border-radius: 4px 4px 4px 4px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">
                             <h2 style="font-size: 20px; font-weight: 400; color: #111111; margin: 0;">Terima kasih telah mempercayakan kost kami</h2><br>
-                            <img src="logo.png" width="150" height="130" style="display: block; border: 0px;" />
+                            <img src="https://i.postimg.cc/tCXWkMJ4/logo.png" width="150" height="130" style="display: block; border: 0px;" />
                         </td>
                     </tr>
                 </table>

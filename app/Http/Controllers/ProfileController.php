@@ -27,7 +27,6 @@ class ProfileController extends Controller
                 return view('backend.kostOwner.manageProfile.index', compact('user'));
             }
         } catch (\Exception $e) {
-            dd($e);
             return redirect()->back();
         }
     }
@@ -71,6 +70,13 @@ class ProfileController extends Controller
                     $fileName = Time().".".$file->getClientOriginalName();
                     $file->move($dir, $fileName);
                     $kostOwner->avatar = $fileName;
+                }
+                $dir = storage_path().'/app/public/images/ktp';
+                $file = $request->file('ktp');
+                if($file){
+                    $fileName = Time().".".$file->getClientOriginalName();
+                    $file->move($dir, $fileName);
+                    $kostOwner->ktp = $fileName;
                 }
                 $kostOwner->save();
 

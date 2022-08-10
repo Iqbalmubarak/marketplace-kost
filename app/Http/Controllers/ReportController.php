@@ -18,7 +18,7 @@ class ReportController extends Controller
 
     public function print(Request $request){
         try {
-            $kosts = Kost::whereIn('id', $request->kosts)->get();
+            $kosts = Kost::whereIn('id', $request->kost_id)->get();
             $start = $request->start;
             $end = $request->end;
             $time = strtotime($start);
@@ -36,6 +36,31 @@ class ReportController extends Controller
             return $pdf->download('Laporan Transaksi ('.$start_format.' - '.$end_format.').pdf');
             //return view('backend.kostOwner.manageReport.print', compact('kosts', 'start', 'end'));
         } catch (\Exception $e) {
+            dd($e);
+            return redirect()->back()->with('error', __('toast.index.failed.message'));
+        }
+    }
+
+    public function preview(Request $request)
+    {
+        try{
+            $kosts = Kost::whereIn('id', $request->kosts)->get();
+            $kost_id = $request->kosts;
+            $start = $request->start;
+            $end = $request->end;
+            $time = strtotime($start);
+            $start_format = date('d/m/Y', $time);
+            $time = strtotime($end);
+            $end_format = date('d/m/Y', $time);
+            $data = [
+                'kosts' => $kosts,
+                'start' => $request->start,
+                'end' => $request->end
+            ];
+            return view('backend.kostOwner.manageReport.view_print', compact('kosts','start_format','end_format','start','end','kost_id'));
+        }
+        catch(\Exception $e)
+        {
             dd($e);
             return redirect()->back()->with('error', __('toast.index.failed.message'));
         }

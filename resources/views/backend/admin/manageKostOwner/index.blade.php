@@ -116,7 +116,7 @@
                     return ``+
                         ` <a class="btn btn-success btn-sm" onclick="edit(`+data+`)" href="javascript:void(0)">Edit</a>`+
 
-                        ` <a class="btn btn-danger btn-sm" onclick="confirm_delete(`+data+`)" href="javascript::void(0)">Delate</a>`+
+                        ` <a class="btn btn-danger btn-sm" onclick="confirm_delete(`+data+`)" href="javascript::void(0)">Delete</a>`+
                         ``;
                 },
                 },

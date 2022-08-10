@@ -93,9 +93,11 @@ Route::prefix('owner')->middleware(['auth', 'auth.isOwner'])->name('owner.')->gr
     Route::resource('/room', RoomController::class);
     Route::post('/kost/{id}/room-store', [RoomController::class, 'roomStore'])->name('kost.room.store');
     Route::patch('/kost/{id}/room-update', [RoomController::class, 'roomUpdate'])->name('kost.room.update');
+    Route::delete('/kost/{id}/room-destroy', [RoomController::class, 'roomDestroy'])->name('kost.room.destroy');
 
     //Rent
     Route::resource('/rent', RentController::class);
+    Route::post('/rent/{id}/notify', [RentController::class, 'notify'])->name('rent.notify');
     Route::post('/rent/{id}/detail-store', [RentController::class, 'detailStore'])->name('rent.detailStore');
     Route::post('/rent/{id}/stop-rent', [RentController::class, 'stopRent'])->name('rent.stopRent');
 
@@ -119,6 +121,7 @@ Route::prefix('owner')->middleware(['auth', 'auth.isOwner'])->name('owner.')->gr
     //Report
     Route::get('report', [ReportController::class, 'index'])->name('report.index');
     Route::post('report/print', [ReportController::class, 'print'])->name('report.print');
+    Route::post('report/preview', [ReportController::class, 'preview'])->name('report.preview');
 });
 
 Route::prefix('customer')->middleware(['auth', 'auth.isCustomer'])->name('customer.')->group(function () {

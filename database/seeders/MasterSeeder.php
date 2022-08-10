@@ -12,20 +12,9 @@ class MasterSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    
+    public function run()  
     {
-        DB::table('kost_types')->insert([
-            [
-                'name' => 'Putra',
-            ],
-            [
-                'name' => 'Putri',
-            ],
-            [
-                'name' => 'Campur',
-            ]
-        ]);
-
         DB::table('rent_durations')->insert([
             [
                 'name' => 'Per bulan',
@@ -70,6 +59,20 @@ class MasterSeeder extends Seeder
             ],
             [
                 'name' => 'Foto tambahan',
+            ]
+        ]);
+
+        DB::table('kost_types')->insert([
+            [
+                'name' => 'Putra',
+            ]
+            ,
+            [
+                'name' => 'Putri',
+            ]
+            ,
+            [
+                'name' => 'Campur',
             ]
         ]);
 

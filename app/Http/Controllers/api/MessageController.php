@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Chat;
 use App\Models\ChatDetail;
+use App\Models\KostOwner;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use Twilio\Rest\Client;
@@ -53,9 +54,18 @@ class MessageController extends Controller
       $chatDetail->message = $request->message;
       $chatDetail->save();
     }
+
+    $kostOwner = KostOwner::find($request->kostOwner);
+    if($chatDetail->sender == $kostOwner->user->id){
+      $name = $chatDetail->chat->kostOwner->first_name." ".$chatDetail->chat->kostOwner->last_name;
+      $avatar = $chatDetail->chat->kostOwner->avatar;
+    }else{
+      $name = $chatDetail->chat->kostSeeker->first_name." ".$chatDetail->chat->kostSeeker->last_name;
+      $avatar = $chatDetail->chat->kostSeeker->avatar;
+    }
     $data = [
-      "name" => $chatDetail->chat->kostSeeker->first_name." ".$chatDetail->chat->kostSeeker->last_name,
-      "avatar" => $chatDetail->chat->kostSeeker->avatar,
+      "name" => $name,
+      "avatar" => $avatar,
       "message" => $request->message,
       "created_at" =>$chatDetail->created_at->format('d M Y h.i A'),
       "created_atV2" =>$chatDetail->created_at->format('D M d Y - H:i:s')

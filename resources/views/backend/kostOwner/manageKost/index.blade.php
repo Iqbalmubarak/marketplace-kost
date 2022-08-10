@@ -17,10 +17,16 @@
                 </ol>
             </div>
             <div class="col-lg-2 d-flex justify-content-end">
+                @if (Auth::user()->kostOwner->ktp)
                 <a href="{{ route('owner.kost.create') }}">
                     <button class="btn btn-primary btn-sm btn-outline"
                             type=" button">Tambah Kos</button>
-                </a>
+                        </a>
+                @else
+                    <button class="btn btn-primary btn-sm btn-outline" onclick="uploadKtp()"
+                            type=" button">Tambah Kos</button>
+                @endif
+                
             </div>
         </div>
 
@@ -237,6 +243,28 @@
                     location.href = "{{route('owner.kost.index')}}/" + id + "/edit?data=request";
                 } else {
                     swal("Dibatalkan", "Kamu batal melengkapi data kos", "error");
+                }
+            });
+    }
+
+    function uploadKtp() {
+        swal({
+                title: "Data pengguna belum lengkap",
+                text: "Mohon lengkapi data pengguna terlebih dahulu",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Ya, lengkapi!",
+                cancelButtonText: "Tidak, batalkan!",
+                closeOnConfirm: false,
+                closeOnCancel: false
+            },
+            function (isConfirm) {
+                if (isConfirm) {
+                    swal("Lengkapi data!", "Kamu akan dipindahkan ke halaman untuk melengkapi data pengguna.",
+                        "success");
+                    location.href = "{{route('profile.index')}}";
+                } else {
+                    swal("Dibatalkan", "Kamu batal melengkapi data pengguna", "error");
                 }
             });
     }

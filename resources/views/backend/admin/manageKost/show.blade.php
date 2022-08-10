@@ -54,8 +54,14 @@
                                 <h2 class="font-bold m-b-xs">
                                     Surat IMB Kost
                                 </h2>
-                                <img id="myImg" src="{{ asset('templates/img/input_image.png') }}"
+                                @if ($kost->imb)
+                                <img id="img_imb" src="{{ asset('storage/images/imb/'.$kost->imb) }}"
                                                 alt="Snow" style="width:100%;max-width:300px;max-height:300px;">
+                                @else
+                                <img id="img_imb" src="{{ asset('templates/img/input_image.png') }}"
+                                                alt="Snow" style="width:100%;max-width:300px;max-height:300px;">
+                                @endif
+                                
                             </center>
                         </div>
                     </div>
@@ -91,6 +97,14 @@
                             </dt>
                             <dd>
                                 {{$kost->kostOwner->handphone}}
+                            </dd>
+                            <dt>
+                                <i class="fa fa-camera"></i>Foto KTP
+                            </dt>
+                            <dd>
+                                <img id="img_ktp"
+                                                src="{{ asset('storage/images/ktp/'.$kost->kostOwner->ktp) }}"
+                                                alt="Snow" style="heigth: 100px; width: 100px;">
                             </dd>
                         </dl>
                         <br>
@@ -551,6 +565,26 @@
     var modalImg = document.getElementById("img01");
     var captionText = document.getElementById("caption");
     img.onclick = function () {
+        modal.style.display = "block";
+        modalImg.src = this.src;
+        captionText.innerHTML = this.alt;
+    }
+
+    // Get the image and insert it inside the modal - use its "alt" text as a caption
+    var img2 = document.getElementById("img_ktp");
+    var modalImg = document.getElementById("img01");
+    var captionText = document.getElementById("caption");
+    img2.onclick = function () {
+        modal.style.display = "block";
+        modalImg.src = this.src;
+        captionText.innerHTML = this.alt;
+    }
+
+    // Get the image and insert it inside the modal - use its "alt" text as a caption
+    var img3 = document.getElementById("img_imb");
+    var modalImg = document.getElementById("img01");
+    var captionText = document.getElementById("caption");
+    img3.onclick = function () {
         modal.style.display = "block";
         modalImg.src = this.src;
         captionText.innerHTML = this.alt;

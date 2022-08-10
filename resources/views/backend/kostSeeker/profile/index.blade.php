@@ -187,7 +187,7 @@
                                                     {{$message}}
                                                 </div>
                                                 @enderror</span></label>
-                                        {!! Form::select('cities', $cities, null, ['class' => 'form-control
+                                        {!! Form::select('cities', $cities, $user->kostSeeker->birth_place, ['class' => 'form-control
                                         selectpicker',
                                         'data-live-search'=>'true', 'required'=>'required', 'id'=>'c_cities',
                                         'title' => 'Pilih tempat lahir']) !!}
@@ -201,7 +201,7 @@
                                                     {{$message}}
                                                 </div>
                                                 @enderror</span></label>
-                                        <input name="birth_day" type="date" placeholder="Tanggal Lahir Penyewa"
+                                        <input name="birth_day" value="{{$user->kostSeeker->birth_day}}" type="date" placeholder="Tanggal Lahir Penyewa"
                                             class="form-control @error('birth_day') is-invalid @enderror required"
                                             required> <span class="form-text m-b-none"></span>
 
@@ -243,11 +243,13 @@
                                                     {{$message}}
                                                 </div>
                                                 @enderror</span></label>
-                                        {!! Form::select('job', $job, null, ['class' => 'form-control selectpicker',
+                                        {!! Form::select('job', $job, $user->kostSeeker->job, ['class' => 'form-control selectpicker',
                                         'title' => 'Pilih',
                                         'data-live-search'=>'true', 'required'=>'required', 'id'=>'c_job']) !!}
                                     </div>
-                                    <div class="form-group col-md-12 col-sm-12" id="desc-row" style="display:none">
+                                    <div class="form-group col-md-12 col-sm-12" id="desc-row" @if ($user->kostSeeker->job != 3)
+                                        style="display:none"
+                                    @endif >
                                         <label class="info-title" for="c_job_description">Deskripsi
                                             <span>@error('job_description')
                                                 <div class="invalid-feedback">
@@ -256,16 +258,18 @@
                                                 @enderror</span></label>
                                         <textarea id="c_job_description" name="job_description" type="textarea"
                                             placeholder="Alamat Instansi / Sekolah Penyewa"
-                                            class="form-control @error('job_description') is-invalid @enderror"> </textarea>
+                                            class="form-control @error('job_description') is-invalid @enderror">{{$user->kostSeeker->job_description}} </textarea>
                                     </div>
-                                    <div class="form-group col-md-12 col-sm-12" id="job-row" style="display:none">
+                                    <div class="form-group col-md-12 col-sm-12" id="job-row" @if ($user->kostSeeker->job == 3)
+                                        style="display:none"
+                                    @endif>
                                         <label class="info-title" for="job_name">Nama Instansi / Sekolah
                                             <span>@error('job_name')
                                                 <div class="invalid-feedback">
                                                     {{$message}}
                                                 </div>
                                                 @enderror</span></label>
-                                        <input id="c_job_name" name="job_name" type="text"
+                                        <input id="c_job_name" name="job_name" type="text" value="{{$user->kostSeeker->job_name}}"
                                             placeholder="Nama Instansi / Sekolah Penyewa"
                                             class="form-control @error('job_name') is-invalid @enderror"> <span
                                             class="form-text m-b-none"></span>
@@ -285,7 +289,7 @@
                                     </div>
                                     {!! Form::close() !!}
                                 </div><!-- /.tab-pane -->
-                                <div id="password" class="tab-pane in active">
+                                <div id="password" class="tab-pane">
                                     {{ Form::open(array('method'=>'POST', 'url' => route('customer.auth.changePassword.store'))) }}
                                     <div class="form-group col-md-12 col-sm-12">
                                         <label class="info-title" for="password">New Password
