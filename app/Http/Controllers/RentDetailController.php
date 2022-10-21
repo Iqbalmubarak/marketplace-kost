@@ -11,17 +11,18 @@ class RentDetailController extends Controller
         try {    
             $rentDetail = RentDetail::find($id);
 
-            $update = RentDetail::where('rent_id', $rentDetail->rent_id)
-                                ->where('status', 1)
-                                ->get();
-            $update->status = 3;
-            $update->save();
+            // $update = RentDetail::where('rent_id', $rentDetail->rent_id)
+            //                     ->where('status', 1)
+            //                     ->get();
+            // $update->status = 3;
+            // $update->save();
 
             $rentDetail->status = 1;
             $rentDetail->save();
 
             return redirect()->route('owner.rent.show', $rentDetail->rent->id)->with('success', __('toast.update.success.message'));  
         } catch (\Exception $e) {
+            dd($e);
             return redirect()->back()->with('error', __('toast.update.failed.message'));
         }
     }

@@ -40,11 +40,16 @@
                                             $ended = new DateTime($history->rent->ended()->ended_at);
                                         ?>
                                         <div class="description">
+                                            @if ($history->rent->status == 1)
                                             @if($today < $ended)
                                             <p><span class="label label-primary">Berjalan</span></p>
                                             @else
                                             <p><span class="label label-danger">Selesai</span></p>
                                             @endif
+                                            @else
+                                            <p><span class="label label-danger">Selesai</span></p>
+                                            @endif
+                                            
                                         </div>
                                     </td>
                                     <td class="col-md-2 ">

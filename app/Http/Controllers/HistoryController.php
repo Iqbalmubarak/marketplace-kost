@@ -145,7 +145,7 @@ class HistoryController extends Controller
             $filePayment->move($dir, $fileName);
 
             if($filePayment){
-                $rent_detail->document = $fileName;
+                $rent_detail->payment = $fileName;
             }
 
             $rent_detail->save();

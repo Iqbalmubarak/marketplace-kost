@@ -44,6 +44,8 @@ class RentController extends Controller
                     }
                     
                     $rents = Rent::whereIn('room_id', $room_id)->orderBy('created_at', 'desc')->get();
+                    //dd($rents);
+                    //dd($rents[19]->ended()->ended_at);
                     // foreach($rents as $rent){
                     //     $ended_at = new DateTime($rent->ended()->ended_at);
                     //     dd($ended_at);
@@ -65,6 +67,7 @@ class RentController extends Controller
                 }
             
         } catch (\Exception $e) {
+            dd($e);
             return redirect()->back()->with('error', __('toast.index.failed.message'));
         }
     }

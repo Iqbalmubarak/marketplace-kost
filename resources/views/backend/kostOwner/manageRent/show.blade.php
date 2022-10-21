@@ -268,7 +268,7 @@
                                                             </td>
                                                             <td>
                                                                 @if ($rentDetail->payment != NULL)
-                                                                    <div><button class="btn btn-xs btn-white" onclick="showImg(`{{ asset('storage/images/payment/'.$rentDetail->document) }}`)" id="myImg" data-toggle="modal" data-target="#imageModal"><i class="fa fa-eye"></i> Bukti pembayaran</button></div>
+                                                                    <div><button class="btn btn-xs btn-white" onclick="showImg(`{{ asset('storage/images/payment/'.$rentDetail->payment) }}`)" id="myImg" data-toggle="modal" data-target="#imageModal"><i class="fa fa-eye"></i> Bukti pembayaran</button></div>
                                                                 @endif
                                                                 
                                                                 @if ($rentDetail->status == 2)

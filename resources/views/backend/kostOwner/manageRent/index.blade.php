@@ -32,8 +32,8 @@
         @foreach ($rents as $rent)
         <?php 
             $today = new DateTime("today");
-            $ended_at = new DateTime($rent->ended()->ended_at);
             $started_at = new DateTime($rent->started()->started_at);
+            $ended_at = new DateTime($rent->ended()->ended_at);
             $d = $ended_at->diff($today)->days;
             $day = $ended_at->diff($started_at)->days;
 

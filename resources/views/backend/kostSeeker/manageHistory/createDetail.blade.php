@@ -17,21 +17,6 @@
                 </div>
             </div>
             <div class="form-group row">
-                <label class="col-lg-3 col-form-label">Biaya tambahan</label>
-                <div class="col-lg-9" id="row-optional">
-                  @foreach ($optionals as $optional)
-                  <div class="checkbox checkbox-primary">
-                      <input class="optional-checkbox" id="optional{{$loop->iteration}}" name="optional[]" type="checkbox"
-                          value="{{$optional->id}}" onclick="checkOptional()" checked disabled>
-                      <label for="optional{{$loop->iteration}}">
-                          {{$optional->name}}/ {{Helper::rupiah($optional->price)}}
-                      </label>
-                      <input type="hidden" name="input_checkbox" id="input-checkbox{{$optional->id}}" value="{{$optional->price}}">
-                  </div>
-                  @endforeach
-                </div>
-            </div>
-            <div class="form-group row">
                 <label class="col-lg-3 col-form-label">Total biaya</label>
                 <div class="col-lg-9">
                     <input id="c_total_price" name="total_price" type="text" placeholder="Rp. 0,00"
@@ -47,7 +32,7 @@
             <div class="form-group row">
                 <label class="col-lg-3 col-form-label">No rekening</label>
                 <div class="col-lg-9">
-                    <input id="c_rek" name="rek" type="text" placeholder="{{$rent->room->kost->no_rek}}"
+                    <input id="c_rek" name="rek" value="{{$rent->room->kost->paymentMethodDetail[0]->no_rek}}" type="text" placeholder="{{$rent->room->kost->no_rek}}"
                         class="form-control @error('rek') is-invalid @enderror" readonly> <span
                         class="form-text m-b-none"></span>
                     @error('total_price')
